@@ -1,0 +1,125 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+* {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --main-bg-color: #fefbfb;
+  --main-text-color: #884dee;
+  --second-text-color: #ffffff;
+  --primary-color: #884dee;
+  --secondary-color: #b08bf1;
+}
+.primary-text {
+  color: var(--main-text-color);
+}
+.second-text {
+  color: var(--secondary-color);
+}
+body {
+  background-color: var(--main-bg-color) !important;
+}
+#rounded-full {
+  border-radius: 100%;
+}
+#wrapper {
+  overflow-x: hidden !important;
+  transition: margin 0.25s ease-in-out; /* Animation settings */
+}
+#sidebar-wrapper {
+  position: fixed; /* Important for animation */
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 15rem; /* Adjust width if needed */
+  transition: margin 0.25s ease-in-out; /* Animation settings */
+}
+#page-content-wrapper {
+  margin-left: 15rem;
+  min-width: calc(100% - 15rem);
+  transition: margin 0.25s ease-in-out;
+}
+#menu-toggle {
+  cursor: pointer;
+}
+.list-group-item {
+  border: none;
+  padding: 20px 30px !important;
+}
+.list-group {
+  margin-top: 1000px !important;
+}
+.sidebar {
+  background-color: #884dee;
+  height: 100vh;
+  overflow-y: auto;
+}
+.list-group > a {
+  color: #ffff !important;
+  font-weight: 700 !important;
+}
+.navbar {
+  background-color: #884dee !important;
+}
+.title-container > h3 {
+  font-weight: bolder;
+  color: white;
+}
+.bx {
+  color: white;
+}
+.nav-item > a {
+  color: white;
+}
+.list-group-item.active {
+  background-color: #b08bf1 !important;
+  color: white;
+  border-top: 2px solid white !important;
+  border-bottom: 2px solid white !important;
+}
+.list-group-item:hover {
+  background-color: #b08bf1 !important;
+  color: black !important;
+}
+.title1 > h3 {
+  font-weight: bold;
+  color: #884dee;
+}
+.logo {
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.markstable thead th {
+  background-color: #b08bf1;
+  color: white;
+}
+
+.search {
+  padding-left: 50px;
+}
+.search > input {
+  width: 80%;
+  height: 40px;
+  padding-left: 20px;
+  border: 1px solid #b08bf1;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+@media (min-width: 768px) {
+  #page-content-wrapper {
+    min-width: 0;
+    width: 100%;
+  }
+  #wrapper.toggled #sidebar-wrapper {
+    margin-left: -15rem;
+  }
+  #wrapper.toggled #page-content-wrapper {
+    margin-left: 0;
+    width: 100%; /* Set width to 100% to take up full width of page */
+  }
+}
