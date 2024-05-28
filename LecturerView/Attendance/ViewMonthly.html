@@ -12,7 +12,7 @@
     />
 
     <!-- Link style sheet -->
-    <link rel="stylesheet" href="Header.css" />
+    <link rel="stylesheet" href="ViewMonthly.css" />
 
     <!-- Link bootstrap -->
     <link
@@ -30,7 +30,7 @@
         <div class="list-group list-group-flush my-5">
           <a
             href="../Home/Home.html"
-            class="list-group-item list-group-item-action bg-transparent second-text fw-bold mt-5  "
+            class="list-group-item list-group-item-action bg-transparent second-text fw-bold mt-5 "
           >
             <i class="bx bx-home-alt me-2"></i>Home
           </a>
@@ -67,7 +67,7 @@
             <i class="bx bxs-brightness me-2"></i>Settings
           </a>
           <a
-            href="../index.html"
+            href="../../index.html"
             class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
           >
             <i class="bx bx-log-out-circle me-2"></i>Log out
@@ -80,7 +80,7 @@
         <nav class="navbar navbar-expand-lg navbar-light py-4 px-4 fixed-top">
           <div class="d-flex align-items-center">
             <div class="logo">
-              <img src="../logo.png" alt="logo" width="100px" height="100px" />
+              <img src="../../logo.png" alt="logo" width="100px" height="100px" />
             </div>
             <div class="hdr d-flex align-items-center justify-content-center flex-column">
               <div class="title-container">
@@ -117,7 +117,7 @@
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li><a class="dropdown-item" href="#">Profile</a></li>
-                  <li><a class="dropdown-item" href="#">Log out</a></li>
+                  <li><a class="dropdown-item" href="../../index.html">Log out</a></li>
                 </ul>
               </li>
             </ul>
@@ -126,12 +126,48 @@
 
         <!-- Content -->
         <div class="container-fluid px-4 py-5 my-5 " id="content">
-          <div class="title1 mt-5 pt-5 text-center">
-            <h3>-Final marks-</h3>
-          
+          <div class="title1 my-5 text-center py-5 my-5">
+            <h3>-Today Time Table-</h3>
           </div>
 
+          <div class="chart">
+            <canvas id="myChart"></canvas>
+          </div>
+          <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+          <script>
+            const ctx = document.getElementById('myChart');
           
+                        new Chart(ctx, {
+              type: 'bar',
+              data: {
+                labels: ['2019/ASP/01', '2019/ASP/02', '2019/ASP/03', '2019/ASP/04', '2019/ASP/05', '2019/ASP/06'],
+                datasets: [{
+                  label: 'Attendence percentage',
+                  barThickness: 20,
+                  barGap: 0,
+                  borderRadius: 5,
+                 
+                  data: [65, 59, 80, 81, 56, 55],
+                  fill: false,
+                  backgroundColor: [
+                    'rgb(136, 77, 238)',
+                  
+                  ]
+                }]
+              },
+              options: {
+
+                
+                indexAxis: 'y'
+                
+                
+                
+              }
+            });
+
+          </script>
+
     <!-- Bootstrap and jQuery JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script

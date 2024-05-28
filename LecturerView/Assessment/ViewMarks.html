@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ViewMonthly</title>
+    <title>ViewAssessmentMarks</title>
 
     <!-- Icon pack import -->
     <link
@@ -12,7 +12,7 @@
     />
 
     <!-- Link style sheet -->
-    <link rel="stylesheet" href="ViewDaily.css" />
+    <link rel="stylesheet" href="ViewMarks.css" />
 
     <!-- Link bootstrap -->
     <link
@@ -21,7 +21,7 @@
     />
   </head>
   <body>
-    <div class="d-flex" id="wrapper">
+    <div class="d-flex " id="wrapper">
       <!-- Sidebar start here -->
       <div class="sidebar my-5" id="sidebar-wrapper">
         <!-- <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
@@ -30,13 +30,13 @@
         <div class="list-group list-group-flush my-5">
           <a
             href="../Home/Home.html"
-            class="list-group-item list-group-item-action bg-transparent second-text fw-bold mt-5"
+            class="list-group-item list-group-item-action bg-transparent second-text fw-bold mt-5  "
           >
             <i class="bx bx-home-alt me-2"></i>Home
           </a>
           <a
             href="#"
-            class="active list-group-item list-group-item-action bg-transparent second-text fw-bold"
+            class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
             data-bs-toggle="modal"
             data-bs-target="#attendance-m1"
           >
@@ -44,7 +44,7 @@
           </a>
           <a
             href="#"
-            class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
+            class="active list-group-item list-group-item-action bg-transparent second-text fw-bold"
           >
             <i class="bx bx-list-ol me-2"></i>Assessments
           </a>
@@ -67,7 +67,7 @@
             <i class="bx bxs-brightness me-2"></i>Settings
           </a>
           <a
-            href="../index.html"
+            href="../../index.html"
             class="list-group-item list-group-item-action bg-transparent second-text fw-bold"
           >
             <i class="bx bx-log-out-circle me-2"></i>Log out
@@ -80,15 +80,11 @@
         <nav class="navbar navbar-expand-lg navbar-light py-4 px-4 fixed-top">
           <div class="d-flex align-items-center">
             <div class="logo">
-              <img src="../logo.png" alt="logo" width="100px" height="100px" />
+              <img src="../../logo.png" alt="logo" width="100px" height="100px" />
             </div>
-            <div
-              class="hdr d-flex align-items-center justify-content-center flex-column"
-            >
+            <div class="hdr d-flex align-items-center justify-content-center flex-column">
               <div class="title-container">
-                <h3>
-                  Exam Results Management System with Predictive Analytics
-                </h3>
+                <h3>Exam Results Management System with Predictive Analytics</h3>
                 <i class="bx bx-menu-alt-right fs-4 me-3" id="menu-toggle"></i>
               </div>
             </div>
@@ -121,7 +117,7 @@
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li><a class="dropdown-item" href="#">Profile</a></li>
-                  <li><a class="dropdown-item" href="#">Log out</a></li>
+                  <li><a class="dropdown-item" href="../../index.html">Log out</a></li>
                 </ul>
               </li>
             </ul>
@@ -129,59 +125,61 @@
         </nav>
 
         <!-- Content -->
-        <div class="container-fluid px-5 py-5 my-5">
-          <div class="title1 my-5 text-center py-5 my-5">
-            <h4>-Daily Attendance-</h4>
+        <div class="container-fluid px-4 py-5 my-5 " id="content">
+          <div class="title1 mt-5 pt-5 text-center">
+            <h3>-Assessment marks-</h3>
+          
           </div>
 
-          <div class="search d-flex justify-content-start align-items-center">
-            <input
-              type="text"
-              name="search"
-              id="search"
-              placeholder="Search By Reg.No"
-            />
+          <div class="search">
+            <input type="text" placeholder="Search">
           </div>
 
-          <!-- Table -->
-          <div
-            class="timetable d-flex justify-content-center align-items-center"
-          >
-            <table class="table">
-              <thead class="thead">
-                <tr>
-                  <th scope="col">Time</th>
-                  <th scope="col">Year</th>
-                  <th scope="col">Subject</th>
-                  <th scope="col">Venue</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td>@twitter</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+           <!-- Table -->
+           <div
+           class="markstable d-flex justify-content-center align-items-center p-5"
+         >
+           <table class="table ">
+             <thead class="thead">
+               <tr>
+                 <th scope="col">Reg.No</th>
+                 <th scope="col">Name</th>
+                 <th scope="col">ICA 1</th>
+                 <th scope="col">ICA 2</th>
+                 <th scope="col">ICA 3</th>
+               </tr>
+             </thead>
+             <tbody>
+               <tr>
+                 <th scope="row">1</th>
+                 <td>Mark</td>
+                 <td>50%</td>
+                 <td>75%</td>
+                 <td>88%</td>
+               </tr>
+               <tr>
+                 <th scope="row">2</th>
+                 <td>Jacob</td>
+                 <td>50%</td>
+                 <td>75%</td>
+                 <td>88%</td>
+               </tr>
+               <tr>
+                 <th scope="row">3</th>
+                 <td>Larry</td>
+                 <td>50%</td>
+                 <td>75%</td>
+                 <td>88%</td>
+               </tr>
+               
+               
+             </tbody>
+           </table>
+         </div>
+
         </div>
-      </div>
-    </div>
 
+          
     <!-- Bootstrap and jQuery JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script
