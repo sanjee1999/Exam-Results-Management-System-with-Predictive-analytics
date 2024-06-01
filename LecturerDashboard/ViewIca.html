@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Slider</title>
+    <!-- get icons -->
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <lord-icon trigger="hover" src="/my-icon.json"></lord-icon>
+
+    <link rel="stylesheet" href="../Sidebar/Sider.css" />
+    <link rel="stylesheet" href="../Style/ViewIca.css" />
+
+    <!-- get bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="wrapper">
+      <aside id="sidebar">
+        <div class="d-flex">
+          <button id="toggle-btn">
+            <i class="lni lni-grid-alt"></i>
+          </button>
+        </div>
+
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="../LecturerDashboard/Home.html" class="sidebar-link">
+              <i class="bx bx-home-alt me-2"></i>
+              <span>Home</span>
+            </a>
+          </li>
+
+          <!-- attendance start -->
+          <li class="sidebar-item">
+            <a
+              href=""
+              class="sidebar-link has-dropdown collapsed"
+              data-bs-toggle="collapse"
+              data-bs-target="#multi"
+              aria-expanded="false"
+              aria-controls="multi"
+            >
+              <i class="bx bxs-calendar me-2"></i>
+              <span>Attendance</span>
+            </a>
+            <ul
+              id="multi"
+              class="sidebar-dropdown list-unstyled collapse"
+              data-bs-parent="#sidebar"
+            >
+              <li class="sidebar-item">
+                <a
+                  href=""
+                  class="sidebar-link collapsed"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#multi-one"
+                  aria-expanded="false"
+                  aria-controls="multi-one"
+                >
+                  Add Attendance
+                </a>
+                <ul
+                  id="multi-one"
+                  class="sidebar-dropdown list-unstyled collapse"
+                >
+                  <li class="sidebar-item">
+                    <a
+                      href="../LecturerDashboard/AddDailyAttendance.html"
+                      class="sidebar-link"
+                      >Add Daily Attendance</a
+                    >
+                  </li>
+                  <li class="sidebar-item">
+                    <a
+                      href="../LecturerDashboard/AddMonthlyAttendance.html"
+                      class="sidebar-link"
+                      >Add Monthly Attendance</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="sidebar-item">
+                <a
+                  href=""
+                  class="sidebar-link collapsed"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#multi-two"
+                  aria-expanded="false"
+                  aria-controls="multi-two"
+                >
+                  View Attendance
+                  <!-- New section title -->
+                </a>
+                <ul
+                  id="multi-two"
+                  class="sidebar-dropdown list-unstyled collapse"
+                >
+                  <li class="sidebar-item">
+                    <a
+                      href="../LecturerDashboard/ViewDailyAttendance.html"
+                      class="sidebar-link"
+                      >View Daily Attendance</a
+                    >
+                  </li>
+                  <li class="sidebar-item">
+                    <a
+                      href="../LecturerDashboard/ViewMonthlyAttendance.html"
+                      class="sidebar-link"
+                      >View Monthly Attendance</a
+                    >
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <!-- attendance end -->
+
+          <!-- assesment start -->
+          <li class="active sidebar-item">
+            <a
+              href="#"
+              class="sidebar-link has-dropdown collapsed"
+              data-bs-toggle="collapse"
+              data-bs-target="#assessment"
+              aria-expanded="false"
+              aria-controls="assessment"
+            >
+              <i class="aicon bx bx-list-ol me-2"></i>
+              <span>Assessment</span>
+            </a>
+            <ul
+              id="assessment"
+              class="sidebar-dropdown list-unstyled collapse"
+              data-bs-parent="#sidebar"
+            >
+              <li class="sidebar-item">
+                <a href="../LecturerDashboard/AddIca.html" class="sidebar-link"
+                  >Add Marks</a
+                >
+              </li>
+
+              <li class="active2 sidebar-item">
+                <a href="../LecturerDashboard/ViewIca.html" class="sidebar-link"
+                  >View Marks</a
+                >
+              </li>
+            </ul>
+          </li>
+          <!-- assessment end -->
+
+          <!-- Final start -->
+
+          <li class="sidebar-item">
+            <a
+              href="#"
+              class="sidebar-link has-dropdown collapsed"
+              data-bs-toggle="collapse"
+              data-bs-target="#final"
+              aria-expanded="false"
+              aria-controls="final"
+            >
+              <i class="bx bxs-objects-horizontal-left me-2"></i>
+              <span>Final Exam</span>
+            </a>
+            <ul
+              id="final"
+              class="sidebar-dropdown list-unstyled collapse"
+              data-bs-parent="#sidebar"
+            >
+              <li class="sidebar-item">
+                <a
+                  href="../LecturerDashboard/AddFinal.html"
+                  class="sidebar-link"
+                  >Add Marks</a
+                >
+              </li>
+
+              <li class="sidebar-item">
+                <a
+                  href="../LecturerDashboard/ViewFinal.html"
+                  class="sidebar-link"
+                  >View Marks</a
+                >
+              </li>
+              <li class="sidebar-item">
+                <a
+                  href="../LecturerDashboard/PredictResult.html"
+                  class="sidebar-link"
+                  >Predict Result</a
+                >
+              </li>
+            </ul>
+          </li>
+          <!-- Final end -->
+
+          <li class="sidebar-item">
+            <a href="../LecturerDashboard/Student.html" class="sidebar-link">
+              <i class="bx bx-male-female me-2"></i>
+              <span>Student</span>
+            </a>
+          </li>
+
+          <li class="sidebar-item">
+            <a href="../LecturerDashboard/Profile.html" class="sidebar-link">
+              <i class="bx bx-user me-2"></i>
+              <span>Profile</span>
+            </a>
+          </li>
+        </ul>
+
+        <!-- sidebar footer -->
+        <div class="sidebar-footer">
+          <a href="../index.html" class="sidebar-link">
+            <i class="bx bx-log-out-circle me-2"></i>
+            <span>Logout</span>
+          </a>
+        </div>
+      </aside>
+      <div class="main p-3">
+        <div class="top-bar text-center">
+          <h2>EXAM RESULTS MANAGEMENT SYSTEM WITH PREDICTIVE ANALYTICS</h2>
+          <hr />
+        </div>
+
+        <div class="container">
+          <div class="title text-center">
+            <h3>- View ICA Marks -</h3>
+          </div>
+
+          <div class="input-section py-5 mb-5">
+            <div class="form d-flex justify-content-center align-items-center">
+              <form action="#" method="post" class="row">
+                <div class="form-group col-md-3" id="subject">
+                  <select name="subject" id="subject" class="form-control">
+                    <option value="" selected disabled>Select Subject</option>
+                    <option value="Subject-01">Subject 01</option>
+                    <option value="Subject-02">Subject 02</option>
+                    <option value="Subject-03">Subject 03</option>
+                    <option value="Subject-04">Subject 04</option>
+                  </select>
+                </div>
+
+                <div class="form-group col-md-3" id="year">
+                  <select name="Year" id="year" class="form-control">
+                    <option value="" selected disabled>Select Year</option>
+                    <option value="2019/2020">1st Year</option>
+                    <option value="2020/2021">2nd Year</option>
+                    <option value="2021/2022">3rd Year</option>
+                    <option value="2022/2023">4th Year</option>
+                  </select>
+                </div>
+
+                <div class="form-group col-md-3">
+                  <button class="btn btn-primary w-100">View</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="title text-center">
+            <h3>- ICA Result of CSC2113 -</h3>
+          </div>
+          <section class="p-5">
+            <div class="table-responsive" id="table1">
+              <table class="table bg-white">
+                <thead class="bg-dark text-light">
+                  <tr>
+                    <th>Reg.no</th>
+                    <th>Name</th>
+                    <th>ICA 01</th>
+                    <th>ICA 02</th>
+                    <th>ICA 03</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td data-title="Reg.no">2019/ASP/01</td>
+                    <td data-title="Name">Name 01</td>
+                    <td data-title="Present">85%</td>
+                    <td data-title="Absent">69%</td>
+                    <td data-title="Absent">89%</td>
+                  </tr>
+                  <tr>
+                    <td data-title="Reg.no">2019/ASP/01</td>
+                    <td data-title="Name">Name 01</td>
+                    <td data-title="Present">85%</td>
+                    <td data-title="Absent">69%</td>
+                    <td data-title="Absent">89%</td>
+                  </tr>
+                  <tr>
+                    <td data-title="Reg.no">2019/ASP/01</td>
+                    <td data-title="Name">Name 01</td>
+                    <td data-title="Present">85%</td>
+                    <td data-title="Absent">69%</td>
+                    <td data-title="Absent">89%</td>
+                  </tr>
+                  <tr>
+                    <td data-title="Reg.no">2019/ASP/01</td>
+                    <td data-title="Name">Name 01</td>
+                    <td data-title="Present">85%</td>
+                    <td data-title="Absent">69%</td>
+                    <td data-title="Absent">89%</td>
+                  </tr>
+                  <tr>
+                    <td data-title="Reg.no">2019/ASP/01</td>
+                    <td data-title="Name">Name 01</td>
+                    <td data-title="Present">85%</td>
+                    <td data-title="Absent">69%</td>
+                    <td data-title="Absent">89%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <!--  -->
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="../Sidebar/Main.js"></script>
+  </body>
+</html>

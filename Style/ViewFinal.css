@@ -1,0 +1,86 @@
+.container {
+}
+.title h3 {
+  color: #884dee;
+}
+.table thead th {
+  background-color: #b08bf1;
+  color: white;
+}
+.active {
+  background-color: #b08bf1 !important;
+  border-left: solid 3px white;
+}
+.active2 {
+  background-color: #884dee !important;
+  border-bottom: solid 2px white;
+}
+.active2 a,
+.active span,
+.aicon {
+  color: rgb(255, 204, 0) !important;
+}
+@media only screen and (max-width: 800px) {
+  #table1 tbody,
+  #table1 tr,
+  #table1 td {
+    display: block;
+  }
+  #table1 thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  #table1 td {
+    position: relative;
+    padding-left: 50%;
+    border: none;
+    border-bottom: 1px solid rgb(240, 238, 238);
+  }
+  #table1 td:before {
+    content: attr(data-title);
+    position: absolute;
+    left: 6px;
+    font-weight: bold;
+  }
+  #table1 tr {
+    border-bottom: 1px solid #1e0909;
+  }
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  width: 300px !important;
+  margin: auto;
+}
+
+.form-control {
+  width: 100% !important;
+  margin-top: 1.5rem;
+}
+.form-group > select {
+  width: 100% !important;
+  height: 40px;
+  border: 1px solid #b08bf1;
+  border-radius: 5px;
+
+  padding: 5px;
+}
+.form-group > input {
+  width: 100% !important;
+  height: 40px;
+  border: 1px solid #b08bf1;
+  border-radius: 5px;
+
+  padding: 5px;
+}
+.btn {
+  background-color: #884dee !important;
+  border: none !important;
+  margin-top: 1.5rem;
+
+  height: 40px !important;
+}
+.btn:hover {
+  background-color: #b08bf1 !important;
+}

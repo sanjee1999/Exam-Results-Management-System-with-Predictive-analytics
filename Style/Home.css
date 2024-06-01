@@ -1,0 +1,44 @@
+.container {
+}
+h3 {
+  color: #884dee;
+}
+.table thead th {
+  background-color: #b08bf1;
+  color: white;
+}
+.active {
+  background-color: #b08bf1;
+  border-left: 3px solid white;
+}
+.aicon,
+.active span {
+  color: rgb(255, 204, 0) !important;
+}
+@media only screen and (max-width: 800px) {
+  #table1 tbody,
+  #table1 tr,
+  #table1 td {
+    display: block;
+  }
+  #table1 thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  #table1 td {
+    position: relative;
+    padding-left: 50%;
+    border: none;
+    border-bottom: 1px solid rgb(240, 238, 238);
+  }
+  #table1 td:before {
+    content: attr(data-title);
+    position: absolute;
+    left: 6px;
+    font-weight: bold;
+  }
+  #table1 tr {
+    border-bottom: 1px solid #1e0909;
+  }
+}

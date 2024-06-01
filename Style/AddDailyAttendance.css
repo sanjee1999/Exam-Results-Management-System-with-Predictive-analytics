@@ -1,0 +1,52 @@
+h3 {
+  color: #884dee !important;
+}
+.activ {
+  background-color: #b08bf1 !important;
+  border-left: solid 3px white;
+}
+.active2 {
+  background-color: #884dee !important;
+  border-bottom: solid 2px white;
+}
+.active2 a,
+.activ span,
+.aicon {
+  color: rgb(255, 204, 0) !important;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  width: 600px !important;
+  margin: auto;
+}
+
+.form-control {
+  width: 100% !important;
+  margin-top: 1.5rem;
+}
+.form-group > select {
+  width: 100% !important;
+  height: 40px;
+  border: 1px solid #b08bf1;
+  border-radius: 5px;
+
+  padding: 5px;
+}
+.form-group > input {
+  width: 100% !important;
+  height: 40px;
+  border: 1px solid #b08bf1;
+  border-radius: 5px;
+
+  padding: 5px;
+}
+.btn {
+  background-color: #884dee !important;
+  border: none !important;
+  margin-top: 5rem !important;
+  height: 40px !important;
+}
+.btn:hover {
+  background-color: #b08bf1 !important;
+}
