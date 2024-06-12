@@ -244,7 +244,11 @@
                         include($contentPage);
                     }
                 }else{
-                    echo '<img src="../logo.png" width=30%>';
+                  $contentPage="../pages/home.php";
+                    if(file_exists($contentPage)){
+                        include($contentPage);
+                    #echo '<img src="../logo.png" width=30%>';
+                    }
                 }
                 
             ?>
