@@ -49,7 +49,7 @@
           <form
             class="w-90"
             method="post"
-            action="./LecturerDashboard/Home.html"
+            action="Dashboard/Sider.php"
           >
             <div class="form-group">
               <input
