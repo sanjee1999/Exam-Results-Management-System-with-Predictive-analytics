@@ -26,7 +26,7 @@
   </head>
   <body>
           <div class="title text-center">
-            <h3>- Add Fnal Exam Marks -</h3>
+            <h3>- Add Final Exam Marks -</h3>
           </div>
 
           <div class="container">

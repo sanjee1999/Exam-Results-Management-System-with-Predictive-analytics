@@ -30,9 +30,10 @@
 
           <div class="container">
             <div class="form d-flex justify-content-center align-items-center">
-              <form action="#" method="post">
+              <form action="../Dashboard/Sider.php?content=../pages/upload.php&heading=ica&type=ica"
+               method="post" enctype="multipart/form-data">
                 <div class="form-group" id="subject">
-                  <select name="subject" id="subject" class="form-control">
+                  <select name="sub_code" id="sub_code" class="form-control" required>
                     <option value="" selected disabled>Select Subject</option>
                     <option value="Subject-01">Subject 01</option>
                     <option value="Subject-02">Subject 02</option>
@@ -42,27 +43,28 @@
                 </div>
 
                 <div class="form-group" id="year">
-                  <select name="Year" id="year" class="form-control">
+                  <select name="year" id="year" class="form-control" required>
                     <option value="" selected disabled>Select Year</option>
-                    <option value="1st-Year">1 st Year</option>
-                    <option value="2nd-Year">2 nd Year</option>
-                    <option value="3rd-Year">3 rd Year</option>
-                    <option value="4th-year">4 th Year</option>
+                    <option value="1">1 st Year</option>
+                    <option value="2">2 nd Year</option>
+                    <option value="3">3 rd Year</option>
+                    <option value="4">4 th Year</option>
                   </select>
                 </div>
 
-                <div class="form-group" id="date">
-                  <select name="Year" id="year" class="form-control">
+                <div class="form-group" id="ica">
+                  <select name="ica" id="ica" class="form-control" required>
                     <option value="" selected disabled>Select ICA No</option>
-                    <option value="2022">ICA 01</option>
-                    <option value="2023">ICA 02</option>
-                    <option value="2024">ICA 03</option>
-                    <option value="2025">ICA 04</option>
+                    <option value="ica1">ICA 01</option>
+                    <option value="ica2">ICA 02</option>
+                    <option value="ica3">ICA 03</option>
+                    <option value="ica4">ICA 04</option>
                   </select>
                 </div>
 
                 <div class="form-group">
-                  <input type="file" class="form-control" />
+                  <input type="file" class="form-control" name="file" id="fileUpload" class="form-control" accept=".xlsx, .xls"
+                  required/>
                 </div>
 
                 <div class="form-group">
@@ -71,7 +73,8 @@
               </form>
             </div>
           </div>
-        
+    <!-- <script src="../script/fileupload.js">
+    </script>     -->
     <!-- Bootstrap JS -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

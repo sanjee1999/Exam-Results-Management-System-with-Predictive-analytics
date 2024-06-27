@@ -33,7 +33,6 @@ function unsetsession(){
 function verify($conn,$result){
   echo "<script type='text/javascript'>";
 if ($result) {
-    unsetsession();
     echo "alert('Input successfully');";
     echo "window.location.href = '../Dashboard/Sider.php?content=../pages/Home.php';";
 } else {
@@ -65,8 +64,6 @@ function upload($conn){
       $highestRow=$_SESSION['highestRow'];
       $type=$_SESSION['type'];
       $heading=$_SESSION['heading'];
-      $ica=$_SESSION['ica'];
-
   switch($type){
     
     case 'attendance':
@@ -77,49 +74,15 @@ function upload($conn){
        verify($conn,$result) ;
       break;
 
-    case 'ica':
-
-      switch($ica){
-        case 'ica1':
-            for($row=0; $row<$highestRow-1; $row++){
-                $query="INSERT INTO ica_1 VALUES ('$col1[$row]','$col2[$row]','$sub_code')";
-                $result=mysqli_query($conn,$query);
-            }
-            verify($conn,$result) ;
-          break;
-
-        case 'ica2':
-          for($row=0; $row<$highestRow-1; $row++){
-                $query="INSERT INTO ica_2 VALUES ('$col1[$row]','$col2[$row]','$sub_code')";
-                $result=mysqli_query($conn,$query);
-            }
-            verify($conn,$result) ;
-
-          break;
-
-        case 'ica3':
-          for($row=0; $row<$highestRow-1; $row++){
-            $query="INSERT INTO ica_3 VALUES ('$col1[$row]','$col2[$row]','$sub_code')";
-            $result=mysqli_query($conn,$query);
-          }
-          verify($conn,$result) ;
-          break;
-
-          case 'ica4':
-            for($row=0; $row<$highestRow-1; $row++){
-              $query="INSERT INTO ica_4 VALUES ('$col1[$row]','$col2[$row]','$sub_code')";
-              $result=mysqli_query($conn,$query);
-            }
-          verify($conn,$result) ;
-          break;
-
-        default:
-      
-          break;
-      }
+    case 'ica1':
         
       break;
-    
+    case 'ica2':
+        
+        break;
+    case 'ica3':
+        
+        break;
     case 'final':
         
         break;

@@ -1,13 +1,14 @@
-<?php
-//require '../function/fun.php';
+<?php require_once '../connection/conf.php'; ?>
 
-// if (isset($_SESSION['firstRow'])) {
-//     $firstRow = $_SESSION['firstRow'];
-//     unset($_SESSION['firstRow']); // Clear session data after use
-// } else {
-//     // Handle case where data is not set
-//     $firstRow = [];
-// }
+<?php
+
+if (isset($_SESSION['firstRow'])) {
+    $firstRow = $_SESSION['firstRow'];
+    unset($_SESSION['firstRow']); // Clear session data after use
+} else {
+    // Handle case where data is not set
+    $firstRow = [];
+}
 
 ?>
 <?php
@@ -23,7 +24,7 @@
 <?php
           if($_SERVER["REQUEST_METHOD"]=="POST"){
             $year=(isset($_POST['year']))?($_POST['year']):null;
-            $sub_code=(isset($_POST['sub_code']))?($_POST['sub_code']):null;
+            $subject=(isset($_POST['subject']))?($_POST['subject']):null;
             $hour=(isset($_POST['hour']))?($_POST['hour']):null;
             $time=(isset($_POST['time']))?($_POST['time']):null;
             $date=(isset($_POST['date']))?($_POST['date']):null;
@@ -33,6 +34,7 @@
             echo "$year $subject $date $file";
            }
           }
+          print_r($firstRow);
           
 ?> 
 
@@ -76,8 +78,8 @@
 
           <div class="container">
             <div class="form d-flex justify-content-center align-items-center">
-              <form action="../Dashboard/Sider.php?content=../pages/upload.php&heading=Daily%20Attendance&type=attendance" 
-              method="post" id="mainform" enctype="multipart/form-data">
+              <form action="" 
+              method="post" id="mainform" >
                 
                 <div class="form-group" id="year">
                   <select name="year" id="year" class="form-control" required>
@@ -90,17 +92,17 @@
                 </div>
 
                 <div class="form-group" id="subject">
-                  <select name="sub_code" id="sub_code" class="form-control" required>
+                  <select name="subject" id="subject" class="form-control" required>
                     
                     <?php 
                         #$subject = isset($_POST['subject']) ? $_POST['subject'] : "Select Subject";
                         #echo "<option value='" . $subject . "'selected disabled>" ; echo $subject . "</option>"; 
                     ?>
                     <option value="" selected disabled>Select Subject</option>
-                    <option value="sub_1">Subject 01</option>
-                    <option value="sub_2">Subject 02</option>
-                    <option value="sub_3">Subject 03</option>
-                    <option value="sub_4">Subject 04</option>
+                    <option value="2022">Subject 01</option>
+                    <option value="2023">Subject 02</option>
+                    <option value="2024">Subject 03</option>
+                    <option value="2025">Subject 04</option>
                   </select>
                 </div>
 
@@ -123,24 +125,26 @@
                 </div>
 
                 <div class="form-group">
-                  <input type="file" name="file" id="fileUpload" class="form-control" accept=".xlsx, .xls"
+                  <input type="file" name="file" id="file" class="form-control" accept=".xlsx, .xls"
                     required/>
                 </div>
+
+                <div id="output"></div>
+                <script src="../script/columnsel.js"></script>
+    
                 
                 <div class="form-group">
                   <button class="btn btn-primary">Submit</button>
                 </div>
               </form>
+              
 
               <!-- <div id="output"></div> -->
                 
-                <script src="../script/olumnsel.js">
-                </script>
-                <script src="../script/fileupload.js">
-                </script>
+               
                 <?php 
                     
-                   require_once '../function/fun.php';
+                    require_once '../function/fun.php';
                    # print_r($firstRow);
                     // if(!empty($firstRow)){
                     //  exhead($firstRow);

@@ -1,3 +1,10 @@
+<?php  
+session_start();
+require_once '../connection/conf.php';
+require_once '../function/fun.php';
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -12,7 +19,7 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="./Sider.css" />
+    <link rel="stylesheet" href="Sider.css" />
 
     <!-- get bootstrap -->
     <link
@@ -244,11 +251,11 @@
                         include($contentPage);
                     }
                 }else{
-                  $contentPage="../pages/home.php";
-                    if(file_exists($contentPage)){
-                        include($contentPage);
-                    #echo '<img src="../logo.png" width=30%>';
-                    }
+                  // $contentPage="../pages/home.php";
+                  //   if(file_exists($contentPage)){
+                  //       include($contentPage);
+                  //   #echo '<img src="../logo.png" width=30%>';
+                  //   }
                 }
                 
             ?>
@@ -266,6 +273,11 @@
       crossorigin="anonymous"
     ></script>
 
-    <script src="./Main.js"></script>
+    <script src="../Dashboard/Main.js"></script>
   </body>
 </html>
+<?php 
+
+  require_once '../connection/conf.php'; 
+  require_once '../function/fun.php';
+?>
