@@ -96,7 +96,7 @@
                         #$subject = isset($_POST['subject']) ? $_POST['subject'] : "Select Subject";
                         #echo "<option value='" . $subject . "'selected disabled>" ; echo $subject . "</option>"; 
                     ?>
-                    <option value="" selected disabled>Select Subject</option>
+                    <option value="" selected disabled>Select Sub_Code</option>
                     <option value="sub_1">Subject 01</option>
                     <option value="sub_2">Subject 02</option>
                     <option value="sub_3">Subject 03</option>

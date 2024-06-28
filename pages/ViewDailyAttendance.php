@@ -57,9 +57,9 @@ $sub_code=$date=$month=$year=$regno=$level=null;
           <div class="input-section py-8 mb-5">
             <div class="form d-flex justify-content-center align-items-center">
               <form action="" method="post" class="row">
-                <div class="form-group col-md-3" id="subject">
+                <div class="form-group col-md-3" id="sub_code">
                   <select name="sub_code" id="sub_code" class="form-control">
-                    <option value="" selected disabled>Select Subject</option>
+                    <option value="" selected disabled>Select Sub_code</option>
                     <option value="sub_1">Subject 01</option>
                     <option value="sub_2">Subject 02</option>
                     <option value="sub_3">Subject 03</option>
@@ -130,17 +130,20 @@ $sub_code=$date=$month=$year=$regno=$level=null;
           </div>
           <div class="title text-center">
             <h3>- Attendance for
-              <?php
-                  
-                  echo "$regno $sub_code $date $month $year $level <br>";
+              <?php   
+                  echo "$regno $sub_code $date $month $year $level";
               ?>
             -</h3>
           </div>
 
           <section class="p-5">
             <div class="table-responsive" id="table1">
-              <?php
-                  #outputQueryInTable($conn,$query)
+              <?php 
+                if($_SERVER["REQUEST_METHOD"]=="POST"){  
+                  $table='attendance';
+                  $query=querygenarator($table);
+                  outputQueryInTable($conn,$query);
+                }
               ?>
             </div>
           </section>
@@ -157,10 +160,3 @@ $sub_code=$date=$month=$year=$regno=$level=null;
   </body>
 </html>
 
-<?php 
-  if($_SERVER["REQUEST_METHOD"]=="POST"){  
-    $table='attendance';
-    $query=querygenarator($table);
-    outputQueryInTable($conn,$query);
-  }
-?>

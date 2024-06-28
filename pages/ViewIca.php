@@ -1,3 +1,25 @@
+<?php
+$sub_code=$date=$month=$year=$regno=$level=null;
+
+  if($_SERVER["REQUEST_METHOD"]=="POST"){
+    $sub_code=(isset($_POST['sub_code']))?($_POST['sub_code']):null;
+    $level=(isset($_POST['level']))?($_POST['level']):null;
+    $date=(isset($_POST['date']))?($_POST['date']):null;
+    $month=(isset($_POST['month']))?($_POST['month']):null;
+    $year=(isset($_POST['year']))?($_POST['year']):null;
+    $regno=(isset($_POST['regno']))?($_POST['regno']):null;
+    
+   
+    echo "$sub_code $date $month $year $regno $level <br>";
+
+    $_SESSION['sub_code']=isset($sub_code)?$sub_code:null;
+    $_SESSION['level']=isset($level)?$level:null;
+    $_SESSION['date']=isset($date)?$date:null;
+    $_SESSION['month']=isset($month)?$month:null;
+    $_SESSION['year']=isset($year)?$year:null;
+    $_SESSION['regno']=isset($regno)?$regno:null;
+  }
+?>    
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -33,24 +55,18 @@
           <div class="input-section py-5 mb-5">
             <div class="form d-flex justify-content-center align-items-center">
               <form action="#" method="post" class="row">
-                <div class="form-group col-md-3" id="subject">
-                  <select name="subject" id="subject" class="form-control">
-                    <option value="" selected disabled>Select Subject</option>
-                    <option value="Subject-01">Subject 01</option>
-                    <option value="Subject-02">Subject 02</option>
-                    <option value="Subject-03">Subject 03</option>
-                    <option value="Subject-04">Subject 04</option>
+              <div class="form-group col-md-3" id="sub_code">
+                  <select name="sub_code" id="sub_code" class="form-control">
+                    <option value="" selected disabled>Select Sub_Code</option>
+                    <option value="sub_1">Subject 01</option>
+                    <option value="sub_2">Subject 02</option>
+                    <option value="sub_3">Subject 03</option>
+                    <option value="sub_4">Subject 04</option>
                   </select>
                 </div>
 
-                <div class="form-group col-md-3" id="year">
-                  <select name="Year" id="year" class="form-control">
-                    <option value="" selected disabled>Select Year</option>
-                    <option value="2019/2020">1st Year</option>
-                    <option value="2020/2021">2nd Year</option>
-                    <option value="2021/2022">3rd Year</option>
-                    <option value="2022/2023">4th Year</option>
-                  </select>
+                <div class="form-group col-md-3" id="regno">
+                  <input type="text" name="regno" id="regno" class="form-control" placeholder="Reg_No"/>
                 </div>
 
                 <div class="form-group col-md-3">
@@ -60,58 +76,20 @@
             </div>
           </div>
           <div class="title text-center">
-            <h3>- ICA Result of CSC2113 -</h3>
+            <h3>- ICA Result of 
+            <?php
+                echo "$regno $sub_code";
+              ?>
+            -</h3>
           </div>
           <section class="p-5">
             <div class="table-responsive" id="table1">
-              <table class="table bg-white">
-                <thead class="bg-dark text-light">
-                  <tr>
-                    <th>Reg.no</th>
-                    <th>Name</th>
-                    <th>ICA 01</th>
-                    <th>ICA 02</th>
-                    <th>ICA 03</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td data-title="Reg.no">2019/ASP/01</td>
-                    <td data-title="Name">Name 01</td>
-                    <td data-title="Present">85%</td>
-                    <td data-title="Absent">69%</td>
-                    <td data-title="Absent">89%</td>
-                  </tr>
-                  <tr>
-                    <td data-title="Reg.no">2019/ASP/01</td>
-                    <td data-title="Name">Name 01</td>
-                    <td data-title="Present">85%</td>
-                    <td data-title="Absent">69%</td>
-                    <td data-title="Absent">89%</td>
-                  </tr>
-                  <tr>
-                    <td data-title="Reg.no">2019/ASP/01</td>
-                    <td data-title="Name">Name 01</td>
-                    <td data-title="Present">85%</td>
-                    <td data-title="Absent">69%</td>
-                    <td data-title="Absent">89%</td>
-                  </tr>
-                  <tr>
-                    <td data-title="Reg.no">2019/ASP/01</td>
-                    <td data-title="Name">Name 01</td>
-                    <td data-title="Present">85%</td>
-                    <td data-title="Absent">69%</td>
-                    <td data-title="Absent">89%</td>
-                  </tr>
-                  <tr>
-                    <td data-title="Reg.no">2019/ASP/01</td>
-                    <td data-title="Name">Name 01</td>
-                    <td data-title="Present">85%</td>
-                    <td data-title="Absent">69%</td>
-                    <td data-title="Absent">89%</td>
-                  </tr>
-                </tbody>
-              </table>
+            <?php 
+                if($_SERVER["REQUEST_METHOD"]=="POST"){  
+                  $query=queryica();
+                  outputQueryInTable($conn,$query);
+                }
+              ?>
             </div>
           </section>
         

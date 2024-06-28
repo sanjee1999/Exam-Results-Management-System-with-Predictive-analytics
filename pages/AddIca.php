@@ -32,13 +32,13 @@
             <div class="form d-flex justify-content-center align-items-center">
               <form action="../Dashboard/Sider.php?content=../pages/upload.php&heading=ica&type=ica"
                method="post" enctype="multipart/form-data">
-                <div class="form-group" id="subject">
-                  <select name="sub_code" id="sub_code" class="form-control" required>
-                    <option value="" selected disabled>Select Subject</option>
-                    <option value="Subject-01">Subject 01</option>
-                    <option value="Subject-02">Subject 02</option>
-                    <option value="Subject-03">Subject 03</option>
-                    <option value="Subject-04">Subject 04</option>
+               <div class="form-group col-md-3" id="sub_code">
+                  <select name="sub_code" id="sub_code" class="form-control">
+                    <option value="" selected disabled>Select Sub_Code</option>
+                    <option value="sub_1">Subject 01</option>
+                    <option value="sub_2">Subject 02</option>
+                    <option value="sub_3">Subject 03</option>
+                    <option value="sub_4">Subject 04</option>
                   </select>
                 </div>
 
