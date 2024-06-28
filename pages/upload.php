@@ -68,14 +68,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
             $time=(isset($_POST['time']))?($_POST['time']):null;
             $date=(isset($_POST['date']))?($_POST['date']):null;
             $file=(isset($_POST['file']))?($_POST['file']):null;
-            $year=(isset($_POST['year']))?($_POST['year']):null;
+            $level=(isset($_POST['level']))?($_POST['level']):null;
             $ica=(isset($_POST['ica']))?($_POST['ica']):null;
             $final=(isset($_POST['final']))?($_POST['final']):null;
 
             
             
-           if(!empty($year) && !empty($sub_code)){
-            echo " $year $sub_code $hour $time $date $file $type $ica";
+           if(!empty($level) && !empty($sub_code)){
+            echo " $level $sub_code $hour $time $date $file $type $ica";
            }
            else{
             echo " empty";
@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
             if($heading=='ica'){
               $heading=strtoupper($ica).' Marks';
             }elseif($heading=='final'){
-              $heading=strtoupper($heading).'Marks';
+              $heading=strtoupper($heading).' Marks';
             }
             echo $heading."<br>";
           }
@@ -179,7 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
   <?php 
   if (isset($_FILES['file'])) {
         $_SESSION['file']=isset($file)?$file:null;
-        $_SESSION['year']=isset($year)?$year:null;
+        $_SESSION['level']=isset($level)?$level:null;
         $_SESSION['sub_code']=isset($sub_code)?$sub_code:null;
         $_SESSION['hour']=isset($hour)?$hour:null;
         $_SESSION['time']=isset($time)?$time:null;

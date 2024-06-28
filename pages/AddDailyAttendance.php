@@ -22,7 +22,7 @@
 ?>
 <?php
           if($_SERVER["REQUEST_METHOD"]=="POST"){
-            $year=(isset($_POST['year']))?($_POST['year']):null;
+            $level=(isset($_POST['level']))?($_POST['levels']):null;
             $sub_code=(isset($_POST['sub_code']))?($_POST['sub_code']):null;
             $hour=(isset($_POST['hour']))?($_POST['hour']):null;
             $time=(isset($_POST['time']))?($_POST['time']):null;
@@ -79,9 +79,9 @@
               <form action="../Dashboard/Sider.php?content=../pages/upload.php&heading=Daily%20Attendance&type=attendance" 
               method="post" id="mainform" enctype="multipart/form-data">
                 
-                <div class="form-group" id="year">
-                  <select name="year" id="year" class="form-control" required>
-                    <option value="" selected disabled>Select Year</option>
+                <div class="form-group" id="level">
+                  <select name="level" id="level" class="form-control" required>
+                    <option value="" selected disabled>Select Level</option>
                     <option value="1" <?php #if ($year == '1') echo 'selected'; ?>>1st Year</option>
                     <option value="2" <?php #if ($year== '2') echo 'selected'; ?>>2nd Year</option>
                     <option value="3" <?php #if ($year == '3') echo 'selected'; ?>>3rd Year</option>

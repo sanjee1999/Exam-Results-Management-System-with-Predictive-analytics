@@ -23,8 +23,11 @@ require '../vendor/autoload.php'; // Include PHPSpreadsheet
      $highestRow=$_SESSION['highestRow'];
      $type=$_SESSION['type'];
      $heading=$_SESSION['heading'];
+     $uploadFile=$_SESSION['uploadfile'];
+     $level=$_SESSION['level'];
 
-     if(!empty($year) && !empty($sub_code) && !empty($date) ){
+        unlink($uploadFile);
+     if(!empty($level) && !empty($sub_code) && !empty($date) ){
     } 
         print_r($col1);
         echo "<br>";
@@ -33,7 +36,7 @@ require '../vendor/autoload.php'; // Include PHPSpreadsheet
         echo $firstRow[2];
         echo "<br>";
         print_r($firstRow);
-        echo "<br> $year $sub_code $date $time $hour $highestRow $type $heading";
+        echo "<br> $level $sub_code $date $time $hour $highestRow $type $heading";
         // for($row=0; $row<$highestRow-1; $row++){
         //     $query="INSERT INTO attendance VALUES ('$col1[$row]','$date','$time','$hour','$sub_code','$col2[$row]','$year')";
         //     $result=mysqli_query($conn,$query);
