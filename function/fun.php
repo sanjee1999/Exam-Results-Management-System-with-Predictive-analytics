@@ -67,6 +67,7 @@ echo "</script>";
     $month = isset($_SESSION['month']) ? $_SESSION['month'] : null;
     $sub_code = isset($_SESSION['sub_code']) ? $_SESSION['sub_code'] : null;
     $regno = isset($_SESSION['regno']) ? $_SESSION['regno'] : null;
+    $indexno = isset($_SESSION['indexno']) ? $_SESSION['indexno'] : null;
     $level = isset($_SESSION['level']) ? $_SESSION['level'] : null;
     $firstRow = isset($_SESSION['firstRow']) ? $_SESSION['firstRow'] : null;
     $col1 = isset($_SESSION['col1']) ? $_SESSION['col1'] : null;
@@ -78,7 +79,7 @@ echo "</script>";
     $uploadFile = isset($_SESSION['uploadfile']) ? $_SESSION['uploadfile'] : null;
           
       return compact('date', 'time', 'hour', 'year','month','sub_code',  
-                    'regno','level', 'firstRow', 'col1', 'col2', 'highestRow', 
+                    'regno','indexno','level', 'firstRow', 'col1', 'col2', 'highestRow', 
                     'type', 'heading', 'ica', 'uploadFile');
 
   }
@@ -142,6 +143,53 @@ function upload($conn){
       break;
     
     case 'final':
+      for($row=0; $row<$highestRow-1; $row++) {
+        if(empty($col2[$row])){
+            continue;
+        }
+        $qtest = "SELECT marks_att1, marks_att2, marks_att3, marks_attsp 
+                  FROM exam 
+                  WHERE index_no = '$col1[$row]' 
+                  AND sub_code = '$sub_code'";
+        $rtest = mysqli_query($conn, $qtest);
+                
+        if(mysqli_num_rows($rtest) == 0 ) {
+            // Insert a new row if no matching row is found
+            $query = "INSERT INTO exam VALUES ('$col1[$row]', '$col2[$row]', NULL, NULL, NULL, '$sub_code')";
+            $result = mysqli_query($conn, $query);
+        } else {
+            $row_data = mysqli_fetch_assoc($rtest);
+            
+            if(is_null($row_data['marks_att1'])) {
+                // Update marks_att1 if it is NULL
+                $query = "UPDATE exam SET marks_att1 = '$col2[$row]' WHERE index_no = '$col1[$row]' AND sub_code = '$sub_code'";
+            } elseif(is_null($row_data['marks_att2'])) {
+                // Update marks_att2 if it is NULL
+                $query = "UPDATE exam SET marks_att2 = '$col2[$row]' WHERE index_no = '$col1[$row]' AND sub_code = '$sub_code'";
+            } elseif(is_null($row_data['marks_att3'])) {
+                // Update marks_att3 if it is NULL
+                $query = "UPDATE exam SET marks_att3 = '$col2[$row]' WHERE index_no = '$col1[$row]' AND sub_code = '$sub_code'";
+            } elseif(is_null($row_data['marks_attsp'])) {
+                // Update marks_attsp if it is NULL
+                $query = "UPDATE exam SET marks_attsp = '$col2[$row]' WHERE index_no = '$col1[$row]' AND sub_code = '$sub_code'";
+            } else {
+                // If all columns are filled, log the error
+                $errregno[] = $col1[$row];
+                $errmarks[] = $col2[$row];
+                continue; // Skip the insertion
+            }
+            $result = mysqli_query($conn, $query);
+        }
+    
+        if(!$result) {
+            // Handle the error if the query fails
+            echo "Error: " . mysqli_error($conn);
+        }
+    }
+     
+      $_SESSION['errregno']=$errregno;
+      $_SESSION['errmarks']=$errmarks;
+    verify($conn,$result,$uploadFile);
         
         break;
     default:
@@ -189,7 +237,7 @@ function queryica(){
       $sessionVariables = loadsession();
       extract($sessionVariables);
 
-  $q1="SELECT a.reg_no AS reg_no,a.marks AS ica_1_marks,b.marks AS ica_2_marks,c.marks AS ica_3_marks
+  $q1="SELECT a.reg_no AS reg_no,a.marks AS ica_1_marks,b.marks AS ica_2_marks,c.marks AS ica_3_marks,a.sub_code AS sub_code
         FROM ica_1 a JOIN ica_2 b ON a.reg_no = b.reg_no
         JOIN ica_3 c ON a.reg_no = c.reg_no";
   $q2=" WHERE ";
@@ -252,3 +300,35 @@ function outputQueryInTable($conn,$query) {
   $conn->close();
 }
 ?>
+<!-- for($row=0; $row<$highestRow-1; $row++){
+        $qtest="SELECT marks_att1 FROM exam WHERE index_no='$col1[$row]' AND sub_code='$sub_code' ";
+        $rtest=mysqli_query($conn,$qtest);
+        if(!$rtest){
+            $query="INSERT INTO exam VALUES ('$col1[$row]','$col2[$row]',NULL,NULL,NULL,'$sub_code')";
+            $result=mysqli_query($conn,$query);
+        }else{
+            $qtest="SELECT marks_att1,marks_att2, FROM exam WHERE index_no='$col1[$row]' AND sub_code='$sub_code' ";
+            $rtest=mysqli_query($conn,$qtest);
+            if(!$rtest){
+                $query="UPDATE exam SET marks_att2= '$col2[$row]' WHERE index_no='$col1[$row]'";
+                $result=mysqli_query($conn,$query);
+            }else{
+                $qtest="SELECT marks_att1,marks_att2,marks_att3 FROM exam WHERE index_no='$col1[$row]' AND sub_code='$sub_code' ";
+                $rtest=mysqli_query($conn,$qtest);
+                if(!$rtest){
+                    $query="UPDATE exam SET marks_att3= '$col2[$row]' WHERE index_no='$col1[$row]'";
+                    $result=mysqli_query($conn,$query);
+                }else{
+                    $qtest="SELECT marks_att1,marks_att2,marks_att3,marks_attsp FROM exam WHERE index_no='$col1[$row]' AND sub_code='$sub_code' ";
+                    $rtest=mysqli_query($conn,$qtest);
+                    if(!$rtest){
+                        $query="UPDATE exam SET marks_attsp= '$col2[$row]' WHERE index_no='$col1[$row]'";
+                        $result=mysqli_query($conn,$query);
+                    }else{
+                        $errregno[]=$col1[$row];
+                        $errmarks[]=$col2[$row];
+                  }
+              }
+            }
+        } 
+      } -->

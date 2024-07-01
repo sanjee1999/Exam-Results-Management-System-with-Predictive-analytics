@@ -31,18 +31,19 @@
 
           <div class="container">
             <div class="form d-flex justify-content-center align-items-center">
-              <form action="#" method="post">
-                <div class="form-group" id="subject">
-                  <select name="subject" id="subject" class="form-control">
-                    <option value="" selected disabled>Select Subject</option>
-                    <option value="Subject-01">Subject 01</option>
-                    <option value="Subject-02">Subject 02</option>
-                    <option value="Subject-03">Subject 03</option>
-                    <option value="Subject-04">Subject 04</option>
+              <form action="../Dashboard/Sider.php?content=../pages/upload.php&heading=final&type=final"
+               method="post" enctype="multipart/form-data">
+               <div class="form-group col-md-3" id="sub_code">
+                  <select name="sub_code" id="sub_code" class="form-control" required>
+                    <option value="" selected disabled>Select Sub_Code</option>
+                    <option value="sub_1">Subject 01</option>
+                    <option value="sub_2">Subject 02</option>
+                    <option value="sub_3">Subject 03</option>
+                    <option value="sub_4">Subject 04</option>
                   </select>
                 </div>
 
-                <div class="form-group" id="year">
+                <!-- <div class="form-group" id="year">
                   <select name="Year" id="year" class="form-control">
                     <option value="" selected disabled>
                       Select Academic Year
@@ -52,20 +53,14 @@
                     <option value="2021/2022">2021/2022</option>
                     <option value="2022/2023">2022/2023</option>
                   </select>
-                </div>
+                </div> -->
 
-                <div class="form-group" id="date">
-                  <select name="Year" id="year" class="form-control">
-                    <option value="" selected disabled>Select Semester</option>
-                    <option value="2022">Semester 01</option>
-                    <option value="2023">Semester 02</option>
-                  </select>
-                </div>
+                
 
                 <div class="form-group">
-                  <input type="file" class="form-control" />
+                  <input type="file" class="form-control" name="file" id="fileUpload" class="form-control" accept=".xlsx, .xls"
+                  required/>
                 </div>
-
                 <div class="form-group">
                   <button class="btn btn-primary">Submit</button>
                 </div>

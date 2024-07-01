@@ -74,12 +74,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
 
             
             
-           if(!empty($level) && !empty($sub_code)){
+           
             echo " $level $sub_code $hour $time $date $file $type $ica";
-           }
-           else{
-            echo " empty";
-           }
+          
           }
           if(isset($_GET['heading'])){
             $heading=$_GET['heading'];
@@ -242,7 +239,7 @@ $worksheet = $spreadsheet->getActiveSheet();
     print_r($col2);
      $_SESSION['col1']=isset($col1)?$col1:null;
      $_SESSION['col2']=isset($col2)?$col2:null;
-     upload($conn);
+    upload($conn);
   }
 }
     
