@@ -8,7 +8,7 @@ $sub_code=$date=$month=$year=$regno=$level=null;
     $month=(isset($_POST['month']))?($_POST['month']):null;
     $year=(isset($_POST['year']))?($_POST['year']):null;
     $regno=(isset($_POST['regno']))?($_POST['regno']):null;
-    
+    $type=(isset($_POST['type']))?($_POST['type']):null;
    
     echo "$sub_code $date $month $year $regno $level <br>";
 
@@ -18,6 +18,7 @@ $sub_code=$date=$month=$year=$regno=$level=null;
     $_SESSION['month']=isset($month)?$month:null;
     $_SESSION['year']=isset($year)?$year:null;
     $_SESSION['regno']=isset($regno)?$regno:null;
+    $_SESSION['type']=isset($type)?$type:null;
   }
 ?>    
 <!DOCTYPE html>
@@ -53,10 +54,10 @@ $sub_code=$date=$month=$year=$regno=$level=null;
           <div class="title text-center">
             <h3>- View Daily Attendance -</h3>
           </div>
-
+        <div class="container">
           <div class="input-section py-8 mb-5">
             <div class="form d-flex justify-content-center align-items-center">
-              <form action="" method="post" class="row">
+              <form action="" method="post" class="row" oninput="submitForm()" id="searchForm">
                 <div class="form-group col-md-3" id="sub_code">
                   <select name="sub_code" id="sub_code" class="form-control">
                     <option value="" selected disabled>Select Sub_code</option>
@@ -120,11 +121,13 @@ $sub_code=$date=$month=$year=$regno=$level=null;
                 
                 <div class="form-group col-md-3" id="regno">
                   <input type="text" name="regno" id="regno" class="form-control" placeholder="Reg_No"/>
+                  <input type="hidden" name="type" id="type" class="form-control" value="attendance"/>
+
                 </div>
 
-                <div class="form-group col-md-3">
+                <!-- <div class="form-group col-md-3">
                   <button class="btn btn-primary w-100">View</button>
-                </div>
+                </div> -->
               </form>
             </div>
           </div>
@@ -135,19 +138,20 @@ $sub_code=$date=$month=$year=$regno=$level=null;
               ?>
             -</h3>
           </div>
-
-          <section class="p-5">
+        </div>
+        <div class="container" id="viewout">
+          <!-- <section class="p-5">
             <div class="table-responsive" id="table1">
               <?php 
-                if($_SERVER["REQUEST_METHOD"]=="POST"){  
-                  $table='attendance';
-                  $query=querygenarator($table);
-                  outputQueryInTable($conn,$query);
-                }
+                // if($_SERVER["REQUEST_METHOD"]=="POST"){  
+                //   $table='attendance';
+                //   $query=querygenarator($table);
+                //   outputQueryInTable($conn,$query);
+                // }
               ?>
             </div>
-          </section>
-        
+          </section> -->
+        </div>
 
     <!-- Bootstrap JS -->
     <script
@@ -156,6 +160,7 @@ $sub_code=$date=$month=$year=$regno=$level=null;
       crossorigin="anonymous"
     ></script>
 
+    <script src="../script/filter.js"></script>
     <script src="../Sidebar/Main.js"></script>
   </body>
 </html>

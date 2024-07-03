@@ -51,10 +51,10 @@ $sub_code=$date=$month=$year=$regno=$level=null;
           <div class="title text-center">
             <h3>- View ICA Marks -</h3>
           </div>
-
+      <div class="container">
           <div class="input-section py-5 mb-5">
             <div class="form d-flex justify-content-center align-items-center">
-              <form action="#" method="post" class="row">
+              <form action="#" method="post" class="row" oninput="submitForm()" id="searchForm">
               <div class="form-group col-md-3" id="sub_code">
                   <select name="sub_code" id="sub_code" class="form-control">
                     <option value="" selected disabled>Select Sub_Code</option>
@@ -67,11 +67,13 @@ $sub_code=$date=$month=$year=$regno=$level=null;
 
                 <div class="form-group col-md-3" id="regno">
                   <input type="text" name="regno" id="regno" class="form-control" placeholder="Reg_No"/>
+                  <input type="hidden" name="type" id="type" class="form-control" value="ica"/>
+
                 </div>
 
-                <div class="form-group col-md-3">
+                <!-- <div class="form-group col-md-3">
                   <button class="btn btn-primary w-100">View</button>
-                </div>
+                </div> -->
               </form>
             </div>
           </div>
@@ -82,25 +84,28 @@ $sub_code=$date=$month=$year=$regno=$level=null;
               ?>
             -</h3>
           </div>
+    <div class="container" id="viewout">
           <section class="p-5">
-            <div class="table-responsive" id="table1">
+            <!-- <div class="table-responsive" id="table1">
             <?php 
-                if($_SERVER["REQUEST_METHOD"]=="POST"){  
-                  $query=queryica();
-                  outputQueryInTable($conn,$query);
-                }
+                // if($_SERVER["REQUEST_METHOD"]=="POST"){  
+                //   $query=queryica();
+                //   outputQueryInTable($conn,$query);
+                // }
               ?>
             </div>
-          </section>
-        
+          </section>       -->
+        </div>
+     
 
+      
     <!-- Bootstrap JS -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
-
+    <script src="../script/filter.js"></script>
     <script src="../Sidebar/Main.js"></script>
   </body>
 </html>

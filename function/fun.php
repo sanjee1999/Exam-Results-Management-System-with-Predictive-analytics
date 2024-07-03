@@ -32,6 +32,7 @@ function unsetsession(){
   unset($_SESSION['level']);
   
 }
+
 function verify($conn,$result,$uploadFile){
   echo "<script type='text/javascript'>";
 if ($result) {
@@ -93,6 +94,9 @@ function upload($conn){
     
     case 'attendance':
       for($row=0; $row<$highestRow-1; $row++){
+        if(empty($col2[$row]) && $col2[$row] !== '0' && $col2[$row] !== 0){
+          continue;
+        }
         $query="INSERT INTO attendance VALUES ('$col1[$row]','$date','$time','$hour','$sub_code','$col2[$row]','$level')";
         $result=mysqli_query($conn,$query);
       }
@@ -104,16 +108,22 @@ function upload($conn){
       switch($ica){
         case 'ica1':
             for($row=0; $row<$highestRow-1; $row++){
-                $query="INSERT INTO ica_1 VALUES ('$col1[$row]','$col2[$row]','$sub_code')";
-                $result=mysqli_query($conn,$query);
+              if(empty($col2[$row]) && $col2[$row] !== '0' && $col2[$row] !== 0){
+                continue;
+              }
+              $query="INSERT INTO ica_1 VALUES ('$col1[$row]','$col2[$row]','$sub_code')";
+              $result=mysqli_query($conn,$query);
             }
             verify($conn,$result,$uploadFile) ;
           break;
 
         case 'ica2':
           for($row=0; $row<$highestRow-1; $row++){
-                $query="INSERT INTO ica_2 VALUES ('$col1[$row]','$col2[$row]','$sub_code')";
-                $result=mysqli_query($conn,$query);
+            if(empty($col2[$row]) && $col2[$row] !== '0' && $col2[$row] !== 0){
+              continue;
+            }
+            $query="INSERT INTO ica_2 VALUES ('$col1[$row]','$col2[$row]','$sub_code')";
+            $result=mysqli_query($conn,$query);
             }
             verify($conn,$result,$uploadFile) ;
 
@@ -121,6 +131,9 @@ function upload($conn){
 
         case 'ica3':
           for($row=0; $row<$highestRow-1; $row++){
+            if(empty($col2[$row]) && $col2[$row] !== '0' && $col2[$row] !== 0){
+              continue;
+            }
             $query="INSERT INTO ica_3 VALUES ('$col1[$row]','$col2[$row]','$sub_code')";
             $result=mysqli_query($conn,$query);
           }
@@ -129,6 +142,9 @@ function upload($conn){
 
           case 'ica4':
             for($row=0; $row<$highestRow-1; $row++){
+              if(empty($col2[$row])){
+                continue;
+              }
               $query="INSERT INTO ica_4 VALUES ('$col1[$row]','$col2[$row]','$sub_code')";
               $result=mysqli_query($conn,$query);
             }
@@ -144,9 +160,10 @@ function upload($conn){
     
     case 'final':
       for($row=0; $row<$highestRow-1; $row++) {
-        if(empty($col2[$row])){
-            continue;
+        if(empty($col2[$row]) && $col2[$row] !== '0' && $col2[$row] !== 0){
+          continue;
         }
+
         $qtest = "SELECT marks_att1, marks_att2, marks_att3, marks_attsp 
                   FROM exam 
                   WHERE index_no = '$col1[$row]' 
@@ -207,7 +224,7 @@ function querygenarator($table){
       extract($sessionVariables);
 
   if(!empty($regno)){ 
-    $q2=$q2." ".$table.".".'reg_no='.$regno.' AND';
+    $q2=$q2." ".$table.".".'reg_no="'.$regno.'" AND';
    }    
   if(!empty($sub_code)){ 
     $q2=$q2." ".$table.".".'sub_code="'.$sub_code.'" AND';
@@ -248,12 +265,12 @@ function queryica(){
   if(!empty($sub_code)){ 
     $q2=$q2.'a.sub_code = "'.$sub_code.'"
         AND b.sub_code = "'.$sub_code.'"
-        AND c.sub_code = "'.$sub_code.'"';
+        AND c.sub_code = "'.$sub_code.'" AND ';
    } 
    if(!empty($regno)){ 
-    $q2=$q2.'a.reg_no = "'.$regno.'"';  
+    $q2=$q2.'a.reg_no = "'.$regno.'" AND ';  
    } 
-   $q2=$q2.' ORDER BY SUBSTRING_INDEX(a.reg_no, "/", 1) ASC,
+   $q2=$q2.'1=1 ORDER BY SUBSTRING_INDEX(a.reg_no, "/", 1) ASC,
           SUBSTRING_INDEX(SUBSTRING_INDEX(a.reg_no, "/", 2), "/", -1) ASC,
           CAST(SUBSTRING_INDEX(a.reg_no, "/", -1) AS UNSIGNED) ASC;';
     $query=$q1.$q2;  

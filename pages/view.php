@@ -1,86 +1,82 @@
+<?php
+session_start();
+require_once '../connection/conf.php';
+require_once '../function/fun.php';
+
+$sub_code=$date=$month=$year=$regno=$level=$type=null;
+
+  if($_SERVER["REQUEST_METHOD"]=="POST"){
+    $sub_code=(isset($_POST['sub_code']))?($_POST['sub_code']):null;
+    $level=(isset($_POST['level']))?($_POST['level']):null;
+    $date=(isset($_POST['date']))?($_POST['date']):null;
+    $month=(isset($_POST['month']))?($_POST['month']):null;
+    $year=(isset($_POST['year']))?($_POST['year']):null;
+    $regno=(isset($_POST['regno']))?($_POST['regno']):null;
+    $type=(isset($_POST['type']))?($_POST['type']):null;
+    
+   
+    echo "$sub_code $date $month $year $regno $level <br>";
+
+    $_SESSION['sub_code']=isset($sub_code)?$sub_code:null;
+    $_SESSION['level']=isset($level)?$level:null;
+    $_SESSION['date']=isset($date)?$date:null;
+    $_SESSION['month']=isset($month)?$month:null;
+    $_SESSION['year']=isset($year)?$year:null;
+    $_SESSION['regno']=isset($regno)?$regno:null;
+    $_SESSION['type']=isset($type)?$type:null;
+
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-<section class="p-5">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>View</title>
+    <!-- get icons -->
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <lord-icon trigger="hover" src="/my-icon.json"></lord-icon>
+
+    <link rel="stylesheet" href="../Sidebar/Sider.css" />
+    <link rel="stylesheet" href="../Style/ViewDailyAttendance.css" />
+
+    <!-- get bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="Slider.css" />
+  </head>
+  <body>
+
+          <section class="p-5">
             <div class="table-responsive" id="table1">
-              <table class="table bg-white">
-                <thead class="bg-dark text-light">
-                  <tr>
-                    <th>Reg.no</th>
-                    <th>Name</th>
-                    <th>Present</th>
-                    <th>Absent</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td data-title="Reg.no">2019/ASP/01</td>
-                    <td data-title="Name">Name 01</td>
-                    <td data-title="Present">Yes</td>
-                    <td data-title="Absent">-</td>
-                  </tr>
-                  <tr>
-                    <td data-title="Reg.no">2019/ASP/01</td>
-                    <td data-title="Name">Name 01</td>
-                    <td data-title="Present">Yes</td>
-                    <td data-title="Absent">-</td>
-                  </tr>
-                  <tr>
-                    <td data-title="Reg.no">2019/ASP/01</td>
-                    <td data-title="Name">Name 01</td>
-                    <td data-title="Present">Yes</td>
-                    <td data-title="Absent">-</td>
-                  </tr>
-                </tbody>
-              </table>
+              <?php 
+                if($_SERVER["REQUEST_METHOD"]=="POST"){ 
+                  if($type=='attendance'){ 
+                      $table='attendance';
+                      $query=querygenarator($table);
+                      outputQueryInTable($conn,$query);
+                  }
+                  if($type=='ica'){ 
+                    $query=queryica();
+                    outputQueryInTable($conn,$query);
+                  }
+              }
+              ?>
             </div>
           </section>
-        
-</body>
-</html>
-<?php
-function outputQueryInTable($conn,$query) {
-   
-    // Execute query
-    $result = $conn->query($query);
 
-    // Check if query was successful
-    if ($result === FALSE) {
-        echo "Error: " . $conn->error;
-    } else {
-        // Start table
-        echo '<table class="table bg-white">';
-        
-        // Output table headers
-        echo '<thead class="bg-dark text-light">';
-        echo '<tr>';
-        while ($field = $result->fetch_field()) {
-            echo '<th>' . htmlspecialchars($field->name) . '</th>';
-        }
-        echo '</tr>';
-        echo '</thead>';
 
-        // Output table rows
-        echo '<tbody>';
-        while ($row = $result->fetch_assoc()) {
-            echo '<tr>';
-            foreach ($row as $cell) {
-                echo '<td>' . htmlspecialchars($cell) . '</td>';
-            }
-            echo '</tr>';
-        }
-        echo '</tbody>';
-        // End table
-        echo '</table>';
-    }
 
-    // Close connection
-    $conn->close();
-}
 
-?>
+  </body>
+  </html>
