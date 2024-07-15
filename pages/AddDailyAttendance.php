@@ -79,17 +79,7 @@
               <form action="../Dashboard/Sider.php?content=../pages/upload.php&heading=Daily%20Attendance&type=attendance" 
               method="post" id="mainform" enctype="multipart/form-data">
                 
-                <div class="form-group" id="level">
-                  <select name="level" id="level" class="form-control" required>
-                    <option value="" selected disabled>Select Level</option>
-                    <option value="1" <?php #if ($year == '1') echo 'selected'; ?>>1st Year</option>
-                    <option value="2" <?php #if ($year== '2') echo 'selected'; ?>>2nd Year</option>
-                    <option value="3" <?php #if ($year == '3') echo 'selected'; ?>>3rd Year</option>
-                    <option value="4" <?php #if ($year == '4') echo 'selected'; ?>>4th Year</option>
-                  </select>
-                </div>
-
-                <div class="form-group" id="subject">
+                <div class="form-group" id="sub_code">
                   <select name="sub_code" id="sub_code" class="form-control" required>
                     
                     <?php 
@@ -97,10 +87,15 @@
                         #echo "<option value='" . $subject . "'selected disabled>" ; echo $subject . "</option>"; 
                     ?>
                     <option value="" selected disabled>Select Sub_Code</option>
-                    <option value="sub_1">Subject 01</option>
-                    <option value="sub_2">Subject 02</option>
-                    <option value="sub_3">Subject 03</option>
-                    <option value="sub_4">Subject 04</option>
+                    <?php optiongen($conn, 'subject', 'sub_code','sub_name') ?>
+                  </select>
+                </div>
+
+                <div class="form-group" id="sub_type">
+                  <select name="sub_type" id="sub_type" class="form-control" required>
+                    <option value="" selected disabled>Select Subject Type</option>
+                    <option value="T" <?php #if ($year == '1') echo 'selected'; ?>>Theory</option>
+                    <option value="P" <?php #if ($year == '1') echo 'selected'; ?>>Practical</option> 
                   </select>
                 </div>
 

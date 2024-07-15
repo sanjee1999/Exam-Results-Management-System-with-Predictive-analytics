@@ -20,16 +20,26 @@ function unsetsession(){
   unset($_SESSION['date']);
   unset($_SESSION['time']);
   unset($_SESSION['hour']);
-  unset($_SESSION['sub_code']);
   unset($_SESSION['year']);
+  unset($_SESSION['month']);
+  unset($_SESSION['sub_code']);
+  unset($_SESSION['sub_type']);
+  unset($_SESSION['regno']);
+  unset($_SESSION['attend']);
+  unset($_SESSION['index_no']);
+  unset($_SESSION['level']);
+  unset($_SESSION['batch']);
+  unset($_SESSION['sem']);
+  unset($_SESSION['dep']);
+  unset($_SESSION['course']);
   unset($_SESSION['firstRow']);
   unset($_SESSION['col1']);
   unset($_SESSION['col2']);
   unset($_SESSION['highestRow']);
   unset($_SESSION['type']);
   unset($_SESSION['heading']);
+  unset($_SESSION['ica']);
   unset($_SESSION['uploadfile']);
-  unset($_SESSION['level']);
   
 }
 
@@ -67,9 +77,15 @@ echo "</script>";
     $year = isset($_SESSION['year']) ? $_SESSION['year'] : null;
     $month = isset($_SESSION['month']) ? $_SESSION['month'] : null;
     $sub_code = isset($_SESSION['sub_code']) ? $_SESSION['sub_code'] : null;
+    $sub_type = isset($_SESSION['sub_type']) ? $_SESSION['sub_type'] : null;
     $regno = isset($_SESSION['regno']) ? $_SESSION['regno'] : null;
-    $indexno = isset($_SESSION['indexno']) ? $_SESSION['indexno'] : null;
+    $attend = isset($_SESSION['attend']) ? $_SESSION['attend'] : null;
+    $index_no = isset($_SESSION['index_no']) ? $_SESSION['index_no'] : null;
     $level = isset($_SESSION['level']) ? $_SESSION['level'] : null;
+    $batch = isset($_SESSION['batch']) ? $_SESSION['batch'] : null;
+    $sem = isset($_SESSION['sem']) ? $_SESSION['sem'] : null;
+    $dep = isset($_SESSION['dep']) ? $_SESSION['dep'] : null;
+    $course = isset($_SESSION['course']) ? $_SESSION['course'] : null;
     $firstRow = isset($_SESSION['firstRow']) ? $_SESSION['firstRow'] : null;
     $col1 = isset($_SESSION['col1']) ? $_SESSION['col1'] : null;
     $col2 = isset($_SESSION['col2']) ? $_SESSION['col2'] : null;
@@ -79,8 +95,8 @@ echo "</script>";
     $ica = isset($_SESSION['ica']) ? $_SESSION['ica'] : null;
     $uploadFile = isset($_SESSION['uploadfile']) ? $_SESSION['uploadfile'] : null;
           
-      return compact('date', 'time', 'hour', 'year','month','sub_code',  
-                    'regno','indexno','level', 'firstRow', 'col1', 'col2', 'highestRow', 
+      return compact('date', 'time', 'hour', 'year','month','sub_code','sub_type' ,
+                    'regno','attend','index_no','level', 'batch','sem','dep','course','firstRow', 'col1', 'col2', 'highestRow', 
                     'type', 'heading', 'ica', 'uploadFile');
 
   }
@@ -97,7 +113,7 @@ function upload($conn){
         if(empty($col2[$row]) && $col2[$row] !== '0' && $col2[$row] !== 0){
           continue;
         }
-        $query="INSERT INTO attendance VALUES ('$col1[$row]','$date','$time','$hour','$sub_code','$col2[$row]','$level')";
+        $query="INSERT INTO attendance VALUES ('$col1[$row]','$date','$time','$hour','$sub_code','$col2[$row]','$sub_type')";
         $result=mysqli_query($conn,$query);
       }
        verify($conn,$result,$uploadFile) ;
@@ -111,7 +127,7 @@ function upload($conn){
               if(empty($col2[$row]) && $col2[$row] !== '0' && $col2[$row] !== 0){
                 continue;
               }
-              $query="INSERT INTO ica_1 VALUES ('$col1[$row]','$col2[$row]','$sub_code')";
+              $query="INSERT INTO ica_1 VALUES ('$col1[$row]','$col2[$row]','$sub_code','$sub_type')";
               $result=mysqli_query($conn,$query);
             }
             verify($conn,$result,$uploadFile) ;
@@ -122,7 +138,7 @@ function upload($conn){
             if(empty($col2[$row]) && $col2[$row] !== '0' && $col2[$row] !== 0){
               continue;
             }
-            $query="INSERT INTO ica_2 VALUES ('$col1[$row]','$col2[$row]','$sub_code')";
+            $query="INSERT INTO ica_2 VALUES ('$col1[$row]','$col2[$row]','$sub_code','$sub_type')";
             $result=mysqli_query($conn,$query);
             }
             verify($conn,$result,$uploadFile) ;
@@ -134,20 +150,20 @@ function upload($conn){
             if(empty($col2[$row]) && $col2[$row] !== '0' && $col2[$row] !== 0){
               continue;
             }
-            $query="INSERT INTO ica_3 VALUES ('$col1[$row]','$col2[$row]','$sub_code')";
+            $query="INSERT INTO ica_3 VALUES ('$col1[$row]','$col2[$row]','$sub_code','$sub_type')";
             $result=mysqli_query($conn,$query);
           }
           verify($conn,$result,$uploadFile) ;
           break;
 
-          case 'ica4':
-            for($row=0; $row<$highestRow-1; $row++){
-              if(empty($col2[$row])){
-                continue;
-              }
-              $query="INSERT INTO ica_4 VALUES ('$col1[$row]','$col2[$row]','$sub_code')";
-              $result=mysqli_query($conn,$query);
+        case 'ica4':
+          for($row=0; $row<$highestRow-1; $row++){
+            if(empty($col2[$row])){
+              continue;
             }
+            $query="INSERT INTO ica_4 VALUES ('$col1[$row]','$col2[$row]','$sub_code','$sub_type')";
+            $result=mysqli_query($conn,$query);
+          }
           verify($conn,$result,$uploadFile) ;
           break;
 
@@ -167,12 +183,13 @@ function upload($conn){
         $qtest = "SELECT marks_att1, marks_att2, marks_att3, marks_attsp 
                   FROM exam 
                   WHERE index_no = '$col1[$row]' 
-                  AND sub_code = '$sub_code'";
+                  AND sub_code = '$sub_code'
+                  AND sub_type = '$sub_type'";
         $rtest = mysqli_query($conn, $qtest);
                 
         if(mysqli_num_rows($rtest) == 0 ) {
             // Insert a new row if no matching row is found
-            $query = "INSERT INTO exam VALUES ('$col1[$row]', '$col2[$row]', NULL, NULL, NULL, '$sub_code')";
+            $query = "INSERT INTO exam VALUES ('$col1[$row]', '$col2[$row]', NULL, NULL, NULL, '$sub_code','$sub_type')";
             $result = mysqli_query($conn, $query);
         } else {
             $row_data = mysqli_fetch_assoc($rtest);
@@ -216,68 +233,8 @@ function upload($conn){
 
 }
 
-function querygenarator($table){
-  $q1="SELECT * ";
-  $q2="FROM $table WHERE ";
 
-  $sessionVariables = loadsession();
-      extract($sessionVariables);
 
-  if(!empty($regno)){ 
-    $q2=$q2." ".$table.".".'reg_no="'.$regno.'" AND';
-   }    
-  if(!empty($sub_code)){ 
-    $q2=$q2." ".$table.".".'sub_code="'.$sub_code.'" AND';
-   }
-  if(!empty($level)){ 
-    $q2=$q2." ".$table.".".'level='.$level.' AND';
-   }    
-  if(!empty($month)){ 
-    $q2=$q2.'MONTH(date)='.$month.' AND';
-   } 
-   if(!empty($year)){ 
-    $q2=$q2.'YEAR(date)='.$year.' AND';
-   }       
-  if(!empty($date)){ 
-    $q2=$q2." ".$table.".".'date="'.$date.'" AND';
-   }
-   $q2=$q2.' 1=1 ORDER BY SUBSTRING_INDEX(reg_no, "/", 1) ASC,
-          SUBSTRING_INDEX(SUBSTRING_INDEX(reg_no, "/", 2), "/", -1) ASC,
-          CAST(SUBSTRING_INDEX(reg_no, "/", -1) AS UNSIGNED) ASC;';  
-   $query=$q1.$q2;  
-   echo $query;
-   return $query;
-
-}
-
-function queryica(){
-      $sessionVariables = loadsession();
-      extract($sessionVariables);
-
-  $q1="SELECT a.reg_no AS reg_no,a.marks AS ica_1_marks,b.marks AS ica_2_marks,c.marks AS ica_3_marks,a.sub_code AS sub_code
-        FROM ica_1 a JOIN ica_2 b ON a.reg_no = b.reg_no
-        JOIN ica_3 c ON a.reg_no = c.reg_no";
-  $q2=" WHERE ";
-
-  $sessionVariables = loadsession();
-      extract($sessionVariables);
-
-  if(!empty($sub_code)){ 
-    $q2=$q2.'a.sub_code = "'.$sub_code.'"
-        AND b.sub_code = "'.$sub_code.'"
-        AND c.sub_code = "'.$sub_code.'" AND ';
-   } 
-   if(!empty($regno)){ 
-    $q2=$q2.'a.reg_no = "'.$regno.'" AND ';  
-   } 
-   $q2=$q2.'1=1 ORDER BY SUBSTRING_INDEX(a.reg_no, "/", 1) ASC,
-          SUBSTRING_INDEX(SUBSTRING_INDEX(a.reg_no, "/", 2), "/", -1) ASC,
-          CAST(SUBSTRING_INDEX(a.reg_no, "/", -1) AS UNSIGNED) ASC;';
-    $query=$q1.$q2;  
-    echo $query;
-    return $query;    
-
-}
 function outputQueryInTable($conn,$query) {
    
   // Execute query
@@ -316,6 +273,292 @@ function outputQueryInTable($conn,$query) {
   // Close connection
   $conn->close();
 }
+function queryattend() {
+  $q1 = "SELECT at.reg_no AS Reg_No, 
+          at.date AS Date, at.time AS Time, 
+          at.hour AS Hours, at.sub_code AS Sub_Code,
+          at.sub_type as Subject_type, at.attendance AS Attendance";
+          
+  $q2 = " FROM attendance at 
+          LEFT JOIN subject su ON at.sub_code = su.sub_code 
+          LEFT JOIN student st ON at.reg_no = st.reg_no 
+          LEFT JOIN course co ON co.course_id = su.course_id 
+          LEFT JOIN department de ON de.dep_id = co.dep_id";
+
+  $q3 = " WHERE 1=1";  // Using "1=1" to simplify appending AND conditions
+
+  $sessionVariables = loadsession();
+  extract($sessionVariables);
+
+  if (!empty($regno)) { 
+      $q3 .= " AND at.reg_no = '$regno'";
+  }    
+  if (!empty($sub_code)) { 
+      $q3 .= " AND at.sub_code = '$sub_code'";
+  }
+  if (!empty($sub_type)) { 
+      $q3 .= " AND at.sub_type = '$sub_type'";
+  }  
+  if (!is_null($attend)) { 
+      $q3 .= " AND at.attendance = '$attend'";
+  }  
+  if (!empty($month)) { 
+      $q3 .= " AND MONTH(at.date) = '$month'";
+  } 
+  if (!empty($year)) { 
+      $q3 .= " AND YEAR(at.date) = '$year'";
+  }       
+  if (!empty($date)) { 
+      $q3 .= " AND at.date = '$date'";
+  }
+  if (!empty($level)) { 
+      $q1 .= ", su.level AS Level";
+      $q3 .= " AND su.level = '$level'";
+  }  
+  if (!empty($batch)) { 
+      $q1 .= ", st.batch AS Batch";
+      $q3 .= " AND st.batch = '$batch'";
+  }
+  if (!empty($sem)) { 
+      $q1 .= ", su.semester AS Semester";
+      $q3 .= " AND su.semester = '$sem'";
+  }
+  if (!empty($course)) { 
+      $q1 .= ", co.name AS Course";
+      $q3 .= " AND co.name = '$course'";
+  }
+  if (!empty($dep)) { 
+      $q1 .= ", de.name AS Department";
+      $q3 .= " AND de.name = '$dep'";
+  }
+
+  $orderBy = ' ORDER BY SUBSTRING_INDEX(at.reg_no, "/", 1) ASC,
+               SUBSTRING_INDEX(SUBSTRING_INDEX(at.reg_no, "/", 2), "/", -1) ASC,
+               CAST(SUBSTRING_INDEX(at.reg_no, "/", -1) AS UNSIGNED) ASC';
+
+  $query = $q1 . $q2 . $q3 . $orderBy;
+  echo $query;
+  return $query;
+}
+
+function queryica() {
+  $q1 = "SELECT st.reg_no AS reg_no";
+  $q2 = " FROM ica_1 i1
+           LEFT JOIN ica_2 i2 ON i1.reg_no = i2.reg_no AND i1.sub_code = i2.sub_code
+           LEFT JOIN ica_3 i3 ON i1.reg_no = i3.reg_no AND i1.sub_code = i3.sub_code
+           LEFT JOIN student st ON i1.reg_no = st.reg_no
+           LEFT JOIN course co ON st.course_id = co.course_id
+           LEFT JOIN department de ON co.dep_id = de.dep_id
+           LEFT JOIN subject su ON i1.sub_code = su.sub_code";
+  $q3 = " WHERE 1=1"; // Using "1=1" to simplify appending AND conditions
+
+  $sessionVariables = loadsession();
+  extract($sessionVariables);
+
+  // ICA handling
+  if (!empty($ica)) {
+      foreach ($ica as $icaType) {
+          if ($icaType == 'ica1') {
+              $q1 .= ", i1.marks AS ica_1_marks";
+          } 
+          if ($icaType == 'ica2') {
+              $q1 .= ", i2.marks AS ica_2_marks";
+          } 
+          if ($icaType == 'ica3') {
+              $q1 .= ", i3.marks AS ica_3_marks";
+          }
+      }
+  }
+
+  // Additional conditions
+  if (!empty($sub_code)) { 
+      $q3 .= " AND (i1.sub_code = '$sub_code' OR i2.sub_code = '$sub_code' OR i3.sub_code = '$sub_code')";
+  }
+  if (!empty($sub_type)) { 
+      $q3 .= " AND (i1.sub_type = '$sub_type' OR i2.sub_type = '$sub_type' OR i3.sub_type = '$sub_type')";
+  } 
+  if (!empty($regno)) { 
+      $q3 .= " AND (i1.reg_no = '$regno' OR i2.reg_no = '$regno' OR i3.reg_no = '$regno')";
+  }
+  if (!empty($level)) {
+      $q1 .= ", su.level AS level";
+      $q3 .= " AND su.level = '$level'";
+  }
+  if (!empty($batch)) {
+      $q1 .= ", st.batch AS batch";
+      $q3 .= " AND st.batch = '$batch'";
+  }
+  if (!empty($dep)) {
+      $q1 .= ", de.name AS department";
+      $q3 .= " AND de.name = '$dep'";
+  }
+  if (!empty($course)) {
+      $q1 .= ", co.name AS course";
+      $q3 .= " AND co.name = '$course'";
+  }
+  if (!empty($sem)) {
+      $q1 .= ", su.semester AS semester";
+      $q3 .= " AND su.semester = '$sem'";
+  }
+
+  $orderBy = ' ORDER BY 
+               SUBSTRING_INDEX(st.reg_no, "/", 1) ASC,
+               SUBSTRING_INDEX(SUBSTRING_INDEX(st.reg_no, "/", 2), "/", -1) ASC,
+               CAST(SUBSTRING_INDEX(i1.reg_no, "/", -1) AS UNSIGNED) ASC';
+
+  $query = $q1 . $q2 . $q3 . $orderBy;
+  echo $query;
+  return $query;
+}
+
+function queryfinal(){
+    $q1 = "SELECT ex.index_no AS index_no, 
+            ind.reg_no AS reg_no, 
+            ex.marks_att1 AS marks_att1,
+            ex.marks_att2 AS marks_att2, 
+            ex.marks_att3 AS marks_att3, 
+            ex.marks_attsp AS marks_attsp, 
+            ex.sub_code AS sub_code,
+            ex.sub_type AS sub_type";
+
+    $q2 = " FROM exam ex
+             LEFT JOIN index_no ind ON ex.index_no = ind.index_no
+             LEFT JOIN student st ON ind.reg_no = st.reg_no
+             LEFT JOIN course co ON st.course_id = co.course_id
+             LEFT JOIN department de ON co.dep_id = de.dep_id
+             LEFT JOIN subject su ON ex.sub_code = su.sub_code";
+    $q3 = " WHERE 1=1"; // Using "1=1" to simplify appending AND conditions
+
+    $sessionVariables = loadsession();
+    extract($sessionVariables);
+
+    // Additional conditions
+    if (!empty($sub_code)) { 
+        $q3 .= " AND ex.sub_code = '$sub_code'";
+    } 
+    if (!empty($sub_type)) { 
+        $q3 .= " AND ex.sub_type = '$sub_type'";
+    } 
+    if (!empty($regno)) { 
+        $q3 .= " AND ind.reg_no = '$regno'";  
+    }
+    if (!empty($index_no)) { 
+        $q3 .= " AND ex.index_no = '$index_no'";  
+    }
+    if (!empty($level)) {
+        $q1 .= ", st.level AS level";
+        $q3 .= " AND st.level = '$level'";
+    }
+    if (!empty($batch)) {
+        $q1 .= ", st.batch AS batch";
+        $q3 .= " AND st.batch = '$batch'";
+    }
+    if (!empty($dep)) {
+        $q1 .= ", de.name AS department";
+        $q3 .= " AND de.name = '$dep'";
+    }
+    if (!empty($course)) {
+        $q1 .= ", co.name AS course";
+        $q3 .= " AND co.name = '$course'";
+    }
+    if (!empty($sem)) {
+        $q1 .= ", su.semester AS semester";
+        $q3 .= " AND su.semester = '$sem'";
+    }
+
+    $orderBy = ' ORDER BY 
+                 SUBSTRING_INDEX(ind.reg_no, "/", 1) ASC,
+                 SUBSTRING_INDEX(SUBSTRING_INDEX(ind.reg_no, "/", 2), "/", -1) ASC,
+                 CAST(SUBSTRING_INDEX(ind.reg_no, "/", -1) AS UNSIGNED) ASC';
+
+    $query = $q1 . $q2 . $q3 . $orderBy;
+    echo $query;
+    return $query;
+}
+
+function optiongen($conn, $table, $val,$name) {
+  // Properly construct the SQL query
+  $query = "SELECT `$val`,`$name` FROM `$table`";
+  $result = $conn->query($query);
+  
+  if ($result->num_rows > 0) {
+      // Loop through each row
+      while ($row = $result->fetch_row()) {
+          // Properly fetch the column value
+          $val = $row[0];
+          $name = $row[1];
+          echo "<option value='" . htmlspecialchars($val) . "'>" . htmlspecialchars($name) . "</option>";
+      }
+  } 
+}
+
+
+
+function querygenarator($table){
+  $q1="SELECT * ";
+  $q2="FROM $table WHERE ";
+
+  $sessionVariables = loadsession();
+      extract($sessionVariables);
+
+  if(!empty($regno)){ 
+    $q2=$q2." ".$table.".".'reg_no="'.$regno.'" AND';
+   }    
+  if(!empty($sub_code)){ 
+    $q2=$q2." ".$table.".".'sub_code="'.$sub_code.'" AND';
+   }
+  if(!empty($level)){ 
+    $q2=$q2." ".$table.".".'level='.$level.' AND';
+   }    
+  if(!empty($month)){ 
+    $q2=$q2.'MONTH(date)='.$month.' AND';
+   } 
+   if(!empty($year)){ 
+    $q2=$q2.'YEAR(date)='.$year.' AND';
+   }       
+  if(!empty($date)){ 
+    $q2=$q2." ".$table.".".'date="'.$date.'" AND';
+   }
+   $q2=$q2.' 1=1 ORDER BY SUBSTRING_INDEX(reg_no, "/", 1) ASC,
+          SUBSTRING_INDEX(SUBSTRING_INDEX(reg_no, "/", 2), "/", -1) ASC,
+          CAST(SUBSTRING_INDEX(reg_no, "/", -1) AS UNSIGNED) ASC;';  
+   $query=$q1.$q2;  
+   echo $query;
+   return $query;
+
+}
+function queryicaa(){
+      $sessionVariables = loadsession();
+      extract($sessionVariables);
+
+  // $q1="SELECT a.reg_no AS reg_no,a.marks AS ica_1_marks,b.marks AS ica_2_marks,c.marks AS ica_3_marks,a.sub_code AS sub_code
+  //       FROM ica_1 a JOIN ica_2 b ON a.reg_no = b.reg_no
+  //       JOIN ica_3 c ON a.reg_no = c.reg_no";
+  $q1="SELECT i1.reg_no AS reg_no,i1.marks AS ica_1_marks,i2.marks AS ica_2_marks,i3.marks AS ica_3_marks,i1.sub_code AS sub_code
+        FROM ica_1 i1 JOIN ica_2 i2 ON i1.reg_no = i2.reg_no
+        JOIN ica_3 i3 ON i1.reg_no = i3.reg_no";
+  $q2=" WHERE ";
+
+  $sessionVariables = loadsession();
+      extract($sessionVariables);
+
+  if(!empty($sub_code)){ 
+    $q2=$q2.'i1.sub_code = "'.$sub_code.'"
+        AND i2.sub_code = "'.$sub_code.'"
+        AND i3.sub_code = "'.$sub_code.'" AND ';
+   } 
+   if(!empty($regno)){ 
+    $q2=$q2.'i1.reg_no = "'.$regno.'" AND ';  
+   } 
+   $q2=$q2.'1=1 ORDER BY SUBSTRING_INDEX(i1.reg_no, "/", 1) ASC,
+          SUBSTRING_INDEX(SUBSTRING_INDEX(i1.reg_no, "/", 2), "/", -1) ASC,
+          CAST(SUBSTRING_INDEX(i1.reg_no, "/", -1) AS UNSIGNED) ASC;';
+    $query=$q1.$q2;  
+    echo $query;
+    return $query;    
+
+}
+
 ?>
 <!-- for($row=0; $row<$highestRow-1; $row++){
         $qtest="SELECT marks_att1 FROM exam WHERE index_no='$col1[$row]' AND sub_code='$sub_code' ";

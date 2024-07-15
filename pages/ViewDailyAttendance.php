@@ -1,26 +1,36 @@
 <?php
 $sub_code=$date=$month=$year=$regno=$level=null;
 
-  if($_SERVER["REQUEST_METHOD"]=="POST"){
-    $sub_code=(isset($_POST['sub_code']))?($_POST['sub_code']):null;
-    $level=(isset($_POST['level']))?($_POST['level']):null;
-    $date=(isset($_POST['date']))?($_POST['date']):null;
-    $month=(isset($_POST['month']))?($_POST['month']):null;
-    $year=(isset($_POST['year']))?($_POST['year']):null;
-    $regno=(isset($_POST['regno']))?($_POST['regno']):null;
-    $type=(isset($_POST['type']))?($_POST['type']):null;
+//   if($_SERVER["REQUEST_METHOD"]=="POST"){
+//     $sub_code=(isset($_POST['sub_code']))?($_POST['sub_code']):null;
+//     $level=(isset($_POST['level']))?($_POST['level']):null;
+//     $date=(isset($_POST['date']))?($_POST['date']):null;
+//     $month=(isset($_POST['month']))?($_POST['month']):null;
+//     $year=(isset($_POST['year']))?($_POST['year']):null;
+//     $regno=(isset($_POST['regno']))?($_POST['regno']):null;
+//     $type=(isset($_POST['type']))?($_POST['type']):null;
+//     $attend=(isset($_POST['attend']))?($_POST['attend']):null;
+//     $batch = isset($_POST['batch']) ? $_POST['batch'] : null;
+//     $sem = isset($_POST['sem']) ? $_POST['sem'] : null;
+//     $dep = isset($_POST['dep']) ? $_POST['dep'] : null;
+//     $course = isset($_POST['course']) ? $_POST['course'] : null;
    
-    echo "$sub_code $date $month $year $regno $level <br>";
+//     echo "$sub_code $date $month $year $regno $level $attend<br>";
 
-    $_SESSION['sub_code']=isset($sub_code)?$sub_code:null;
-    $_SESSION['level']=isset($level)?$level:null;
-    $_SESSION['date']=isset($date)?$date:null;
-    $_SESSION['month']=isset($month)?$month:null;
-    $_SESSION['year']=isset($year)?$year:null;
-    $_SESSION['regno']=isset($regno)?$regno:null;
-    $_SESSION['type']=isset($type)?$type:null;
-  }
-?>    
+//     $_SESSION['sub_code']=isset($sub_code)?$sub_code:null;
+//     $_SESSION['level']=isset($level)?$level:null;
+//     $_SESSION['date']=isset($date)?$date:null;
+//     $_SESSION['month']=isset($month)?$month:null;
+//     $_SESSION['year']=isset($year)?$year:null;
+//     $_SESSION['regno']=isset($regno)?$regno:null;
+//     $_SESSION['type']=isset($type)?$type:null;
+//     $_SESSION['attend'] = isset($attend) ? $attend : null;
+//     $_SESSION['batch'] = isset($batch) ? $batch : null;
+//     $_SESSION['sem'] = isset($sem) ? $sem : null;
+//     $_SESSION['dep'] = isset($dep) ? $dep : null;
+//     $_SESSION['course'] = isset($course) ? $course : null;
+//   }
+// ?>    
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -61,13 +71,16 @@ $sub_code=$date=$month=$year=$regno=$level=null;
                 <div class="form-group col-md-3" id="sub_code">
                   <select name="sub_code" id="sub_code" class="form-control">
                     <option value="" selected disabled>Select Sub_code</option>
-                    <option value="sub_1">Subject 01</option>
-                    <option value="sub_2">Subject 02</option>
-                    <option value="sub_3">Subject 03</option>
-                    <option value="sub_4">Subject 04</option>
+                    <?php optiongen($conn, 'subject', 'sub_code','sub_name') ?>
                   </select>
                 </div>
-
+                <div class="form-group" id="sub_type">
+                  <select name="sub_type" id="sub_type" class="form-control" required>
+                    <option value="" selected disabled>Select Subject Type</option>
+                    <option value="T" <?php #if ($year == '1') echo 'selected'; ?>>Theory</option>
+                    <option value="P" <?php #if ($year == '1') echo 'selected'; ?>>Practical</option> 
+                  </select>
+                </div>
                 <div class="form-group col-md-3" id="level">
                   <select name="level" id="level" class="form-control">
                     <option value="" selected disabled>Select Level</option>
@@ -75,6 +88,13 @@ $sub_code=$date=$month=$year=$regno=$level=null;
                     <option value="2">2nd Year</option>
                     <option value="3">3rd Year</option>
                     <option value="4">4th Year</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-3" id="attend">
+                  <select name="attend" id="attend" class="form-control">
+                    <option value="" selected disabled>Select Attendance Status</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
                   </select>
                 </div>
 
@@ -119,10 +139,28 @@ $sub_code=$date=$month=$year=$regno=$level=null;
                   </select>
                 </div>
                 
+                <div class="form-group col-md-3" id="batch">
+                  <input type="text" name="batch" id="batch" class="form-control" placeholder="Batch"/>
+                </div>
+                <div class="form-group col-md-3" id="dep">
+                    <select name="dep" id="dep" class="form-control">
+                      <option value="" selected disabled>Select Department</option>
+                      <?php optiongen($conn, 'department', 'dep_id','dep_name') ?>
+                    </select>
+                </div>
+                <div class="form-group col-md-3" id="course">
+                    <select name="course" id="course" class="form-control">
+                      <option value="" selected disabled>Select Course</option>
+                      <?php optiongen($conn, 'course', 'course_id','course_name') ?>
+                    </select>
+                </div>
+                <div class="form-group col-md-3" id="sem">
+                  <input type="text" name="sem" id="sem" class="form-control" placeholder="Semester"/>
+                </div>
+                
                 <div class="form-group col-md-3" id="regno">
                   <input type="text" name="regno" id="regno" class="form-control" placeholder="Reg_No"/>
                   <input type="hidden" name="type" id="type" class="form-control" value="attendance"/>
-
                 </div>
 
                 <!-- <div class="form-group col-md-3">

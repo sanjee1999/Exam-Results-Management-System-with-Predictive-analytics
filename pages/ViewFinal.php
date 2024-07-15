@@ -1,3 +1,6 @@
+<?php
+$sub_code=$date=$month=$year=$regno=$level=null;
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -30,112 +33,87 @@
               <h3>- Final Exam Results -</h3>
             </div>
             <div class="input-section py-5 mb-5">
-              <div
-                class="form d-flex justify-content-center align-items-center"
-              >
-                <form action="#" method="post" class="row">
-                  <div class="form-group col-md-3" id="subject">
-                    <select name="subject" id="subject" class="form-control">
-                      <option value="" selected disabled>Select Subject</option>
-                      <option value="Subject-01">Subject 01</option>
-                      <option value="Subject-02">Subject 02</option>
-                      <option value="Subject-03">Subject 03</option>
-                      <option value="Subject-04">Subject 04</option>
+              <div class="form d-flex justify-content-center align-items-center">
+                <form action="#" method="post" class="row" oninput="submitForm()" id="searchForm">
+                  <div class="form-group col-md-3" id="sub_code">
+                    <select name="sub_code" id="sub_code" class="form-control">
+                      <option value="" selected disabled>Select Sub_Code</option>
+                      <?php optiongen($conn, 'subject', 'sub_code','sub_name') ?>
                     </select>
                   </div>
 
-                  <div class="form-group" id="year">
-                    <select name="Year" id="year" class="form-control">
-                      <option value="" selected disabled>
-                        Select Academic Year
-                      </option>
-                      <option value="2019/2020">2019/2020</option>
-                      <option value="2020/2021">2020/2021</option>
-                      <option value="2021/2022">2021/2022</option>
-                      <option value="2022/2023">2022/2023</option>
+                  <div class="form-group" id="sub_type">
+                  <select name="sub_type" id="sub_type" class="form-control" required>
+                    <option value="" selected disabled>Select Subject Type</option>
+                    <option value="T" <?php #if ($year == '1') echo 'selected'; ?>>Theory</option>
+                    <option value="P" <?php #if ($year == '1') echo 'selected'; ?>>Practical</option> 
+                  </select>
+                </div>
+                
+                  <div class="form-group col-md-3" id="regno">
+                    <input type="text" name="regno" id="regno" class="form-control" placeholder="Reg_No"/>
+                    <input type="hidden" name="type" id="type" class="form-control" value="final"/>
+                  </div>
+                  <div class="form-group col-md-3" id="index_no">
+                    <input type="text" name="index_no" id="index_no" class="form-control" placeholder="Index_No"/>
+                  </div>
+
+                 
+                  <div class="form-group col-md-3" id="level">
+                    <select name="level" id="level" class="form-control">
+                      <option value="" selected disabled>Select Level</option>
+                      <option value="1">1st Year</option>
+                      <option value="2">2nd Year</option>
+                      <option value="3">3rd Year</option>
+                      <option value="4">4th Year</option>
                     </select>
                   </div>
 
-                  <div class="form-group" id="date">
-                    <select name="Year" id="year" class="form-control">
-                      <option value="" selected disabled>
-                        Select Semester
-                      </option>
-                      <option value="2022">Semester 01</option>
-                      <option value="2023">Semester 02</option>
+                  <div class="form-group col-md-3" id="batch">
+                    <input type="text" name="batch" id="batch" class="form-control" placeholder="Batch"/>
+                  </div>
+                  <div class="form-group col-md-3" id="dep">
+                    <select name="dep" id="dep" class="form-control">
+                      <option value="" selected disabled>Select Department</option>
+                      <?php optiongen($conn, 'department', 'dep_id','dep_name') ?>
                     </select>
                   </div>
-
-                  <div class="form-group col-md-3">
-                    <button class="btn btn-primary w-100">View</button>
+                  <div class="form-group col-md-3" id="course">
+                    <select name="course" id="course" class="form-control">
+                      <option value="" selected disabled>Select Course</option>
+                      <?php optiongen($conn, 'course', 'course_id','course_name') ?>
+                    </select>
                   </div>
+                  <div class="form-group col-md-3" id="sem">
+                    <input type="text" name="sem" id="sem" class="form-control" placeholder="Semester"/>
+                  </div>
+
+                    
+
+                    <!-- <div class="form-group col-md-3">
+                      <button class="btn btn-primary w-100">View</button>
+                    </div> -->
                 </form>
               </div>
             </div>
             <div class="title text-center">
-              <h3>- Final Result of CSC2113 -</h3>
+              <h3>- Final Result  -</h3>
             </div>
 
-            <!-- timetable -->
-            <section class="p-5">
-              <div class="table-responsive" id="table1">
-                <table class="table bg-white">
-                  <thead class="bg-dark text-light">
-                    <tr>
-                      <th>Reg.No</th>
-                      <th>Index No</th>
-                      <th>Name</th>
-                      <th>Theory</th>
-                      <th>Practical</th>
-                      <th>Final</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td data-title="Time">2019/ASP/01</td>
-                      <td data-title="Year">A220457</td>
-                      <td data-title="Subject">Name 01</td>
-                      <td data-title="Venue">A</td>
-                      <td data-title="Venue">B</td>
-                      <td data-title="Venue">B+</td>
-                    </tr>
-                    <tr>
-                      <td data-title="Time">2019/ASP/01</td>
-                      <td data-title="Year">A220457</td>
-                      <td data-title="Subject">Name 01</td>
-                      <td data-title="Venue">A</td>
-                      <td data-title="Venue">B</td>
-                      <td data-title="Venue">B+</td>
-                    </tr>
-                    <tr>
-                      <td data-title="Time">2019/ASP/01</td>
-                      <td data-title="Year">A220457</td>
-                      <td data-title="Subject">Name 01</td>
-                      <td data-title="Venue">A</td>
-                      <td data-title="Venue">B</td>
-                      <td data-title="Venue">B+</td>
-                    </tr>
-                    <tr>
-                      <td data-title="Time">2019/ASP/01</td>
-                      <td data-title="Year">A220457</td>
-                      <td data-title="Subject">Name 01</td>
-                      <td data-title="Venue">A</td>
-                      <td data-title="Venue">B</td>
-                      <td data-title="Venue">B+</td>
-                    </tr>
-                    <tr>
-                      <td data-title="Time">2019/ASP/01</td>
-                      <td data-title="Year">A220457</td>
-                      <td data-title="Subject">Name 01</td>
-                      <td data-title="Venue">A</td>
-                      <td data-title="Venue">B</td>
-                      <td data-title="Venue">B+</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </section>
-          </div>
+            
+            <div class="container" id="viewout">
+          <section class="p-5">
+            <!-- <div class="table-responsive" id="table1">
+            <?php 
+                // if($_SERVER["REQUEST_METHOD"]=="POST"){  
+                //   $query=queryica();
+                //   outputQueryInTable($conn,$query);
+                // }
+              ?>
+            </div>
+          </section>       -->
+        </div>
+       
        
 
     <!-- Bootstrap JS -->
@@ -144,7 +122,7 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
-
-    <script src="../Sidebar/Main.js"></script>
+     <script src="../script/filter.js"></script>
+     <script src="../Sidebar/Main.js"></script>
   </body>
 </html>

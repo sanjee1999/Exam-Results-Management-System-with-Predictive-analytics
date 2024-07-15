@@ -36,13 +36,16 @@
                <div class="form-group col-md-3" id="sub_code">
                   <select name="sub_code" id="sub_code" class="form-control" required>
                     <option value="" selected disabled>Select Sub_Code</option>
-                    <option value="sub_1">Subject 01</option>
-                    <option value="sub_2">Subject 02</option>
-                    <option value="sub_3">Subject 03</option>
-                    <option value="sub_4">Subject 04</option>
+                    <?php optiongen($conn, 'subject', 'sub_code','sub_name') ?>
                   </select>
                 </div>
-
+                <div class="form-group" id="sub_type">
+                  <select name="sub_type" id="sub_type" class="form-control" required>
+                    <option value="" selected disabled>Select Subject Type</option>
+                    <option value="T" <?php #if ($year == '1') echo 'selected'; ?>>Theory</option>
+                    <option value="P" <?php #if ($year == '1') echo 'selected'; ?>>Practical</option> 
+                  </select>
+                </div>
                 <!-- <div class="form-group" id="year">
                   <select name="Year" id="year" class="form-control">
                     <option value="" selected disabled>

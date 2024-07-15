@@ -71,6 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
             $level=(isset($_POST['level']))?($_POST['level']):null;
             $ica=(isset($_POST['ica']))?($_POST['ica']):null;
             $final=(isset($_POST['final']))?($_POST['final']):null;
+            $sub_type=(isset($_POST['sub_type']))?($_POST['sub_type']):null;
 
             
             
@@ -184,6 +185,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
         $_SESSION['type']=isset($type)?$type:null;
         $_SESSION['heading']=isset($heading)?$heading:null;
         $_SESSION['ica']=isset($ica)?$ica:null;
+        $_SESSION['sub_type']=isset($sub_type)?$sub_type:null;
 
   }
 $uploadFile=isset($_SESSION['uploadfile'])?$_SESSION['uploadfile']:null;
