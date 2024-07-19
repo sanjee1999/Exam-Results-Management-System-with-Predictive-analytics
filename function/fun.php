@@ -69,8 +69,77 @@ echo "</script>";
   //   echo "<script type='text/javascript'>alert('There was an error');</script>";
   //   die("error".mysqli_error($conn));
   // }
+  function queryInAll($conn, $table, ...$values) {
+    // Ensure the connection is valid before proceeding
+    if (!$conn || $conn->connect_errno) {
+        echo "<script type='text/javascript'>alert('Failed to connect to MySQL: (" . $conn->connect_errno . ") " . $conn->connect_error . "');</script>";
+        return;
+    }
 
-  function loadsession(){
+    // Escape values to prevent SQL injection
+    $escapedValues = array_map(function($value) use ($conn) {
+        return $conn->real_escape_string($value);
+    }, $values);
+
+    // Prepare the values part of the query
+    $valuesString = "'" . implode("','", $escapedValues) . "'";
+
+    // Construct the query
+    $query = "INSERT INTO `$table` VALUES ($valuesString)";
+
+    // Execute the query
+    if ($conn->query($query) === TRUE) {
+        echo "<script type='text/javascript'>alert('New record created successfully');</script>";
+        echo "<script type='text/javascript'>window.location.href = '../Dashboard/Sider.php?content=../pages/viewEdit.php&table=$table';</script>";
+    } else {
+        echo "<script type='text/javascript'>alert('Error: " . addslashes($conn->error) . "');</script>";
+    }
+
+    // Close the connection
+    $conn->close();
+}
+
+
+
+function queryUpAll($conn, $table, $whereColumn, $whereValue, array $updateColumns, ...$values) {
+  // Ensure the number of columns matches the number of values
+  if (count($updateColumns) != count($values)) {
+      throw new Exception('The number of columns does not match the number of values.');
+  }
+
+  // Escape the where value to prevent SQL injection
+  $escapedWhereValue = $conn->real_escape_string($whereValue);
+
+  // Escape the values to prevent SQL injection
+  $escapedValues = array_map([$conn, 'real_escape_string'], $values);
+
+  // Prepare the SET part of the query
+  $setString = "";
+  foreach ($updateColumns as $index => $column) {
+      $escapedColumn = $conn->real_escape_string($column);
+      $setString .= "`$escapedColumn` = '{$escapedValues[$index]}', ";
+  }
+  $setString = rtrim($setString, ', ');
+
+  // Construct the query
+  $query = "UPDATE `$table` SET $setString WHERE `$whereColumn` = '$escapedWhereValue'";
+echo $query;
+  // Execute the query
+  if ($conn->query($query) === TRUE) {
+      echo "<script type='text/javascript'>alert('Record updated successfully');</script>";
+      echo "<script type='text/javascript'>window.location.href = '../Dashboard/Sider.php?content=../pages/viewEdit.php&table=$table';</script>";
+  } else {
+      echo "<script type='text/javascript'>alert('Error: " . addslashes($conn->error) . "');</script>";
+  }
+
+  // Close the connection
+  $conn->close();
+}
+
+
+
+
+function loadsession(){
     $date = isset($_SESSION['date']) ? $_SESSION['date'] : null;
     $time = isset($_SESSION['time']) ? $_SESSION['time'] : null;
     $hour = isset($_SESSION['hour']) ? $_SESSION['hour'] : null;
@@ -99,7 +168,7 @@ echo "</script>";
                     'regno','attend','index_no','level', 'batch','sem','dep','course','firstRow', 'col1', 'col2', 'highestRow', 
                     'type', 'heading', 'ica', 'uploadFile');
 
-  }
+}
 
 function upload($conn){
       
@@ -272,6 +341,83 @@ function outputQueryInTable($conn,$query) {
   unsetsession();
   // Close connection
   $conn->close();
+}
+function tableViewEdit($conn,$query,$idcol) {
+   
+  // Execute query
+   $result = $conn->query($query);
+
+  // Check if query was successful
+  if ($result === FALSE) {
+      echo "Error: " . $conn->error;
+  } else {
+      // Start table
+      echo '<table class="table bg-white">';
+      
+      // Output table headers
+      echo '<thead class="bg-dark text-light">';
+      echo '<tr>';
+      while ($field = $result->fetch_field()) {
+          echo '<th>' . htmlspecialchars($field->name) . '</th>';
+      }
+      echo '</tr>';
+      echo '</thead>';
+
+      // Output table rows
+      echo '<tbody>';
+      while ($row = $result->fetch_row()) {
+          echo '<tr>';
+          foreach ($row as $cell) {
+              echo '<td>' . htmlspecialchars($cell) . '</td>';
+          }
+          echo '<td><form action="" method="post">
+                <input type="hidden" name="id" value="'.$row[0].'">
+                <input type="hidden" name="idcol" value="'.$idcol.'">';
+          echo '<button class="btn btn-primary" value="update" name="button">Update</button></td>';
+          echo '<td><button class="btn btn-primary" value="delete" name="button">Delete</button></form></td>';
+          
+          //echo '<td><button class="btn btn-primary">Delete</button></td>';
+          // echo '<td><a href="" class="btn btn-primary">Update</a></td><td><a href="" class="btn btn-primary">Delete</a></td>';
+          echo '</tr>';
+      }
+      echo '</tbody>';
+      // End table
+      echo '</table>';
+  }
+  unsetsession();
+  // Close connection
+  $conn->close();
+}
+
+function deltablerow($conn,$table,$idcol,$id){
+
+  $query="DELETE FROM $table WHERE $idcol='$id'";
+  echo "$query  ";
+  $result = $conn->query($query);
+
+  // Check if query was successful
+  if ($result === FALSE) {
+      echo "Error: " . $conn->error;
+  } 
+}
+
+function filehub($table) {
+  switch($table) {
+      case 'course':
+          return 'AddCourse.php';
+      case 'department':
+          return 'AddDep.php';
+      case 'faculty':
+          return 'AddFaculty.php';
+      case 'subject':
+          return 'AddSub.php';  
+  }
+}
+function  uptablerow($conn,$file,$table,$idcol,$id){
+    $query="SELECT * FROM $table WHERE $idcol='$id'";
+    $result = $conn->query($query);
+    $row = $result->fetch_row();
+    header('location:../Dashboard/Sider.php?content=../pages/'.$file.'&type=Update&data=' . urlencode(serialize($row)));
 }
 function queryattend() {
   $q1 = "SELECT at.reg_no AS Reg_No, 
@@ -476,56 +622,48 @@ function queryfinal(){
     return $query;
 }
 
+function infill($out){
+  if(!is_null($out)){
+    echo $out;
+  }
+}
+
+function opfill($val){
+  //echo "<option value='" . htmlspecialchars($val) . "'>" . htmlspecialchars($name) . "</option>";
+  $_SESSION['value']=isset($val)?$val:null;
+  echo "load";
+}
+
 function optiongen($conn, $table, $val,$name) {
   // Properly construct the SQL query
   $query = "SELECT `$val`,`$name` FROM `$table`";
   $result = $conn->query($query);
   
+  $val_o = isset($_SESSION['value']) ? $_SESSION['value'] : null;
+echo $val_o;
+  //$name_o = isset($_SESSION['value']) ? $_SESSION['value'] : null;
+
   if ($result->num_rows > 0) {
       // Loop through each row
       while ($row = $result->fetch_row()) {
           // Properly fetch the column value
           $val = $row[0];
           $name = $row[1];
-          echo "<option value='" . htmlspecialchars($val) . "'>" . htmlspecialchars($name) . "</option>";
-      }
+          echo "<option value='" . htmlspecialchars($val) . "'";
+          if ($val == $val_o) {
+            echo " selected";
+          }
+          echo ">" . htmlspecialchars($name) . "</option>";
+        }
+      unset($_SESSION['value']);
   } 
 }
 
 
 
-function querygenarator($table){
-  $q1="SELECT * ";
-  $q2="FROM $table WHERE ";
-
-  $sessionVariables = loadsession();
-      extract($sessionVariables);
-
-  if(!empty($regno)){ 
-    $q2=$q2." ".$table.".".'reg_no="'.$regno.'" AND';
-   }    
-  if(!empty($sub_code)){ 
-    $q2=$q2." ".$table.".".'sub_code="'.$sub_code.'" AND';
-   }
-  if(!empty($level)){ 
-    $q2=$q2." ".$table.".".'level='.$level.' AND';
-   }    
-  if(!empty($month)){ 
-    $q2=$q2.'MONTH(date)='.$month.' AND';
-   } 
-   if(!empty($year)){ 
-    $q2=$q2.'YEAR(date)='.$year.' AND';
-   }       
-  if(!empty($date)){ 
-    $q2=$q2." ".$table.".".'date="'.$date.'" AND';
-   }
-   $q2=$q2.' 1=1 ORDER BY SUBSTRING_INDEX(reg_no, "/", 1) ASC,
-          SUBSTRING_INDEX(SUBSTRING_INDEX(reg_no, "/", 2), "/", -1) ASC,
-          CAST(SUBSTRING_INDEX(reg_no, "/", -1) AS UNSIGNED) ASC;';  
-   $query=$q1.$q2;  
-   echo $query;
-   return $query;
-
+function queryGenTable($table){
+  $query="SELECT * FROM ".$table;
+  return $query;
 }
 function queryicaa(){
       $sessionVariables = loadsession();

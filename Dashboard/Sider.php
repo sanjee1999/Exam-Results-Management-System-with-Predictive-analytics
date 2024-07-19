@@ -1,4 +1,5 @@
 <?php  
+ob_start();
 session_start();
 require_once '../connection/conf.php';
 require_once '../function/fun.php';
@@ -212,10 +213,180 @@ require_once '../function/fun.php';
           </li>
           <!-- Final end -->
 
+          <!-- combosite marks  start -->
+
+          <li class="sidebar-item">
+            <a href="?content=../pages/combo.php" 
+              class="sidebar-link">
+              <i class='bx bx-hive'></i>
+              <span>Combosite Marks</span>
+            </a>
+          </li>
+          <!-- combosite marks end -->
+
+          <!-- subject start -->
+
+          <li class="sidebar-item">
+            <a
+              href="#"
+              class="sidebar-link has-dropdown collapsed"
+              data-bs-toggle="collapse"
+              data-bs-target="#subject"
+              aria-expanded="false"
+              aria-controls="subject"
+            >
+            <i class='bx bx-detail'></i>
+              <span>Subject</span>
+            </a>
+            <ul
+              id="subject"
+              class="sidebar-dropdown list-unstyled collapse"
+              data-bs-parent="#sidebar"
+            >
+              <li class="sidebar-item">
+                <a
+                  href="?content=../pages/AddSub.php&type=Add"
+                  class="sidebar-link"
+                  >Add Subject</a
+                >
+              </li>
+
+              <li class="sidebar-item">
+                <a
+                  href="?content=../pages/viewEdit.php&table=subject"
+                  class="sidebar-link"
+                  >View / Edit Subject</a
+                >
+              </li>
+            </ul>
+          </li>
+          <!-- subject end -->
+
+          <!-- faculty start -->
+
+           <li class="sidebar-item">
+            <a
+              href="#"
+              class="sidebar-link has-dropdown collapsed"
+              data-bs-toggle="collapse"
+              data-bs-target="#faculty"
+              aria-expanded="false"
+              aria-controls="faculty"
+            >
+              <i class="bx bxs-school"></i>
+              <span>Faculty</span>
+            </a>
+            <ul
+              id="faculty"
+              class="sidebar-dropdown list-unstyled collapse"
+              data-bs-parent="#sidebar"
+            >
+              <li class="sidebar-item">
+                <a
+                  href="?content=../pages/AddFaculty.php&type=Add"
+                  class="sidebar-link"
+                  >Add Faculty</a
+                >
+              </li>
+
+              <li class="sidebar-item">
+                <a
+                  href="?content=../pages/viewEdit.php&table=faculty"
+                  class="sidebar-link"
+                  >View / Edit Faculty</a
+                >
+              </li>
+            </ul>
+          </li>
+          <!-- faculty end -->
+
+          <!-- course start -->
+
+          <li class="sidebar-item">
+            <a
+              href="#"
+              class="sidebar-link has-dropdown collapsed"
+              data-bs-toggle="collapse"
+              data-bs-target="#course"
+              aria-expanded="false"
+              aria-controls="course"
+            >
+            <i class='bx bxs-briefcase-alt-2'></i>
+              <span>Course</span>
+            </a>
+            <ul
+              id="course"
+              class="sidebar-dropdown list-unstyled collapse"
+              data-bs-parent="#sidebar"
+            >
+              <li class="sidebar-item">
+                <a
+                  href="?content=../pages/AddCourse.php&type=Add"
+                  class="sidebar-link"
+                  >Add Course</a
+                >
+              </li>
+
+              <li class="sidebar-item">
+                <a
+                  href="?content=../pages/viewEdit.php&table=course"
+                  class="sidebar-link"
+                  >View / Edit Course</a
+                >
+              </li>
+            </ul>
+          </li>
+          <!-- course end -->
+
+          <!-- department start -->
+
+          <li class="sidebar-item">
+            <a
+              href="#"
+              class="sidebar-link has-dropdown collapsed"
+              data-bs-toggle="collapse"
+              data-bs-target="#department"
+              aria-expanded="false"
+              aria-controls="department"
+            >
+            <i class='bx bxs-ruler'></i>
+              <span>Deparment</span>
+            </a>
+            <ul
+              id="department"
+              class="sidebar-dropdown list-unstyled collapse"
+              data-bs-parent="#sidebar"
+            >
+              <li class="sidebar-item">
+                <a
+                  href="?content=../pages/AddDep.php&type=Add"
+                  class="sidebar-link"
+                  >Add Department</a
+                >
+              </li>
+
+              <li class="sidebar-item">
+                <a
+                  href="?content=../pages/viewEdit.php&table=department"
+                  class="sidebar-link"
+                  >View / Edit Department</a
+                >
+              </li>
+            </ul>
+          </li>
+          <!-- department end -->
+
           <li class="sidebar-item">
             <a href="?content=../pages/Student.php" 
               class="sidebar-link">
               <i class="bx bx-male-female me-2"></i>
+              <span>Lecture</span>
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a href="?content=../pages/Student.php" 
+              class="sidebar-link">
+              <i class='bx bx-child'></i>
               <span>Student</span>
             </a>
           </li>
@@ -278,6 +449,6 @@ require_once '../function/fun.php';
 </html>
 <?php 
 
-  require_once '../connection/conf.php'; 
-  require_once '../function/fun.php';
+ob_end_flush();
+
 ?>
