@@ -1,3 +1,5 @@
+<script src="../script/confirm.js">
+    </script>   
 <?php 
  function exhead($firstRow,$name){
  
@@ -93,6 +95,7 @@ echo "</script>";
         echo "<script type='text/javascript'>window.location.href = '../Dashboard/Sider.php?content=../pages/viewEdit.php&table=$table';</script>";
     } else {
         echo "<script type='text/javascript'>alert('Error: " . addslashes($conn->error) . "');</script>";
+        throw new Exception('Error: ' . $conn->error);
     }
 
     // Close the connection
@@ -130,14 +133,88 @@ echo $query;
       echo "<script type='text/javascript'>window.location.href = '../Dashboard/Sider.php?content=../pages/viewEdit.php&table=$table';</script>";
   } else {
       echo "<script type='text/javascript'>alert('Error: " . addslashes($conn->error) . "');</script>";
+      throw new Exception('Error: ' . $conn->error);
   }
 
   // Close the connection
   $conn->close();
 }
 
+function query1InAll($conn, $table, ...$values) {
+  // Ensure the connection is valid before proceeding
+  if (!$conn || $conn->connect_errno) {
+      echo "<script type='text/javascript'>alert('Failed to connect to MySQL: (" . $conn->connect_errno . ") " . $conn->connect_error . "');</script>";
+      return;
+  }
+
+  // Escape values to prevent SQL injection
+  $escapedValues = array_map(function($value) use ($conn) {
+      return $conn->real_escape_string($value);
+  }, $values);
+
+  // Prepare the values part of the query
+  $valuesString = "'" . implode("','", $escapedValues) . "'";
+
+  // Construct the query
+  $query = "INSERT INTO `$table` VALUES ($valuesString)";
+
+  // Execute the query
+  if ($conn->query($query) === TRUE) {
+      echo "<script type='text/javascript'>alert('New record created successfully');</script>";
+  } else {
+      echo "<script type='text/javascript'>alert('Error: " . addslashes($conn->error) . "');</script>";
+  }
+}
 
 
+function query1UpAll($conn, $table, $whereColumn, $whereValue, array $updateColumns, ...$values) {
+  // Ensure the number of columns matches the number of values
+  if (count($updateColumns) != count($values)) {
+      throw new Exception('The number of columns does not match the number of values.');
+  }
+
+  // Escape the where value to prevent SQL injection
+  $escapedWhereValue = $conn->real_escape_string($whereValue);
+
+  // Escape the values to prevent SQL injection
+  $escapedValues = array_map([$conn, 'real_escape_string'], $values);
+
+  // Prepare the SET part of the query
+  $setString = "";
+  foreach ($updateColumns as $index => $column) {
+      $escapedColumn = $conn->real_escape_string($column);
+      $setString .= "`$escapedColumn` = '{$escapedValues[$index]}', ";
+  }
+  $setString = rtrim($setString, ', ');
+
+  // Construct the query
+  $query = "UPDATE `$table` SET $setString WHERE `$whereColumn` = '$escapedWhereValue'";
+
+  // Execute the query
+  if ($conn->query($query) === TRUE) {
+      echo "<script type='text/javascript'>alert('Record updated successfully');</script>";
+  } else {
+      echo "<script type='text/javascript'>alert('Error: " . addslashes($conn->error) . "');</script>";
+      throw new Exception('Error: ' . $conn->error);
+      
+  }
+      
+}
+
+
+function queryjoin($conn,$table,$table1,$tcol,$t1col){
+  $query="SELECT * FROM `$table` LEFT JOIN `$table1` ON $table.$tcol=$table1.$t1col";
+  echo $query."<br>";
+  $result=mysqli_query($conn,$query);
+  $row = $result->fetch_row();
+  print_r($row);
+  echo "<br>".$row[7];
+  return $query;
+}
+  
+function jsheader($url){
+  echo "<script type='text/javascript'>window.location.href = '$url';</script>";
+}
 
 function loadsession(){
     $date = isset($_SESSION['date']) ? $_SESSION['date'] : null;
@@ -174,12 +251,14 @@ function upload($conn){
       
       $sessionVariables = loadsession();
       extract($sessionVariables);
+      //$col1=strtoupper($col1);
+      $col1 = array_map('strtoupper', $col1);
 
   switch($type){
     
     case 'attendance':
       for($row=0; $row<$highestRow-1; $row++){
-        if(empty($col2[$row]) && $col2[$row] !== '0' && $col2[$row] !== 0){
+        if(empty($col1[$row]) || $col1[$row] == '0' || empty($col2[$row]) || $col2[$row] == '0'){
           continue;
         }
         $query="INSERT INTO attendance VALUES ('$col1[$row]','$date','$time','$hour','$sub_code','$col2[$row]','$sub_type')";
@@ -342,7 +421,60 @@ function outputQueryInTable($conn,$query) {
   // Close connection
   $conn->close();
 }
-function tableViewEdit($conn,$query,$idcol) {
+
+function tableViewEdit($conn, $query, $idcol, $i) {
+  // Execute query
+  $result = $conn->query($query);
+
+  // Check if query was successful
+  if ($result === FALSE) {
+      echo "Error: " . $conn->error;
+  } else {
+      // Start table
+      echo '<table class="table bg-white">';
+      
+      // Output table headers
+      echo '<thead class="bg-dark text-light">';
+      echo '<tr>';
+      while ($field = $result->fetch_field()) {
+          echo '<th>' . htmlspecialchars($field->name) . '</th>';
+      }
+      echo '<th>Actions</th>'; // Add header for actions column
+      echo '</tr>';
+      echo '</thead>';
+
+      // Output table rows
+      echo '<tbody>';
+      $formCounter = 0; // Counter to create unique form IDs
+      while ($row = $result->fetch_row()) {
+          $formId = 'form' . $formCounter; // Generate a unique form ID
+          echo '<tr>';
+          foreach ($row as $cell) {
+              echo '<td>' . htmlspecialchars($cell) . '</td>';
+          }
+          // Create the form with a unique ID
+          
+          echo '<td><form id="' . $formId . '" action="" method="post">
+                  <input type="hidden" name="id" value="' . htmlspecialchars($row[$i]) . '">
+                  <input type="hidden" name="idcol" value="' . htmlspecialchars($idcol) . '">
+                  <input type="hidden" name="action" id="action_' . $formId . '" value="">';
+          echo '<button class="btn btn-primary" type="button" onclick="updateRecord(\'' . $formId . '\')">Update</button>';
+          echo '<button class="btn btn-danger" type="button" onclick="confirmDelete(event, \'' . $formId . '\')">Delete</button>';
+          echo '</form></td>';
+          echo '</tr>';
+
+          $formCounter++;
+      }
+      echo '</tbody>';
+      // End table
+      echo '</table>';
+  }
+
+  // Close connection
+  $conn->close();
+}
+
+function tableView1Edit($conn,$query,$idcol,$i) {
    
   // Execute query
    $result = $conn->query($query);
@@ -370,11 +502,13 @@ function tableViewEdit($conn,$query,$idcol) {
           foreach ($row as $cell) {
               echo '<td>' . htmlspecialchars($cell) . '</td>';
           }
-          echo '<td><form action="" method="post">
-                <input type="hidden" name="id" value="'.$row[0].'">
-                <input type="hidden" name="idcol" value="'.$idcol.'">';
-          echo '<button class="btn btn-primary" value="update" name="button">Update</button></td>';
-          echo '<td><button class="btn btn-primary" value="delete" name="button">Delete</button></form></td>';
+          // echo '<td><form action="" method="post" onsubmit="return confirmDelete();">
+          echo '<td><form id="myForm" action="" method="post">
+                <input type="hidden" name="id" value="'.$row[$i].'">
+                <input type="hidden" name="idcol" value="'.$idcol.'">
+                <input type="hidden" name="action" id="action" value="">';
+          echo '<button class="btn btn-primary" type="button" onclick="updateRecord()">Update</button></td>';
+          echo '<td><button class="btn btn-primary" type="button" onclick="confirmDelete(event)">Delete</button></form></td>';
           
           //echo '<td><button class="btn btn-primary">Delete</button></td>';
           // echo '<td><a href="" class="btn btn-primary">Update</a></td><td><a href="" class="btn btn-primary">Delete</a></td>';
@@ -384,9 +518,35 @@ function tableViewEdit($conn,$query,$idcol) {
       // End table
       echo '</table>';
   }
+  $result = $conn->query($query);
+  $row = $result->fetch_row();
+  print_r($row);
+  //echo "<br>".$row[7];
   unsetsession();
   // Close connection
   $conn->close();
+  
+}
+
+function filehub($table) {
+  switch($table) {
+      case 'course':
+          return 'AddCourse.php';
+      case 'department':
+          return 'AddDep.php';
+      case 'faculty':
+          return 'AddFaculty.php';
+      case 'subject':
+          return 'AddSub.php';  
+      case 'lecture':
+          return 'AddLec.php';  
+  }
+}
+function uptablerow($conn,$file,$table,$idcol,$id){
+    $query="SELECT * FROM $table WHERE $idcol='$id'";
+    $result = $conn->query($query);
+    $row = $result->fetch_row();
+    header('location:../Dashboard/Sider.php?content=../pages/'.$file.'&type=Update&data=' . urlencode(serialize($row)));
 }
 
 function deltablerow($conn,$table,$idcol,$id){
@@ -401,24 +561,34 @@ function deltablerow($conn,$table,$idcol,$id){
   } 
 }
 
-function filehub($table) {
-  switch($table) {
-      case 'course':
-          return 'AddCourse.php';
-      case 'department':
-          return 'AddDep.php';
-      case 'faculty':
-          return 'AddFaculty.php';
-      case 'subject':
-          return 'AddSub.php';  
-  }
-}
-function  uptablerow($conn,$file,$table,$idcol,$id){
-    $query="SELECT * FROM $table WHERE $idcol='$id'";
+function up2tablerow($conn,$file,$table,$table1,$tcol,$t1col,$idcol,$id){
+    $query="SELECT * FROM `$table` JOIN `$table1` ON $table.$tcol=$table1.$t1col WHERE $table.$idcol='$id' AND $table1.$idcol='$id'";
+    echo "<br>$query<br>";
     $result = $conn->query($query);
     $row = $result->fetch_row();
-    header('location:../Dashboard/Sider.php?content=../pages/'.$file.'&type=Update&data=' . urlencode(serialize($row)));
+    header('location:../Dashboard/Sider.php?content=../pages/'.$file.'&type=Update&table=lecture&table1=admin&data=' . urlencode(serialize($row)));
 }
+
+function del2tablerow($conn,$table,$table1,$idcol,$id){
+
+  $query="DELETE FROM $table WHERE $idcol='$id'";
+  $query1="DELETE FROM $table1 WHERE $idcol='$id'";
+  echo "$query  <br>";
+  echo "$query1  <br>";
+
+  $result = $conn->query($query);
+  // Check if query was successful
+  if ($result === FALSE) {
+      echo "Error: " . $conn->error;
+  } 
+  $result = $conn->query($query1);
+  // Check if query was successful
+  if ($result === FALSE) {
+      echo "Error: " . $conn->error;
+  } 
+}
+
+
 function queryattend() {
   $q1 = "SELECT at.reg_no AS Reg_No, 
           at.date AS Date, at.time AS Time, 

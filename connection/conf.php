@@ -7,7 +7,7 @@
 	define('host', 'localhost');
 	define('user', 'root');
 	define('pwd', '');
-	// define('db', 'exam_result_management');
+	//define('db', 'exam_result_management');
 	define('db', 'exam');
 
 

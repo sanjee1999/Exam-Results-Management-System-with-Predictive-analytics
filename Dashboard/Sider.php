@@ -376,6 +376,44 @@ require_once '../function/fun.php';
           </li>
           <!-- department end -->
 
+          <!-- Lecture start -->
+
+          <li class="sidebar-item">
+            <a
+              href="#"
+              class="sidebar-link has-dropdown collapsed"
+              data-bs-toggle="collapse"
+              data-bs-target="#lecturer"
+              aria-expanded="false"
+              aria-controls="lecturer"
+            >
+            <i class="bx bx-male-female me-2"></i>
+              <span>Lecturer</span>
+            </a>
+            <ul
+              id="lecturer"
+              class="sidebar-dropdown list-unstyled collapse"
+              data-bs-parent="#sidebar"
+            >
+              <li class="sidebar-item">
+                <a
+                  href="?content=../pages/AddLec.php&type=Add"
+                  class="sidebar-link"
+                  >Add Lecturer</a
+                >
+              </li>
+
+              <li class="sidebar-item">
+                <a
+                  href="?content=../pages/viewEdit.php&table=lecture&table1=admin&tcol=admin_id&t1col=admin_id"
+                  class="sidebar-link"
+                  >View / Edit Lecturer Details</a
+                >
+              </li>
+            </ul>
+          </li>
+          <!-- Lecture end -->
+
           <li class="sidebar-item">
             <a href="?content=../pages/Student.php" 
               class="sidebar-link">
@@ -402,7 +440,7 @@ require_once '../function/fun.php';
 
         <!-- sidebar footer -->
         <div class="sidebar-footer">
-          <a href="../index.html" class="sidebar-link">
+          <a href="../index.php" class="sidebar-link">
             <i class="bx bx-log-out-circle me-2"></i>
             <span>Logout</span>
           </a>
