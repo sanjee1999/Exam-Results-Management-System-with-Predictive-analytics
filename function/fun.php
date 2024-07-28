@@ -474,6 +474,42 @@ function tableViewEdit($conn, $query, $idcol, $i) {
   $conn->close();
 }
 
+function comboMarks($sub_code,$batch){
+    $query = "SELECT 
+                    st.reg_no AS reg_no, 
+                    ind.index_no AS index_no,
+                    su.sub_code AS sub_code,
+                    -- su.sub_type AS sub_type,
+                    i1.marks AS ICA_1,
+                    i2.marks AS ICA_2,
+                    i3.marks AS ICA_3,
+                    ex.marks_att1 AS marks_att1,
+                    ex.marks_att2 AS marks_att2, 
+                    ex.marks_att3 AS marks_att3, 
+                    ex.marks_attsp AS marks_attsp
+                FROM 
+                    student st
+                    LEFT JOIN course co ON co.course_id = st.course_id
+                    LEFT JOIN subject su ON su.course_id = co.course_id
+                    LEFT JOIN ica_1 i1 ON i1.reg_no = st.reg_no AND i1.sub_code = su.sub_code
+                    LEFT JOIN ica_2 i2 ON i2.reg_no = st.reg_no AND i2.sub_code = su.sub_code
+                    LEFT JOIN ica_3 i3 ON i3.reg_no = st.reg_no AND i3.sub_code = su.sub_code
+                    LEFT JOIN index_no ind ON ind.reg_no = st.reg_no
+                    LEFT JOIN exam ex ON ex.index_no = ind.index_no AND ex.sub_code = su.sub_code
+                WHERE 
+                    st.batch='$batch' 
+                    OR i1.sub_code='$sub_code' 
+                    OR i2.sub_code='$sub_code' 
+                    OR i3.sub_code='$sub_code'
+                    OR ex.sub_code='$sub_code'
+            ";
+    
+
+echo $query;
+return $query;
+
+}
+
 function tableView1Edit($conn,$query,$idcol,$i) {
    
   // Execute query
@@ -641,11 +677,11 @@ function queryattend() {
   }
   if (!empty($course)) { 
       $q1 .= ", co.name AS Course";
-      $q3 .= " AND co.name = '$course'";
+      $q3 .= " AND co.course_name = '$course'";
   }
   if (!empty($dep)) { 
       $q1 .= ", de.name AS Department";
-      $q3 .= " AND de.name = '$dep'";
+      $q3 .= " AND de.dep_name = '$dep'";
   }
 
   $orderBy = ' ORDER BY SUBSTRING_INDEX(at.reg_no, "/", 1) ASC,
@@ -704,13 +740,13 @@ function queryica() {
       $q1 .= ", st.batch AS batch";
       $q3 .= " AND st.batch = '$batch'";
   }
-  if (!empty($dep)) {
-      $q1 .= ", de.name AS department";
-      $q3 .= " AND de.name = '$dep'";
+  if (!empty($sem)) { 
+     $q1 .= ", su.semester AS Semester";
+      $q3 .= " AND su.semester = '$sem'";
   }
-  if (!empty($course)) {
-      $q1 .= ", co.name AS course";
-      $q3 .= " AND co.name = '$course'";
+  if (!empty($course)) { 
+      $q1 .= ", co.name AS Course";
+      $q3 .= " AND co.course_name = '$course'";
   }
   if (!empty($sem)) {
       $q1 .= ", su.semester AS semester";
@@ -769,13 +805,13 @@ function queryfinal(){
         $q1 .= ", st.batch AS batch";
         $q3 .= " AND st.batch = '$batch'";
     }
-    if (!empty($dep)) {
-        $q1 .= ", de.name AS department";
-        $q3 .= " AND de.name = '$dep'";
+    if (!empty($sem)) { 
+        $q1 .= ", su.semester AS Semester";
+        $q3 .= " AND su.semester = '$sem'";
     }
-    if (!empty($course)) {
-        $q1 .= ", co.name AS course";
-        $q3 .= " AND co.name = '$course'";
+    if (!empty($course)) { 
+        $q1 .= ", co.name AS Course";
+        $q3 .= " AND co.course_name = '$course'";
     }
     if (!empty($sem)) {
         $q1 .= ", su.semester AS semester";

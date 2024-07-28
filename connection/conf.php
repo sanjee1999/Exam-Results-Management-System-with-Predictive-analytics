@@ -1,8 +1,8 @@
 <?php
-    // define('host', 'sql12.freesqldatabase.com');
-	// define('user', 'sql12717129');
+    // define('host', 'sql203.ezyro.com');
+	// define('user', 'ezyro_36972460');
 	// define('pwd', 'TcgEsdt8zP');
-	// define('db', 'sql12717129');
+	// define('db', 'ezyro_36972460_exam');
 
 	define('host', 'localhost');
 	define('user', 'root');
