@@ -474,12 +474,11 @@ function tableViewEdit($conn, $query, $idcol, $i) {
   $conn->close();
 }
 
-function comboMarks($sub_code,$batch){
+function comboMarksquery($sub_code,$sub_type,$batch){
     $query = "SELECT 
                     st.reg_no AS reg_no, 
                     ind.index_no AS index_no,
                     su.sub_code AS sub_code,
-                    -- su.sub_type AS sub_type,
                     i1.marks AS ICA_1,
                     i2.marks AS ICA_2,
                     i3.marks AS ICA_3,
@@ -498,16 +497,203 @@ function comboMarks($sub_code,$batch){
                     LEFT JOIN exam ex ON ex.index_no = ind.index_no AND ex.sub_code = su.sub_code
                 WHERE 
                     st.batch='$batch' 
-                    OR i1.sub_code='$sub_code' 
-                    OR i2.sub_code='$sub_code' 
-                    OR i3.sub_code='$sub_code'
-                    OR ex.sub_code='$sub_code'
+                    AND ((i1.sub_code='$sub_code' AND i1.sub_type='$sub_type') 
+                    OR (i2.sub_code='$sub_code' AND i2.sub_type='$sub_type') 
+                    OR (i3.sub_code='$sub_code' AND i3.sub_type='$sub_type') 
+                    OR (ex.sub_code='$sub_code' AND ex.sub_type='$sub_type'))
             ";
+    return $query;
+}
+function comboMarks($conn,$sub_code,$batch){
+
+    $q="SELECT practical_credit,theory_credit,pra_ica_ratio,theo_ica_ratio FROM subject WHERE sub_code='$sub_code'";
+    $r = mysqli_query($conn, $q);
+    $s = mysqli_fetch_row($r);
+        $pc=$s[0];
+        $tc=$s[1];
+        $pir=$s[2];
+        $tir=$s[3];
+
+    $practical=0;
+    $theory=0;
+    
+    if(!empty($pc)){
+        $sub_type='P';
+        $query = comboMarksquery($sub_code,$sub_type,$batch);
+            
+            // Execute the query and fetch results
+            $result = mysqli_query($conn, $query);
+            $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        
+            foreach ($data as &$row) {
+                $row['best_ica'] = findBestIca(
+                    $row['ICA_1'], 
+                    $row['ICA_2'], 
+                    $row['ICA_3']
+                );
+                $row['best_exam'] = findBestExam(
+                    $row['marks_att1'], 
+                    $row['marks_att2'], 
+                    $row['marks_att3'], 
+                    $row['marks_attsp']
+                );
+                $row['practical']=($pir*$row['best_ica']+(100-$pir)*$row['best_exam'] )/100;
+            }        
+    }
+    if(!empty($tc)){
+        $sub_type='T';
+        $query = comboMarksquery($sub_code,$sub_type,$batch);
+            
+            // Execute the query and fetch results
+            $result = mysqli_query($conn, $query);
+            $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        
+            foreach ($data as &$row) {
+                $row['best_ica'] = findBestIca(
+                    $row['ICA_1'], 
+                    $row['ICA_2'], 
+                    $row['ICA_3']
+                );
+                $row['best_exam'] = findBestExam(
+                    $row['marks_att1'], 
+                    $row['marks_att2'], 
+                    $row['marks_att3'], 
+                    $row['marks_attsp']
+                );
+                $row['theory']=($tir*$row['best_ica']+(100-$tir)*$row['best_exam'] )/100;
+            }       
+    }
     
 
-echo $query;
-return $query;
+    if($pc!==0 || $tc!==0){
+        foreach ($data as &$row) {
+            $practical = isset($row['practical']) ? $row['practical'] : NULL;
+            $theory = isset($row['theory']) ? $row['theory'] : NULL;
 
+            $row['Final_Result'] = ($pc * $practical + $tc * $theory) / ($pc + $tc);     
+        } 
+    return $data;
+    }else{
+        echo "Please Ensure subject credits values in db.subject";
+    }
+} 
+function findBestIca($ica1, $ica2, $ica3) {
+    // Calculate the best 2 of 3 ICA marks
+    $ica_marks = [$ica1, $ica2, $ica3];
+    rsort($ica_marks);
+    $best_ica_sum = ($ica_marks[0] + $ica_marks[1])/2;
+    
+   
+    return $best_ica_sum ;
+}
+function findBestExam($att1, $att2, $att3, $attsp) {
+   
+    // Calculate the best of 4 exam marks 
+    $exam_marks = [$att1, $att2, $att3, $attsp];
+    $best_exam_mark = max($exam_marks);
+    
+    // Calculate the final result
+    return  $best_exam_mark;
+}
+function calculateFinalResult($ica1, $ica2, $ica3, $att1, $att2, $att3, $attsp) {
+    // Calculate the best 2 of 3 ICA marks
+    $ica_marks = [$ica1, $ica2, $ica3];
+    rsort($ica_marks);
+    $best_ica_sum = $ica_marks[0] + $ica_marks[1];
+    
+    // Calculate the best of 4 exam marks 
+    $exam_marks = [$att1, $att2, $att3, $attsp];
+    $best_exam_mark = max($exam_marks);
+    
+    // Calculate the final result
+    return $best_ica_sum + $best_exam_mark;
+}
+
+function arrayTable($data) {
+    // Check if data is a valid mysqli_result object
+    if ($data instanceof mysqli_result) {
+        // Start table
+        echo '<table class="table bg-white">';
+        
+        // Output table headers
+        echo '<thead class="bg-dark text-light">';
+        echo '<tr>';
+        $fields = $data->fetch_fields();
+        foreach ($fields as $field) {
+            echo '<th>' . htmlspecialchars($field->name) . '</th>';
+        }
+        echo '</tr>';
+        echo '</thead>';
+        
+        // Output table rows
+        echo '<tbody>';
+        while ($row = $data->fetch_assoc()) {
+            echo '<tr>';
+            foreach ($row as $cell) {
+                echo '<td>' . htmlspecialchars($cell) . '</td>';
+            }
+            echo '</tr>';
+        }
+        echo '</tbody>';
+        
+        // End table
+        echo '</table>';
+        
+    } elseif (is_array($data) && !empty($data)) {
+        // Start table
+        echo '<table class="table bg-white">';
+        
+        // Output table headers
+        echo '<thead class="bg-dark text-light">';
+        echo '<tr>';
+        // Assuming all arrays have the same keys, use the first array to get headers
+        $headers = array_keys($data[0]);
+        foreach ($headers as $header) {
+            echo '<th>' . htmlspecialchars($header) . '</th>';
+        }
+        echo '</tr>';
+        echo '</thead>';
+        
+        // Output table rows
+        echo '<tbody>';
+        foreach ($data as $row) {
+            echo '<tr>';
+            foreach ($row as $cell) {
+                echo '<td>' . htmlspecialchars($cell) . '</td>';
+            }
+            echo '</tr>';
+        }
+        echo '</tbody>';
+        
+        // End table
+        echo '</table>';
+        
+    } else {
+        echo "Error: Invalid Result";
+    }
+}
+
+function dropColumnsByIndex(&$data, $startIndex, $endIndex) {
+    // Check if the data is not empty and the first row exists
+    if (empty($data) || !isset($data[0])) {
+        return;
+    }
+
+    // Get column keys from the first row
+    $keys = array_keys($data[0]);
+
+    // Ensure indices are within bounds
+    if ($startIndex < 0 || $endIndex >= count($keys)) {
+        return;
+    }
+
+    // Drop columns from $startIndex to $endIndex
+    foreach ($data as &$row) {
+        for ($i = $startIndex; $i <= $endIndex; $i++) {
+            unset($row[$keys[$i]]);
+        }
+    }
+    return $data;
 }
 
 function tableView1Edit($conn,$query,$idcol,$i) {

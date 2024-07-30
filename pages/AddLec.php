@@ -113,7 +113,7 @@
                 </div> -->
                 <div class="form-group col-md-3 " id="password">
                 <div class="col-12">
-                  <div class="input-group mb-3">
+                  <div class="input-group mb-3 ">
                       <input type="password" name="password" id="password" class="form-control password" aria-label="password" aria-describedby="basic-addon1" placeholder="Type Password" autocomplete="" value="<?php infill($password); ?>" required/>
                       <div class="input-group-append">
                           <span class="input-group-text" onclick="password_show_hide();">

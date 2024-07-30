@@ -216,7 +216,7 @@ require_once '../function/fun.php';
           <!-- combosite marks  start -->
 
           <li class="sidebar-item">
-            <a href="?content=../pages/combo.php" 
+            <a href="?content=../pages/ComboMarks.php" 
               class="sidebar-link">
               <i class='bx bx-hive'></i>
               <span>Combosite Marks</span>
