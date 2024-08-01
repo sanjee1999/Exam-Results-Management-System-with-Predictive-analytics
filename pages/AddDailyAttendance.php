@@ -129,8 +129,7 @@
 
               <!-- <div id="output"></div> -->
                 
-                <script src="../script/olumnsel.js">
-                </script>
+               
                 <script src="../script/fileupload.js">
                 </script>
                 <?php 

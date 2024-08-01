@@ -413,22 +413,43 @@ require_once '../function/fun.php';
             </ul>
           </li>
           <!-- Lecture end -->
-
+          
+          <!-- Student start -->
           <li class="sidebar-item">
-            <a href="?content=../pages/Student.php" 
-              class="sidebar-link">
-              <i class="bx bx-male-female me-2"></i>
-              <span>Lecture</span>
-            </a>
-          </li>
-          <li class="sidebar-item">
-            <a href="?content=../pages/Student.php" 
-              class="sidebar-link">
-              <i class='bx bx-child'></i>
+            <a
+              href="#"
+              class="sidebar-link has-dropdown collapsed"
+              data-bs-toggle="collapse"
+              data-bs-target="#student"
+              aria-expanded="false"
+              aria-controls="student"
+            >
+            <i class='bx bx-child'></i>
               <span>Student</span>
             </a>
-          </li>
+            <ul
+              id="student"
+              class="sidebar-dropdown list-unstyled collapse"
+              data-bs-parent="#sidebar"
+            >
+              <li class="sidebar-item">
+                <a
+                  href="?content=../pages/AddStudent.php"
+                  class="sidebar-link"
+                  >Add Student</a
+                >
+              </li>
 
+              <li class="sidebar-item">
+                <a
+                  href="?content=../pages/viewEdit.php&table=faculty"
+                  class="sidebar-link"
+                  >View / Edit student</a
+                >
+              </li>
+            </ul>
+          </li>
+        <!-- Student end -->
           <li class="sidebar-item">
             <a href="?content=../pages/Profile.php" 
               class="sidebar-link">

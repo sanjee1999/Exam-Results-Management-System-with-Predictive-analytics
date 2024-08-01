@@ -47,12 +47,12 @@
     />
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <style>
+    <!-- <style>
         /* Style for the eye icon */
         .fa-eye {
             cursor: pointer;
         }
-    </style>
+    </style> -->
   </head>
   <body>
           <div class="title text-center">
@@ -106,12 +106,12 @@
                     <option value="hod" <?php if ($admin_type == 'hod') echo 'selected'; ?>>HOD</option>
                   </select>
                 </div>
-                <!-- <div class="form-group col-md-3 " id="password">
-                      <input type="password" name="password" id="password" class="form-control password" placeholder="Type Password" autocomplete="" value="<?php infill($password); ?>" required/>
-                      <i class="far fa-eye" id="togglePassword"></i>
-                      <div class="fa fa-eye icon"></div>
-                </div> -->
                 <div class="form-group col-md-3 " id="password">
+                      <input type="password" name="password" id="password" class="form-control password" placeholder="Type Password" autocomplete="" value="<?php infill($password); ?>" required/>
+                      <!-- <i class="far fa-eye" id="togglePassword"></i> -->
+                      <div class="fa fa-eye icon"></div>
+                </div>
+                <!-- <div class="form-group col-md-3 " id="password">
                 <div class="col-12">
                   <div class="input-group mb-3 ">
                       <input type="password" name="password" id="password" class="form-control password" aria-label="password" aria-describedby="basic-addon1" placeholder="Type Password" autocomplete="" value="<?php infill($password); ?>" required/>
@@ -123,7 +123,7 @@
                       </div>
                   </div>
                 </div>
-                </div>
+                </div> -->
                 
                 <div class="form-group">
                   <button class="btn btn-primary"><?php echo $type; ?></button>

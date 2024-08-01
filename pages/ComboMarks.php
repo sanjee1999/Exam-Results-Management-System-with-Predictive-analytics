@@ -49,7 +49,7 @@ $sub_code=$date=$month=$year=$regno=$level=$batch=null;
   <body>
     
           <div class="title text-center">
-            <h3>- View ICA Marks -</h3>
+            <h3>- View combosite Marks -</h3>
           </div>
       <div class="container">
           <div class="input-section py-5 mb-5">

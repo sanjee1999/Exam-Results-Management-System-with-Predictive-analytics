@@ -25,21 +25,21 @@ $sub_code=$date=$month=$year=$regno=$level=$type=null;
    
     echo "$sub_code $date $month $year $regno $level $attend<br>";
 
-    // $_SESSION['sub_code']=isset($sub_code)?$sub_code:null;
-    // $_SESSION['sub_type']=isset($sub_type)?$sub_type:null;
-    // $_SESSION['level']=isset($level)?$level:null;
-    // $_SESSION['date']=isset($date)?$date:null;
-    // $_SESSION['month']=isset($month)?$month:null;
-    // $_SESSION['year']=isset($year)?$year:null;
-    // $_SESSION['regno']=isset($regno)?$regno:null;
-    // $_SESSION['type']=isset($type)?$type:null;
-    // $_SESSION['attend'] = isset($attend) ? $attend : null;
-    // $_SESSION['batch'] = isset($batch) ? $batch : null;
-    // $_SESSION['sem'] = isset($sem) ? $sem : null;
-    // $_SESSION['dep'] = isset($dep) ? $dep : null;
-    // $_SESSION['course'] = isset($course) ? $course : null;
-    // $_SESSION['ica'] = isset($ica) ? $ica : null;
-    // $_SESSION['index_no'] = isset($index_no) ? $index_no : null;
+    $_SESSION['sub_code']=isset($sub_code)?$sub_code:null;
+    $_SESSION['sub_type']=isset($sub_type)?$sub_type:null;
+    $_SESSION['level']=isset($level)?$level:null;
+    $_SESSION['date']=isset($date)?$date:null;
+    $_SESSION['month']=isset($month)?$month:null;
+    $_SESSION['year']=isset($year)?$year:null;
+    $_SESSION['regno']=isset($regno)?$regno:null;
+    $_SESSION['type']=isset($type)?$type:null;
+    $_SESSION['attend'] = isset($attend) ? $attend : null;
+    $_SESSION['batch'] = isset($batch) ? $batch : null;
+    $_SESSION['sem'] = isset($sem) ? $sem : null;
+    $_SESSION['dep'] = isset($dep) ? $dep : null;
+    $_SESSION['course'] = isset($course) ? $course : null;
+    $_SESSION['ica'] = isset($ica) ? $ica : null;
+    $_SESSION['index_no'] = isset($index_no) ? $index_no : null;
   }
 
   

@@ -10,8 +10,8 @@ $(document).ready(function () {
     });
 });
 
-const togglePassword = document.querySelector('#togglePassword');
-  const password = document.querySelector('#id_password');
+// const togglePassword = document.querySelector('#togglePassword');
+//   const password = document.querySelector('#id_password');
 
   togglePassword.addEventListener('click', function (e) {
     // toggle the type attribute
@@ -21,18 +21,34 @@ const togglePassword = document.querySelector('#togglePassword');
     this.classList.toggle('fa-eye-slash');
 });
 
-function password_show_hide() {
-    var x = document.getElementById("password");
-    var show_eye = document.getElementById("show_eye");
-    var hide_eye = document.getElementById("hide_eye");
-    hide_eye.classList.remove("d-none");
-    if (x.type === "password") {
-      x.type = "text";
-      show_eye.style.display = "none";
-      hide_eye.style.display = "block";
+// function password_show_hide() {
+//     var x = document.getElementById("password");
+//     var show_eye = document.getElementById("show_eye");
+//     var hide_eye = document.getElementById("hide_eye");
+//     hide_eye.classList.remove("d-none");
+//     if (x.type === "password") {
+//       x.type = "text";
+//       show_eye.style.display = "none";
+//       hide_eye.style.display = "block";
+//     } else {
+//       x.type = "password";
+//       show_eye.style.display = "block";
+//       hide_eye.style.display = "none";
+//     }
+//   }
+
+  function password_show_hide() {
+    const password = document.getElementById("password");
+    const show_eye = document.getElementById("show_eye");
+    const hide_eye = document.getElementById("hide_eye");
+
+    if (password.type === "password") {
+        password.type = "text";
+        show_eye.classList.add("d-none");
+        hide_eye.classList.remove("d-none");
     } else {
-      x.type = "password";
-      show_eye.style.display = "block";
-      hide_eye.style.display = "none";
+        password.type = "password";
+        show_eye.classList.remove("d-none");
+        hide_eye.classList.add("d-none");
     }
-  }
+}

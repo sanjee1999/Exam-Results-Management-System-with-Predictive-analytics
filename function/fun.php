@@ -37,6 +37,10 @@ function unsetsession(){
   unset($_SESSION['firstRow']);
   unset($_SESSION['col1']);
   unset($_SESSION['col2']);
+  unset($_SESSION['col3']);
+  unset($_SESSION['col4']);
+  unset($_SESSION['col5']);
+  unset($_SESSION['col6']);
   unset($_SESSION['highestRow']);
   unset($_SESSION['type']);
   unset($_SESSION['heading']);
@@ -235,6 +239,10 @@ function loadsession(){
     $firstRow = isset($_SESSION['firstRow']) ? $_SESSION['firstRow'] : null;
     $col1 = isset($_SESSION['col1']) ? $_SESSION['col1'] : null;
     $col2 = isset($_SESSION['col2']) ? $_SESSION['col2'] : null;
+    $col3 = isset($_SESSION['col3']) ? $_SESSION['col3'] : null;
+    $col4 = isset($_SESSION['col4']) ? $_SESSION['col4'] : null;
+    $col5 = isset($_SESSION['col5']) ? $_SESSION['col5'] : null;
+    $col6 = isset($_SESSION['col6']) ? $_SESSION['col6'] : null;
     $highestRow = isset($_SESSION['highestRow']) ? $_SESSION['highestRow'] : null;
     $type = isset($_SESSION['type']) ? $_SESSION['type'] : null;
     $heading = isset($_SESSION['heading']) ? $_SESSION['heading'] : null;
@@ -242,8 +250,9 @@ function loadsession(){
     $uploadFile = isset($_SESSION['uploadfile']) ? $_SESSION['uploadfile'] : null;
           
       return compact('date', 'time', 'hour', 'year','month','sub_code','sub_type' ,
-                    'regno','attend','index_no','level', 'batch','sem','dep','course','firstRow', 'col1', 'col2', 'highestRow', 
-                    'type', 'heading', 'ica', 'uploadFile');
+                    'regno','attend','index_no','level', 'batch','sem','dep','course','firstRow', 
+                    'col1', 'col2','col3','col4','col5','col6', 
+                    'highestRow', 'type', 'heading', 'ica', 'uploadFile');
 
 }
 
@@ -373,6 +382,26 @@ function upload($conn){
       $_SESSION['errmarks']=$errmarks;
     verify($conn,$result,$uploadFile);
         
+        break;
+    case 'student':
+        for($row=0; $row<$highestRow-1; $row++){
+            // if(empty($col1[$row]) || $col1[$row] == '0' || empty($col2[$row]) || $col2[$row] == '0'){
+            //     echo "stop loop";
+            //   continue;
+            // }
+            $query1="INSERT INTO student VALUES ('$col1[$row]','$col3[$row]','$col4[$row]','$col5[$row]','$col6[$row]','$course','$batch')";
+            $result1=mysqli_query($conn,$query1);
+            $query2="INSERT INTO index_no VALUES ('$col2[$row]','$col1[$row]')";
+            $result2=mysqli_query($conn,$query2);
+          }
+          $result1 = isset($result1) ? $result1 : null;
+          $result2 = isset($result2) ? $result2 : null;
+        if($result1 && $result2){
+            $result=true;
+        }else{
+            $result=false;
+        }
+           verify($conn,$result,$uploadFile) ;
         break;
     default:
       
