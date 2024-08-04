@@ -10,11 +10,11 @@
 	//define('db', 'exam_result_management');
 	define('db', 'exam');
 
-
+	
 	$conn=mysqli_connect(host,user,pwd,db);
 
 	if($conn){
-		echo "<div style='animation: blink 1s steps(1, end) infinite;'> Online Database Connected !</div>
+		echo "<div style='animation: blink 1s steps(1, end) infinite;'>Database Connected !</div>
 				<style>@keyframes blink { 50% { opacity: 0; } }</style>";
 	  }
 	  else{

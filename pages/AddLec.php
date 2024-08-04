@@ -155,7 +155,7 @@
    $admin_id=(isset($_POST['admin_id']))?($_POST['admin_id']):null;
    $admin_type=(isset($_POST['admin_type']))?($_POST['admin_type']):null;
    $password=(isset($_POST['password']))?($_POST['password']):null;
- 
+   $password=passwordhash($password);
    
   if($type=='Add'){
       query1InAll($conn,'lecture',$lec_id, $lec_name,$faculty,$dep,$lec_type,$admin_id);

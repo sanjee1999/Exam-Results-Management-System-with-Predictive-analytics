@@ -1,5 +1,4 @@
-<script src="../script/confirm.js">
-    </script>   
+
 <?php 
  function exhead($firstRow,$name){
  
@@ -16,6 +15,22 @@
                 #echo $head;
                # return $head;
                 
+}
+
+function logout(){
+    session_unset();
+    session_destroy();
+    header('Location: ../pages/login.php');
+    exit();
+}
+function passwordhash($password){
+    $password_hash = password_hash($password, PASSWORD_BCRYPT);
+    return $password_hash;
+}
+
+function isAuthenticated() {
+    return isset($_SESSION['user']);
+    
 }
 
 function unsetsession(){
@@ -1118,36 +1133,37 @@ function queryicaa(){
 
 }
 
-?>
-<!-- for($row=0; $row<$highestRow-1; $row++){
-        $qtest="SELECT marks_att1 FROM exam WHERE index_no='$col1[$row]' AND sub_code='$sub_code' ";
-        $rtest=mysqli_query($conn,$qtest);
-        if(!$rtest){
-            $query="INSERT INTO exam VALUES ('$col1[$row]','$col2[$row]',NULL,NULL,NULL,'$sub_code')";
-            $result=mysqli_query($conn,$query);
-        }else{
-            $qtest="SELECT marks_att1,marks_att2, FROM exam WHERE index_no='$col1[$row]' AND sub_code='$sub_code' ";
-            $rtest=mysqli_query($conn,$qtest);
-            if(!$rtest){
-                $query="UPDATE exam SET marks_att2= '$col2[$row]' WHERE index_no='$col1[$row]'";
-                $result=mysqli_query($conn,$query);
-            }else{
-                $qtest="SELECT marks_att1,marks_att2,marks_att3 FROM exam WHERE index_no='$col1[$row]' AND sub_code='$sub_code' ";
-                $rtest=mysqli_query($conn,$qtest);
-                if(!$rtest){
-                    $query="UPDATE exam SET marks_att3= '$col2[$row]' WHERE index_no='$col1[$row]'";
-                    $result=mysqli_query($conn,$query);
-                }else{
-                    $qtest="SELECT marks_att1,marks_att2,marks_att3,marks_attsp FROM exam WHERE index_no='$col1[$row]' AND sub_code='$sub_code' ";
-                    $rtest=mysqli_query($conn,$qtest);
-                    if(!$rtest){
-                        $query="UPDATE exam SET marks_attsp= '$col2[$row]' WHERE index_no='$col1[$row]'";
-                        $result=mysqli_query($conn,$query);
-                    }else{
-                        $errregno[]=$col1[$row];
-                        $errmarks[]=$col2[$row];
-                  }
-              }
-            }
-        } 
-      } -->
+
+// for($row=0; $row<$highestRow-1; $row++){
+//         $qtest="SELECT marks_att1 FROM exam WHERE index_no='$col1[$row]' AND sub_code='$sub_code' ";
+//         $rtest=mysqli_query($conn,$qtest);
+//         if(!$rtest){
+//             $query="INSERT INTO exam VALUES ('$col1[$row]','$col2[$row]',NULL,NULL,NULL,'$sub_code')";
+//             $result=mysqli_query($conn,$query);
+//         }else{
+//             $qtest="SELECT marks_att1,marks_att2, FROM exam WHERE index_no='$col1[$row]' AND sub_code='$sub_code' ";
+//             $rtest=mysqli_query($conn,$qtest);
+//             if(!$rtest){
+//                 $query="UPDATE exam SET marks_att2= '$col2[$row]' WHERE index_no='$col1[$row]'";
+//                 $result=mysqli_query($conn,$query);
+//             }else{
+//                 $qtest="SELECT marks_att1,marks_att2,marks_att3 FROM exam WHERE index_no='$col1[$row]' AND sub_code='$sub_code' ";
+//                 $rtest=mysqli_query($conn,$qtest);
+//                 if(!$rtest){
+//                     $query="UPDATE exam SET marks_att3= '$col2[$row]' WHERE index_no='$col1[$row]'";
+//                     $result=mysqli_query($conn,$query);
+//                 }else{
+//                     $qtest="SELECT marks_att1,marks_att2,marks_att3,marks_attsp FROM exam WHERE index_no='$col1[$row]' AND sub_code='$sub_code' ";
+//                     $rtest=mysqli_query($conn,$qtest);
+//                     if(!$rtest){
+//                         $query="UPDATE exam SET marks_attsp= '$col2[$row]' WHERE index_no='$col1[$row]'";
+//                         $result=mysqli_query($conn,$query);
+//                     }else{
+//                         $errregno[]=$col1[$row];
+//                         $errmarks[]=$col2[$row];
+//                   }
+//               }
+//             }
+//         } 
+//       } 
+      ?>

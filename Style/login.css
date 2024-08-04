@@ -1,0 +1,43 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.custom-card {
+  height: 35rem !important;
+  background-color: rgba(176, 139, 241, 0.1) !important;
+  border: none !important;
+  border-radius: 15px !important;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2) !important;
+}
+.custom-card input {
+  border: solid 1px #b08bf1;
+}
+.custom-card input::placeholder {
+  color: #b08bf1; /* Placeholder color */
+  font-size: 12px;
+}
+.btn {
+  background-color: #884dee !important;
+  color: white !important;
+}
+.btn:hover {
+  background-color: #b08bf1 !important;
+}
+.form-group {
+  margin-bottom: 1rem !important;
+}
+h4 {
+  color: #884dee !important;
+  font-weight: 700 !important;
+}
+
+h5 {
+  color: #884dee !important;
+}
+
+.mform {
+  width: 80%;
+}
+.form-control::placeholder {
+  color: #b08bf1 !important;
+}

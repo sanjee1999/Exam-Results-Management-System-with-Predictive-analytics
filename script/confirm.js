@@ -30,7 +30,5 @@
         document.getElementById('action_' + formId).value = 'update';
         document.getElementById(formId).submit();
     }
-    function insertRecord(formId) {
-        document.getElementById(formId).submit();
-    }
+   
 

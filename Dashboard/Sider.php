@@ -4,6 +4,11 @@ session_start();
 require_once '../connection/conf.php';
 require_once '../function/fun.php';
 
+if (!isAuthenticated()) {
+  header('Location: ../pages/login.php');
+  exit();
+}
+$user_type=$_SESSION['user_type'];
 ?>
 
 <!DOCTYPE html>
@@ -49,6 +54,7 @@ require_once '../function/fun.php';
           </li>
 
           <!-- attendance start -->
+        <?php if ($user_type == 'hod' || $user_type == 'lec'): ?>
           <li class="sidebar-item">
             <a
               href=""
@@ -131,9 +137,11 @@ require_once '../function/fun.php';
               </li>
             </ul>
           </li>
+        <?php endif; ?>
           <!-- attendance end -->
 
           <!-- assesment start -->
+        <?php if ($user_type == 'hod' || $user_type == 'lec'): ?>
           <li class="sidebar-item">
             <a
               href="#"
@@ -166,10 +174,11 @@ require_once '../function/fun.php';
               </li>
             </ul>
           </li>
+        <?php endif; ?>
           <!-- assessment end -->
 
           <!-- Final start -->
-
+        <?php if ($user_type == 'hod' || $user_type == 'lec'): ?>
           <li class="sidebar-item">
             <a
               href="#"
@@ -211,10 +220,11 @@ require_once '../function/fun.php';
               </li>
             </ul>
           </li>
+         <?php endif; ?>
           <!-- Final end -->
 
           <!-- combosite marks  start -->
-
+        <?php if ($user_type == 'hod' || $user_type == 'lec'): ?>
           <li class="sidebar-item">
             <a href="?content=../pages/ComboMarks.php" 
               class="sidebar-link">
@@ -222,10 +232,11 @@ require_once '../function/fun.php';
               <span>Combosite Marks</span>
             </a>
           </li>
+         <?php endif; ?>
           <!-- combosite marks end -->
 
           <!-- subject start -->
-
+        <?php if ($user_type == 'hod'): ?>
           <li class="sidebar-item">
             <a
               href="#"
@@ -260,10 +271,11 @@ require_once '../function/fun.php';
               </li>
             </ul>
           </li>
+        <?php endif; ?>
           <!-- subject end -->
 
           <!-- faculty start -->
-
+        <?php if ($user_type == 'superadmin'): ?>
            <li class="sidebar-item">
             <a
               href="#"
@@ -298,10 +310,11 @@ require_once '../function/fun.php';
               </li>
             </ul>
           </li>
+         <?php endif; ?>
           <!-- faculty end -->
 
           <!-- course start -->
-
+        <?php if ($user_type == 'superadmin'): ?>
           <li class="sidebar-item">
             <a
               href="#"
@@ -336,10 +349,11 @@ require_once '../function/fun.php';
               </li>
             </ul>
           </li>
+         <?php endif; ?>
           <!-- course end -->
 
           <!-- department start -->
-
+        <?php if ($user_type == 'superadmin'): ?>
           <li class="sidebar-item">
             <a
               href="#"
@@ -374,10 +388,11 @@ require_once '../function/fun.php';
               </li>
             </ul>
           </li>
+         <?php endif; ?>
           <!-- department end -->
 
           <!-- Lecture start -->
-
+        <?php if ($user_type == 'superadmin'): ?>
           <li class="sidebar-item">
             <a
               href="#"
@@ -412,9 +427,11 @@ require_once '../function/fun.php';
               </li>
             </ul>
           </li>
+        <?php endif; ?>
           <!-- Lecture end -->
           
           <!-- Student start -->
+        <?php if ($user_type == 'hod' || $user_type == 'superadmin'): ?>
           <li class="sidebar-item">
             <a
               href="#"
@@ -449,7 +466,10 @@ require_once '../function/fun.php';
               </li>
             </ul>
           </li>
+         <?php endif; ?>
         <!-- Student end -->
+
+
           <li class="sidebar-item">
             <a href="?content=../pages/Profile.php" 
               class="sidebar-link">
@@ -461,7 +481,7 @@ require_once '../function/fun.php';
 
         <!-- sidebar footer -->
         <div class="sidebar-footer">
-          <a href="../index.php" class="sidebar-link">
+          <a href="../pages/login.php" class="sidebar-link">
             <i class="bx bx-log-out-circle me-2"></i>
             <span>Logout</span>
           </a>
@@ -492,8 +512,6 @@ require_once '../function/fun.php';
         </div>
         </div>
       </div>
-
-      <!--  -->
     </div>
 
     <!-- Bootstrap JS -->
