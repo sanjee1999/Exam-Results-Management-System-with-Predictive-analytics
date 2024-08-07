@@ -210,7 +210,7 @@ $worksheet = $spreadsheet->getActiveSheet();
   // Get the highest column letter with data
   $highestColumn = $worksheet->getHighestDataColumn();
   $_SESSION['highestRow']=$highestRow;
-  echo "hiihihi $highestRow hellloooo";
+  debug($highestRow)  ;
 
   // Convert the column letter to a column index
   $highestColumnIndex = PhpOffice\PhpSpreadsheet\Cell\Coordinate::columnIndexFromString($highestColumn);
@@ -221,7 +221,7 @@ $worksheet = $spreadsheet->getActiveSheet();
   $m = isset($_POST['dob']) ? $_POST['dob'] : null;
   $n = isset($_POST['doa']) ? $_POST['doa'] : null;
  
-  echo "$i $j $k $l $m $n";
+  debug("$i $j $k $l $m $n") ;
   
 
   if(!empty($i) && !empty($j) && !empty($k) && !empty($l) && !empty($m) && !empty($n)){
@@ -264,11 +264,11 @@ $worksheet = $spreadsheet->getActiveSheet();
           $col4[] = $worksheet->getCell($c4 . $row)->getValue();
           $col5[] = $worksheet->getCell($c5 . $row)->getValue();
           $col6[] = $worksheet->getCell($c6 . $row)->getValue();
-          echo "ok outtt";
+          debug("ok outtt") ;
       }
-    print_r($col1);
+      debug(print_r($col1));
     echo"<br>";
-    print_r($col2);
+    debug(print_r($col2));
       $_SESSION['col1'] = isset($col1) ? $col1 : NULL;
       $_SESSION['col2'] = isset($col2) ? $col2 : NULL;
       $_SESSION['col3'] = isset($col3) ? $col3 : NULL;

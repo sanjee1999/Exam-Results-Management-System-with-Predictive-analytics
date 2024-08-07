@@ -7,7 +7,7 @@
       $course_name=(isset($row[1]))?$row[1]:null;
       $dep=(isset($row[2]))?$row[2]:null;
       $faculty=(isset($row[3]))?$row[3]:null;
-      echo $course_id.$course_name.$dep.$faculty;
+      debug($course_id.$course_name.$dep.$faculty) ;
       
    
 ?>

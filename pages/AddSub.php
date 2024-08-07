@@ -16,7 +16,7 @@
    $lec_id = isset($row[10]) ? $row[10] : null;
    
    // Print values to check
-   echo $sub_code . $sub_name . $total_credit . $p_credit . $t_credit . $pi_ratio . $ti_ratio . $course_id . $level . $sem . $lec_id;
+   debug( $sub_code . $sub_name . $total_credit . $p_credit . $t_credit . $pi_ratio . $ti_ratio . $course_id . $level . $sem . $lec_id);
    
       
    

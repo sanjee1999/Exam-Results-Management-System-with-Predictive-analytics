@@ -27,12 +27,12 @@
   </head>
   <body>
     
-          <div class="title text-center">
+          <!-- <div class="title text-center">
             <h3>-Today Time Table-</h3>
-          </div>
+          </div> -->
 
           <!-- timetable -->
-          <section class="p-5">
+          <!-- <section class="p-5">
             <div class="table-responsive" id="table1">
               <table class="table bg-white">
                 <thead class="bg-dark text-light">
@@ -65,7 +65,7 @@
                 </tbody>
               </table>
             </div>
-          </section>
+          </section> -->
        
 
     <!-- Bootstrap JS -->

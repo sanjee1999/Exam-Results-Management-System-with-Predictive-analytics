@@ -54,7 +54,41 @@ $user_type=$_SESSION['user_type'];
           </li>
 
           <!-- attendance start -->
-        <?php if ($user_type == 'hod' || $user_type == 'lec'): ?>
+          <?php if ($user_type == 'hod' || $user_type == 'lec'): ?>
+          <li class="sidebar-item">
+            <a
+              href="#"
+              class="sidebar-link has-dropdown collapsed"
+              data-bs-toggle="collapse"
+              data-bs-target="#attendance"
+              aria-expanded="false"
+              aria-controls="attendance"
+            >
+              <i class="bx bxs-calendar me-2"></i>
+              <span>Attendance</span>
+            </a>
+            <ul
+              id="attendance"
+              class="sidebar-dropdown list-unstyled collapse"
+              data-bs-parent="#sidebar"
+            >
+              <li class="sidebar-item">
+                <a href="?content=../pages/AddDailyAttendance.php" 
+                  class="sidebar-link"
+                  >Add DailyAttendance</a
+                >
+              </li>
+
+              <li class="sidebar-item">
+                <a href="?content=../pages/ViewDailyAttendance.php" 
+                  class="sidebar-link"
+                  >View DailyAttendance</a
+                >
+              </li>
+            </ul>
+          </li>
+        <?php endif; ?>
+         <?php if ($user_type ==  false): ?> 
           <li class="sidebar-item">
             <a
               href=""
@@ -126,17 +160,17 @@ $user_type=$_SESSION['user_type'];
                       >View Daily Attendance</a
                     >
                   </li>
-                  <li class="sidebar-item">
+                  <!-- <li class="sidebar-item">
                     <a
                       href="?content=../pages/ViewMonthlyAttendance.php"
                       class="sidebar-link"
                       >View Monthly Attendance</a
                     >
-                  </li>
+                  </li> -->
                 </ul>
               </li>
             </ul>
-          </li>
+          </li> 
         <?php endif; ?>
           <!-- attendance end -->
 
@@ -459,7 +493,7 @@ $user_type=$_SESSION['user_type'];
 
               <li class="sidebar-item">
                 <a
-                  href="?content=../pages/viewEdit.php&table=faculty"
+                  href="?content=../pages/viewEdit.php&table=student&table1=index_no&tcol=reg_no&t1col=reg_no"
                   class="sidebar-link"
                   >View / Edit student</a
                 >
@@ -477,19 +511,21 @@ $user_type=$_SESSION['user_type'];
               <span>Profile</span>
             </a>
           </li>
+          <li class="sidebar-item">
+            <a href="?content=../pages/login.php" 
+              class="sidebar-link">
+              <i class="bx bx-log-out-circle me-2"></i>
+              <span>Logout</span>
+            </a>
+          </li>
         </ul>
 
         <!-- sidebar footer -->
-        <div class="sidebar-footer">
-          <a href="../pages/login.php" class="sidebar-link">
-            <i class="bx bx-log-out-circle me-2"></i>
-            <span>Logout</span>
-          </a>
-        </div>
+        
       </aside>
       <div class="main p-3">
         <div class="top-bar text-center">
-          <h2>EXAM RESULTS MANAGEMENT SYSTEM WITH PREDICTIVE ANALYTICS</h2>
+          <h2>EXAM RESULTS MANAGEMENT SYSTEM</h2>
           <hr />
         </div>
       <div class="content">

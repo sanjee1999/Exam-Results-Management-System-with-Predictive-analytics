@@ -4,7 +4,7 @@
  $tcol=isset($_GET['tcol'])?$_GET['tcol']:NULL;
  $t1col=isset($_GET['t1col'])?$_GET['t1col']:NULL;
 
-echo $tcol." ".$t1col;
+  debug($tcol." ".$t1col) ;
 
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $button = $_POST['action'];
@@ -80,7 +80,7 @@ echo $tcol." ".$t1col;
               <?php 
                   // $table=isset($_GET['table'])?$_GET['table']:NULL;
                   // $table1=isset($_GET['table1'])?$_GET['table1']:NULL;
-                  echo $table." ". $table1."<br>";
+                  debug( $table." ". $table1."<br>");
                   if($table=='course'){ 
                     $query=queryGenTable($table);
                     tableViewEdit($conn,$query,'course_id','0');
@@ -100,6 +100,10 @@ echo $tcol." ".$t1col;
                   if($table=='lecture'){
                     $query=queryjoin($conn,$table,$table1,'admin_id','admin_id');
                     tableViewEdit($conn,$query,'admin_id','5');
+                  }
+                  if($table=='student'){
+                    $query=queryjoin($conn,$table,$table1,'reg_no','reg_no');
+                    tableViewEdit($conn,$query,'reg_no','0');
                   }
               
               ?>

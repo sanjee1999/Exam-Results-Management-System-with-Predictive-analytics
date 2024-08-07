@@ -1,36 +1,45 @@
 <?php
 $sub_code=$date=$month=$year=$regno=$level=null;
 
-//   if($_SERVER["REQUEST_METHOD"]=="POST"){
-//     $sub_code=(isset($_POST['sub_code']))?($_POST['sub_code']):null;
-//     $level=(isset($_POST['level']))?($_POST['level']):null;
-//     $date=(isset($_POST['date']))?($_POST['date']):null;
-//     $month=(isset($_POST['month']))?($_POST['month']):null;
-//     $year=(isset($_POST['year']))?($_POST['year']):null;
-//     $regno=(isset($_POST['regno']))?($_POST['regno']):null;
-//     $type=(isset($_POST['type']))?($_POST['type']):null;
-//     $attend=(isset($_POST['attend']))?($_POST['attend']):null;
-//     $batch = isset($_POST['batch']) ? $_POST['batch'] : null;
-//     $sem = isset($_POST['sem']) ? $_POST['sem'] : null;
-//     $dep = isset($_POST['dep']) ? $_POST['dep'] : null;
-//     $course = isset($_POST['course']) ? $_POST['course'] : null;
-   
-//     echo "$sub_code $date $month $year $regno $level $attend<br>";
+// if($_SERVER["REQUEST_METHOD"]=="POST"){
+//   $sub_code=(isset($_POST['sub_code']))?($_POST['sub_code']):null;
+//   $sub_type=(isset($_POST['sub_type']))?($_POST['sub_type']):null;
+//   $level=(isset($_POST['level']))?($_POST['level']):null;
+//   $date=(isset($_POST['date']))?($_POST['date']):null;
+//   $month=(isset($_POST['month']))?($_POST['month']):null;
+//   $year=(isset($_POST['year']))?($_POST['year']):null;
+//   $regno=(isset($_POST['regno']))?($_POST['regno']):null;
+//   $type=(isset($_POST['type']))?($_POST['type']):null;
+//   $attend=(isset($_POST['attend']))?($_POST['attend']):null;
+//   $batch = isset($_POST['batch']) ? $_POST['batch'] : null;
+//   $sem = isset($_POST['sem']) ? $_POST['sem'] : null;
+//   $dep = isset($_POST['dep']) ? $_POST['dep'] : null;
+//   $course = isset($_POST['course']) ? $_POST['course'] : null;
+//   $ica = isset($_POST['ica']) ? $_POST['ica'] : null;
+//   $index_no = isset($_POST['index_no']) ? $_POST['index_no'] : null;
+//   $detail = isset($_POST['detail']) ? $_POST['detail'] : null;
+//   $graph = isset($_POST['graph']) ? $_POST['graph'] : null;
+ 
+//   echo "$sub_code $date $month $year $regno $level $attend<br>";
 
-//     $_SESSION['sub_code']=isset($sub_code)?$sub_code:null;
-//     $_SESSION['level']=isset($level)?$level:null;
-//     $_SESSION['date']=isset($date)?$date:null;
-//     $_SESSION['month']=isset($month)?$month:null;
-//     $_SESSION['year']=isset($year)?$year:null;
-//     $_SESSION['regno']=isset($regno)?$regno:null;
-//     $_SESSION['type']=isset($type)?$type:null;
-//     $_SESSION['attend'] = isset($attend) ? $attend : null;
-//     $_SESSION['batch'] = isset($batch) ? $batch : null;
-//     $_SESSION['sem'] = isset($sem) ? $sem : null;
-//     $_SESSION['dep'] = isset($dep) ? $dep : null;
-//     $_SESSION['course'] = isset($course) ? $course : null;
-//   }
-// ?>    
+//   $_SESSION['sub_code']=isset($sub_code)?$sub_code:null;
+//   $_SESSION['sub_type']=isset($sub_type)?$sub_type:null;
+//   $_SESSION['level']=isset($level)?$level:null;
+//   $_SESSION['date']=isset($date)?$date:null;
+//   $_SESSION['month']=isset($month)?$month:null;
+//   $_SESSION['year']=isset($year)?$year:null;
+//   $_SESSION['regno']=isset($regno)?$regno:null;
+//   $_SESSION['type']=isset($type)?$type:null;
+//   $_SESSION['attend'] = isset($attend) ? $attend : null;
+//   $_SESSION['batch'] = isset($batch) ? $batch : null;
+//   $_SESSION['sem'] = isset($sem) ? $sem : null;
+//   $_SESSION['dep'] = isset($dep) ? $dep : null;
+//   $_SESSION['course'] = isset($course) ? $course : null;
+//   $_SESSION['ica'] = isset($ica) ? $ica : null;
+//   $_SESSION['index_no'] = isset($index_no) ? $index_no : null;
+//   $_SESSION['graph'] = isset($graph) ? $graph : null;
+// }
+//  ?>    
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -162,6 +171,10 @@ $sub_code=$date=$month=$year=$regno=$level=null;
                   <input type="text" name="regno" id="regno" class="form-control" placeholder="Reg_No"/>
                   <input type="hidden" name="type" id="type" class="form-control" value="attendance"/>
                 </div>
+                <!-- <div class="form-check form-switch form-group" id="graph">
+                  <input class="form-check-input" type="checkbox" role="switch" name="graph" id="graph" value="graph">
+                  <label class="form-check-label" for="graph">Graph View</label>
+                </div> -->
 
                 <!-- <div class="form-group col-md-3">
                   <button class="btn btn-primary w-100">View</button>
@@ -172,24 +185,56 @@ $sub_code=$date=$month=$year=$regno=$level=null;
           <div class="title text-center">
             <h3>- Attendance for
               <?php   
-                  echo "$regno $sub_code $date $month $year $level";
+                  debug("$regno $sub_code $date $month $year $level") ;
               ?>
             -</h3>
           </div>
         </div>
         <div class="container" id="viewout">
-          <!-- <section class="p-5">
-            <div class="table-responsive" id="table1">
-              <?php 
-                // if($_SERVER["REQUEST_METHOD"]=="POST"){  
-                //   $table='attendance';
-                //   $query=querygenarator($table);
-                //   outputQueryInTable($conn,$query);
-                // }
-              ?>
-            </div>
-          </section> -->
+        
         </div>
+    
+       
+
+          <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ 
+            
+          
+          
+         
+
+<div class="chart">
+            <canvas id="myChart"></canvas>
+</div>
+<!-- <script>
+  const ctx = document.getElementById("myChart").getContext('2d');
+
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: <?php echo json_encode($label);?> ,
+      datasets: [
+        {
+          label: "Predicted marks",
+          data: <?php echo json_encode($value);?>,
+          fill: true,
+          backgroundColor: "rgba(176, 139, 241, 0.5)", // Set background color with 50% opacity
+          borderColor: "#884DEE",
+          borderWidth: 2,
+          tension: 0.4,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+</script> -->
+       
 
     <!-- Bootstrap JS -->
     <script
@@ -197,9 +242,11 @@ $sub_code=$date=$month=$year=$regno=$level=null;
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
-
     <script src="../script/filter.js"></script>
     <script src="../Sidebar/Main.js"></script>
+
+
+   
   </body>
 </html>
 

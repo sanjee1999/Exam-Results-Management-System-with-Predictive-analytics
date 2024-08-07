@@ -6,7 +6,7 @@
       $faculty=(isset($row[0]))?$row[0]:null;
       $faculty_name=(isset($row[1]))?$row[1]:null;
       
-      echo $faculty_name.$faculty;
+      debug( $faculty_name.$faculty);
       
    
 ?>

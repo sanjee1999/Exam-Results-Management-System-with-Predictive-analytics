@@ -119,8 +119,8 @@ $conn->close();
 
     <script src="../Sidebar/Main.js"></script>
 
-    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script>
       const ctx = document.getElementById("myChart").getContext('2d');
 

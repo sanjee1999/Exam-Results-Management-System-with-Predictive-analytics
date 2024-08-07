@@ -16,6 +16,12 @@
                # return $head;
                 
 }
+function debug($msg){
+    if($_SESSION['debug']){
+        echo "$msg";
+    }
+
+}
 
 function logout(){
     session_unset();
@@ -61,6 +67,7 @@ function unsetsession(){
   unset($_SESSION['heading']);
   unset($_SESSION['ica']);
   unset($_SESSION['uploadfile']);
+  unset($_SESSION['graph']);
   
 }
 
@@ -223,11 +230,11 @@ function query1UpAll($conn, $table, $whereColumn, $whereValue, array $updateColu
 
 function queryjoin($conn,$table,$table1,$tcol,$t1col){
   $query="SELECT * FROM `$table` LEFT JOIN `$table1` ON $table.$tcol=$table1.$t1col";
-  echo $query."<br>";
-  $result=mysqli_query($conn,$query);
-  $row = $result->fetch_row();
-  print_r($row);
-  echo "<br>".$row[7];
+  echo debug($query)."<br>";
+  //$result=mysqli_query($conn,$query);
+  //$row = $result->fetch_row();
+  //debug(print_r($row));
+  //debug("<br>".$row[7]) ;
   return $query;
 }
   
@@ -263,11 +270,12 @@ function loadsession(){
     $heading = isset($_SESSION['heading']) ? $_SESSION['heading'] : null;
     $ica = isset($_SESSION['ica']) ? $_SESSION['ica'] : null;
     $uploadFile = isset($_SESSION['uploadfile']) ? $_SESSION['uploadfile'] : null;
+    $graph = isset($_SESSION['graph']) ? $_SESSION['graph'] : null;
           
       return compact('date', 'time', 'hour', 'year','month','sub_code','sub_type' ,
                     'regno','attend','index_no','level', 'batch','sem','dep','course','firstRow', 
                     'col1', 'col2','col3','col4','col5','col6', 
-                    'highestRow', 'type', 'heading', 'ica', 'uploadFile');
+                    'highestRow', 'type', 'heading', 'ica', 'uploadFile','graph');
 
 }
 
@@ -425,7 +433,48 @@ function upload($conn){
 
 }
 
+function outputQueryInChart($conn,$query){
+    $result = $conn->query($query);
+    $label = [];
+    $value = [];
+    while($row = $result->fetch_assoc()) {
+        $label[] = $row['Reg_No'];
+        $value[] = $row['Attendance'];
+      }
+      echo "<canvas id='myChart'></canvas>
+      <script>
+      const ctx = document.getElementById('myChart').getContext('2d');
+    
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: " . json_encode($label) . ",
+          datasets: [
+            {
+              label: 'Predicted marks',
+              data: " . json_encode($value) . ",
+              fill: true,
+              backgroundColor: 'rgba(176, 139, 241, 0.5)', // Set background color with 50% opacity
+              borderColor: '#884DEE',
+              borderWidth: 2,
+              tension: 0.4,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      });
+    </script>";
+    
+$conn->close();
 
+
+}
 
 function outputQueryInTable($conn,$query) {
    
@@ -806,6 +855,8 @@ function filehub($table) {
           return 'AddSub.php';  
       case 'lecture':
           return 'AddLec.php';  
+      case 'student':
+          return 'AddEditStudent.php';  
   }
 }
 function uptablerow($conn,$file,$table,$idcol,$id){
@@ -859,7 +910,7 @@ function queryattend() {
   $q1 = "SELECT at.reg_no AS Reg_No, 
           at.date AS Date, at.time AS Time, 
           at.hour AS Hours, at.sub_code AS Sub_Code,
-          at.sub_type as Subject_type, at.attendance AS Attendance";
+          at.sub_type AS Subject_type, at.attendance AS Attendance";
           
   $q2 = " FROM attendance at 
           LEFT JOIN subject su ON at.sub_code = su.sub_code 
@@ -906,12 +957,12 @@ function queryattend() {
       $q3 .= " AND su.semester = '$sem'";
   }
   if (!empty($course)) { 
-      $q1 .= ", co.name AS Course";
-      $q3 .= " AND co.course_name = '$course'";
+      $q1 .= ", co.course_name AS Course";
+      $q3 .= " AND co.course_id = '$course'";
   }
   if (!empty($dep)) { 
-      $q1 .= ", de.name AS Department";
-      $q3 .= " AND de.dep_name = '$dep'";
+      $q1 .= ", de.dep_name AS Department";
+      $q3 .= " AND de.dep_id = '$dep'";
   }
 
   $orderBy = ' ORDER BY SUBSTRING_INDEX(at.reg_no, "/", 1) ASC,
@@ -919,7 +970,7 @@ function queryattend() {
                CAST(SUBSTRING_INDEX(at.reg_no, "/", -1) AS UNSIGNED) ASC';
 
   $query = $q1 . $q2 . $q3 . $orderBy;
-  echo $query;
+  debug($query) ;
   return $query;
 }
 
@@ -989,7 +1040,7 @@ function queryica() {
                CAST(SUBSTRING_INDEX(i1.reg_no, "/", -1) AS UNSIGNED) ASC';
 
   $query = $q1 . $q2 . $q3 . $orderBy;
-  echo $query;
+  debug($query) ;
   return $query;
 }
 
@@ -1054,7 +1105,7 @@ function queryfinal(){
                  CAST(SUBSTRING_INDEX(ind.reg_no, "/", -1) AS UNSIGNED) ASC';
 
     $query = $q1 . $q2 . $q3 . $orderBy;
-    echo $query;
+    debug($query) ;
     return $query;
 }
 
@@ -1076,7 +1127,7 @@ function optiongen($conn, $table, $val,$name) {
   $result = $conn->query($query);
   
   $val_o = isset($_SESSION['value']) ? $_SESSION['value'] : null;
-echo $val_o;
+    echo $val_o;
   //$name_o = isset($_SESSION['value']) ? $_SESSION['value'] : null;
 
   if ($result->num_rows > 0) {
@@ -1128,7 +1179,7 @@ function queryicaa(){
           SUBSTRING_INDEX(SUBSTRING_INDEX(i1.reg_no, "/", 2), "/", -1) ASC,
           CAST(SUBSTRING_INDEX(i1.reg_no, "/", -1) AS UNSIGNED) ASC;';
     $query=$q1.$q2;  
-    echo $query;
+    debug($query) ;
     return $query;    
 
 }

@@ -15,7 +15,7 @@
     $password = isset($row[8]) ? $row[8] : null;
 
     // Print values to check
-    echo $lec_id . $lec_name . $faculty . $dep . $lec_type . $admin_id . $admin_type . $password;
+    debug( $lec_id . $lec_name . $faculty . $dep . $lec_type . $admin_id . $admin_type . $password);
 
    
       

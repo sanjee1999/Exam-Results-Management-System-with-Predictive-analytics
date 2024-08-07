@@ -6,7 +6,7 @@
       $dep=(isset($row[0]))?$row[0]:null;
       $dep_name=(isset($row[1]))?$row[1]:null;
       $faculty=(isset($row[2]))?$row[2]:null;
-      echo $dep.$dep_name.$faculty;
+      debug( $dep.$dep_name.$faculty);
       
    
 ?>

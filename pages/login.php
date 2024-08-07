@@ -3,6 +3,7 @@ session_start();
 include '../connection/conf.php';
 include_once '../function/fun.php';
 
+
 if (isAuthenticated()) {
     logout();
     exit();

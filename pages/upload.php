@@ -10,11 +10,11 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-  echo "post working<br>"; 
+  debug("post working<br>") ; 
 }
 if (isset($_FILES['file'])){
-  echo "file working<br>";
-  print_r($_FILES['file']);
+  debug("file working<br>") ;
+  //debug(print_r($_FILES['file']));
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
@@ -28,8 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
         $worksheet = $spreadsheet->getActiveSheet();
         $firstRow = $worksheet->rangeToArray('A1:' . $worksheet->getHighestColumn() . '1')[0];
       
-      print_r($firstRow);
-      echo "<br>line clear<br>";
+        //debug(print_r($firstRow));
+        debug("<br>line clear<br>") ;
 
         $_SESSION['firstRow']=$firstRow;
         #$_SESSION['firstRow']=3;
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
 
           if(isset($_GET['type'])){
             $type=$_GET['type'];
-            echo $type."<br>";
+            debug( $type."<br>");
           }
           if($_SERVER["REQUEST_METHOD"]=="POST"){
             
@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
             
             
            
-            echo " $level $sub_code $hour $time $date $file $type $ica";
+            debug( " $level $sub_code $hour $time $date $file $type $ica");
           
           }
           if(isset($_GET['heading'])){
@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
             }elseif($heading=='final'){
               $heading=strtoupper($heading).' Marks';
             }
-            echo $heading."<br>";
+            debug($heading."<br>");
           }
 
         
@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
             $name=(isset($_POST[$type]))?($_POST[$type]):null;
 
                 if(!empty($rego) && !empty($name)){
-                  echo "<br>".$rego ." *** ".$name;
+                  debug("<br>".$rego ." *** ".$name) ;
                 }
           }
           
@@ -236,9 +236,9 @@ $worksheet = $spreadsheet->getActiveSheet();
       $col1[] = $worksheet->getCell($c1 . $row)->getValue();
       $col2[] = $worksheet->getCell($c2 . $row)->getValue();
     }
-    print_r($col1);
+    debug(print_r($col1));
     echo"<br>";
-    print_r($col2);
+    debug(print_r($col2));
      $_SESSION['col1']=isset($col1)?$col1:null;
      $_SESSION['col2']=isset($col2)?$col2:null;
     upload($conn);

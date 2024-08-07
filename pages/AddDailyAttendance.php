@@ -28,9 +28,9 @@
             $time=(isset($_POST['time']))?($_POST['time']):null;
             $date=(isset($_POST['date']))?($_POST['date']):null;
             $file=(isset($_POST['file']))?($_POST['file']):null;
-            echo "$year $subject $date $file";
+            debug( "$year $subject $date $file");
            if(!empty($year) && !empty($subject) && !empty($date) && !empty($file) ){
-            echo "$year $subject $date $file";
+            debug( "$year $subject $date $file");
            }
           }
           
@@ -134,7 +134,7 @@
                 </script>
                 <?php 
                     
-                   require_once '../function/fun.php';
+                   //require_once '../function/fun.php';
                    # print_r($firstRow);
                     // if(!empty($firstRow)){
                     //  exhead($firstRow);
