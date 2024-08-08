@@ -4,6 +4,8 @@ session_start();
 require_once '../connection/conf.php';
 require_once '../function/fun.php';
 
+
+
 if (!isAuthenticated()) {
   header('Location: ../pages/login.php');
   exit();
@@ -245,13 +247,13 @@ $user_type=$_SESSION['user_type'];
                   >View Marks</a
                 >
               </li>
-              <li class="sidebar-item">
+              <!-- <li class="sidebar-item">
                 <a
                   href="?content=../pages/PredictResult.php"
                   class="sidebar-link"
                   >Predict Result</a
                 >
-              </li>
+              </li> -->
             </ul>
           </li>
          <?php endif; ?>
@@ -525,7 +527,7 @@ $user_type=$_SESSION['user_type'];
       </aside>
       <div class="main p-3">
         <div class="top-bar text-center">
-          <h2>EXAM RESULTS MANAGEMENT SYSTEM</h2>
+          <h2>EXAM RESULTS MANAGEMENT SYSTEM WITH PREDICTIVE ANALYTICS</h2>
           <hr />
         </div>
       <div class="content">

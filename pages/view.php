@@ -89,10 +89,6 @@ $sub_code=$date=$month=$year=$regno=$level=$type=null;
                       $query=queryattend();
                       if($graph=='graph'){
                         outputQueryInChart($conn,$query);
-                        //echo "hiiiiiiii";
-                        // while($row = $result->fetch_assoc()) {
-                        //   $label[] = $row['Reg_No'];
-                        //   $value[] = $row['Attendance'];
                         }else{
                         outputQueryInTable($conn,$query);
                         }

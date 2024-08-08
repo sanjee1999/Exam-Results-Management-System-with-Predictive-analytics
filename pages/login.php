@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <h4
             class="card-title d-flex justify-content-center pb-3 pt-3 text-center"
           >
-            Exam Results Management System with Predictive Analytics
+            Exam Results Management System WITH PREDICTIVE ANALYTICS
           </h4>
           <h5 class="card-title d-flex justify-content-center pb-3 pt-1">
             -Log in-

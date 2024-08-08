@@ -435,12 +435,12 @@ function upload($conn){
 
 function outputQueryInChart($conn,$query){
     $result = $conn->query($query);
-    $label = [];
-    $value = [];
-    while($row = $result->fetch_assoc()) {
-        $label[] = $row['Reg_No'];
-        $value[] = $row['Attendance'];
-      }
+    // $label = [];
+    // $value = [];
+    // while($row = $result->fetch_assoc()) {
+    //     $label[] = $row['Reg_No'];
+    //     $value[] = $row['Attendance'];
+    //   }
       echo "<canvas id='myChart'></canvas>
       <script>
       const ctx = document.getElementById('myChart').getContext('2d');
@@ -473,7 +473,7 @@ function outputQueryInChart($conn,$query){
     
 $conn->close();
 
-
+return $result;
 }
 
 function outputQueryInTable($conn,$query) {

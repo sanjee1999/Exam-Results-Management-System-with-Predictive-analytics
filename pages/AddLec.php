@@ -109,7 +109,7 @@
                 <div class="form-group col-md-3 " id="password">
                       <input type="password" name="password" id="password" class="form-control password" placeholder="Type Password" autocomplete="" value="<?php infill($password); ?>" required/>
                       <!-- <i class="far fa-eye" id="togglePassword"></i> -->
-                      <div class="fa fa-eye icon"></div>
+                      <!-- <div class="fa fa-eye icon"></div> -->
                 </div>
                 <!-- <div class="form-group col-md-3 " id="password">
                 <div class="col-12">
