@@ -11,7 +11,7 @@
       $id=$_POST['id'];
       $idcol=$_POST['idcol'];
       $file=filehub($table);
-      echo "Button value received: " . $button.$id;
+      debug("Button value received: " . $button.$id) ;
 
         if(!empty($table) && empty($table1)){
           if($button=='delete' && isset($id)){

@@ -89,7 +89,7 @@
       queryInAll($conn,'department',$dep, $dep_name,$faculty);
   }
   if($type=='Update'){
-      queryUpAll($conn, 'department', 'dep_id', $dep, ['dep_id', 'dep_name', 'f_id'], $dep_id, $dep_name, $faculty);
+      queryUpAll($conn, 'department', 'dep_id', $dep, ['dep_id', 'dep_name', 'f_id'], $dep, $dep_name, $faculty);
   }
  }
   

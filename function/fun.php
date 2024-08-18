@@ -843,6 +843,23 @@ function tableView1Edit($conn,$query,$idcol,$i) {
   
 }
 
+function convertDate($dateValue) {
+     // Check if the value is a DateTime object
+if ($dateValue instanceof \PhpOffice\PhpSpreadsheet\Shared\Date) {
+    // Convert to PHP DateTime object
+    $dateValue = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($dateValue);
+  } elseif (is_numeric($dateValue)) {
+    // If it's a numeric value (timestamp), convert to DateTime
+    $dateValue = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($dateValue);
+  } else {
+    // Handle other types or invalid data
+    $dateValue = null;
+  }
+  
+  // Format the date to 'Y-m-d'
+  $formattedDate = $dateValue ? $dateValue->format('Y-m-d') : null;
+  return $formattedDate;
+}
 function filehub($table) {
   switch($table) {
       case 'course':
@@ -869,7 +886,7 @@ function uptablerow($conn,$file,$table,$idcol,$id){
 function deltablerow($conn,$table,$idcol,$id){
 
   $query="DELETE FROM $table WHERE $idcol='$id'";
-  echo "$query  ";
+  debug("$query  ") ;
   $result = $conn->query($query);
 
   // Check if query was successful
@@ -932,7 +949,7 @@ function queryattend() {
   if (!empty($sub_type)) { 
       $q3 .= " AND at.sub_type = '$sub_type'";
   }  
-  if (!is_null($attend)) { 
+  if ($attend === "0" || $attend === "1") { 
       $q3 .= " AND at.attendance = '$attend'";
   }  
   if (!empty($month)) { 
@@ -975,7 +992,7 @@ function queryattend() {
 }
 
 function queryica() {
-  $q1 = "SELECT st.reg_no AS reg_no";
+  $q1 = "SELECT st.reg_no AS reg_no , su.sub_code AS Subject";
   $q2 = " FROM ica_1 i1
            LEFT JOIN ica_2 i2 ON i1.reg_no = i2.reg_no AND i1.sub_code = i2.sub_code
            LEFT JOIN ica_3 i3 ON i1.reg_no = i3.reg_no AND i1.sub_code = i3.sub_code
@@ -988,6 +1005,9 @@ function queryica() {
   $sessionVariables = loadsession();
   extract($sessionVariables);
 
+  if (!empty($sub_code)) { 
+    $q3 .= " AND (i1.sub_code = '$sub_code' OR i2.sub_code = '$sub_code' OR i3.sub_code = '$sub_code')";
+    }
   // ICA handling
   if (!empty($ica)) {
       foreach ($ica as $icaType) {
@@ -1004,9 +1024,7 @@ function queryica() {
   }
 
   // Additional conditions
-  if (!empty($sub_code)) { 
-      $q3 .= " AND (i1.sub_code = '$sub_code' OR i2.sub_code = '$sub_code' OR i3.sub_code = '$sub_code')";
-  }
+ 
   if (!empty($sub_type)) { 
       $q3 .= " AND (i1.sub_type = '$sub_type' OR i2.sub_type = '$sub_type' OR i3.sub_type = '$sub_type')";
   } 
@@ -1021,13 +1039,13 @@ function queryica() {
       $q1 .= ", st.batch AS batch";
       $q3 .= " AND st.batch = '$batch'";
   }
-  if (!empty($sem)) { 
-     $q1 .= ", su.semester AS Semester";
-      $q3 .= " AND su.semester = '$sem'";
+  if (!empty($dep)) { 
+     $q1 .= ", de.dep_name AS Department";
+      $q3 .= " AND de.dep_id = '$dep'";
   }
   if (!empty($course)) { 
-      $q1 .= ", co.name AS Course";
-      $q3 .= " AND co.course_name = '$course'";
+      $q1 .= ", co.course_name AS Course";
+      $q3 .= " AND co.course_id = '$course'";
   }
   if (!empty($sem)) {
       $q1 .= ", su.semester AS semester";
@@ -1079,20 +1097,20 @@ function queryfinal(){
         $q3 .= " AND ex.index_no = '$index_no'";  
     }
     if (!empty($level)) {
-        $q1 .= ", st.level AS level";
-        $q3 .= " AND st.level = '$level'";
+        $q1 .= ", su.level AS level";
+        $q3 .= " AND su.level = '$level'";
     }
     if (!empty($batch)) {
         $q1 .= ", st.batch AS batch";
         $q3 .= " AND st.batch = '$batch'";
     }
-    if (!empty($sem)) { 
-        $q1 .= ", su.semester AS Semester";
-        $q3 .= " AND su.semester = '$sem'";
+    if (!empty($dep)) { 
+        $q1 .= ", de.dep_name AS Department";
+        $q3 .= " AND de.dep_id = '$dep'";
     }
     if (!empty($course)) { 
-        $q1 .= ", co.name AS Course";
-        $q3 .= " AND co.course_name = '$course'";
+        $q1 .= ", co.course_name AS Course";
+        $q3 .= " AND co.course_id = '$course'";
     }
     if (!empty($sem)) {
         $q1 .= ", su.semester AS semester";

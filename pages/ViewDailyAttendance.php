@@ -79,20 +79,20 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
               <form action="" method="post" class="row" oninput="submitForm()" id="searchForm">
                 <div class="form-group col-md-3" id="sub_code">
                   <select name="sub_code" id="sub_code" class="form-control">
-                    <option value="" selected disabled>Select Sub_code</option>
+                    <option value="" selected >Select Sub_code</option>
                     <?php optiongen($conn, 'subject', 'sub_code','sub_name') ?>
                   </select>
                 </div>
                 <div class="form-group" id="sub_type">
                   <select name="sub_type" id="sub_type" class="form-control">
-                    <option value="" selected disabled>Select Subject Type</option>
+                    <option value="" selected >Select Subject Type</option>
                     <option value="T" <?php #if ($year == '1') echo 'selected'; ?>>Theory</option>
                     <option value="P" <?php #if ($year == '1') echo 'selected'; ?>>Practical</option> 
                   </select>
                 </div>
                 <div class="form-group col-md-3" id="level">
                   <select name="level" id="level" class="form-control">
-                    <option value="" selected disabled>Select Level</option>
+                    <option value="" selected >Select Level</option>
                     <option value="1">1st Year</option>
                     <option value="2">2nd Year</option>
                     <option value="3">3rd Year</option>
@@ -101,7 +101,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                 </div>
                 <div class="form-group col-md-3" id="attend">
                   <select name="attend" id="attend" class="form-control">
-                    <option value="" selected disabled>Select Attendance Status</option>
+                    <option value="" selected>Select Attendance Status</option>
                     <option value="0">0</option>
                     <option value="1">1</option>
                   </select>
@@ -118,7 +118,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 
                 <div class="form-group col-md-3" id="month">
                   <select name="month" id="month" class="form-control">
-                    <option value="" selected disabled>Select Month</option>
+                    <option value="" selected >Select Month</option>
                     <option value="01">January</option>
                     <option value="02">February</option>
                     <option value="03">March</option>
@@ -136,7 +136,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 
                 <div class="form-group col-md-3" id="year">
                   <select name="year" id="year" class="form-control">
-                    <option value="" selected disabled>Select Year</option>
+                    <option value="" selected >Select Year</option>
                     <?php
                         $current_year = date('Y');
                         $start_year = $current_year - 10;
@@ -153,13 +153,13 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                 </div>
                 <div class="form-group col-md-3" id="dep">
                     <select name="dep" id="dep" class="form-control">
-                      <option value="" selected disabled>Select Department</option>
+                      <option value="" selected >Select Department</option>
                       <?php optiongen($conn, 'department', 'dep_id','dep_name') ?>
                     </select>
                 </div>
                 <div class="form-group col-md-3" id="course">
                     <select name="course" id="course" class="form-control">
-                      <option value="" selected disabled>Select Course</option>
+                      <option value="" selected >Select Course</option>
                       <?php optiongen($conn, 'course', 'course_id','course_name') ?>
                     </select>
                 </div>
@@ -177,7 +177,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                 </div> -->
 
                 <div class="form-group col-md-3">
-                  <button class="btn btn-primary w-100">View</button>
+                  <button class="btn btn-primary w-100">View Graph</button>
                 </div>
               </form>
             </div>
