@@ -1,0 +1,21 @@
+
+color palette 01 (purple):
+{
+  primary-color: #884dee;
+  secondary-color: #b08bf1;
+
+}
+
+color palette 02 (green):
+{
+  primary-color: #16A34A
+  secondary-color: #D0EDDB
+
+}
+
+color palette 03:
+{
+  primary-color: #E11D48
+  secondary-color: #F9D2DA
+
+}
