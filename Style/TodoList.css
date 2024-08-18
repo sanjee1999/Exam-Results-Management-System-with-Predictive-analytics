@@ -1,0 +1,138 @@
+:root {
+  --primary-color: #884dee;
+  --secondary-color: #b08bf1;
+  --white-color: #fff;
+  --black-color: #000;
+}
+
+h3 {
+  color: var(--primary-color);
+}
+.table thead th {
+  background-color: var(--secondary-color) !important;
+  color: white;
+}
+.active {
+  background-color: var(--secondary-color) !important;
+  border-left: 3px solid white;
+}
+.aicon,
+.active span {
+  color: rgb(255, 204, 0) !important;
+}
+
+/* ********************************************************* */
+.container2 {
+  width: 100%;
+  min-height: 100vh;
+  padding: 5px;
+}
+
+.todo-list {
+  width: 100%;
+  max-width: 540px;
+  height: auto;
+  background-color: rgb(255, 255, 255);
+  margin: 10px auto 20px;
+  padding: 50px, 30px, 70px;
+  border-radius: 10px;
+  border: 1px solid var(--secondary-color);
+}
+
+.todo-list h2 {
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px !important;
+  margin: auto;
+  text-align: center;
+}
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #d3d4d5;
+  width: 80%;
+  border-radius: 10px;
+  /* padding-left: 50px; */
+  margin-bottom: 25px;
+  margin: auto;
+}
+input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 10px;
+  height: 40px;
+}
+.add-task {
+  width: 50%;
+}
+
+#add-button {
+  width: 30%;
+}
+button {
+  border: none;
+  outline: none;
+  height: 40px;
+  width: 100px;
+  /* padding: 16px, 50px; */
+  background: var(--primary-color);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.task-list li {
+  list-style: none;
+  font-size: 17px;
+  padding: 12px 8px 12px 50px;
+  user-select: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.task-list li::before {
+  content: "";
+  position: absolute;
+  height: 28px;
+  width: 28px;
+  border-radius: 50%;
+  background-image: url(../aaaaatest/images/unchecked.png); /* Ensure correct path */
+  background-size: cover;
+  background-position: center;
+  left: 8px;
+  top: 50%; /* Adjusted to center vertically */
+  transform: translateY(-50%); /* Center vertically */
+}
+
+.task-list li.checked {
+  color: var(--secondary-color);
+  text-decoration: line-through;
+}
+.task-list li.checked::before {
+  background-image: url(../aaaaatest/images/checked.png);
+}
+
+/* styles for cross icon */
+.task-list li span {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  width: 40px;
+  height: 40px;
+  font-size: 22px;
+  color: #555;
+  line-height: 40px;
+  text-align: center;
+  border-radius: 50%;
+}
+
+.task-list li span:hover {
+  background: var(--secondary-color);
+}
+/* ********************************************************* */
