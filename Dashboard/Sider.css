@@ -99,7 +99,7 @@ a.sidebar-link {
 }
 a.sidebar-link:hover {
   background-color: var(--secondary-color);
-  border-left: 3px solid var(--white-color);
+  border-left: 3px solid white;
 }
 .sidebar-item {
   position: relative;

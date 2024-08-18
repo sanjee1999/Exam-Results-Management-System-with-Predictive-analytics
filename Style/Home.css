@@ -1,14 +1,19 @@
-.container {
+:root {
+  --primary-color: #884dee;
+  --secondary-color: #b08bf1;
+  --white-color: #fff;
+  --black-color: #000;
 }
+
 h3 {
-  color: #884dee;
+  color: var(--primary-color);
 }
 .table thead th {
-  background-color: #b08bf1;
+  background-color: var(--secondary-color) !important;
   color: white;
 }
 .active {
-  background-color: #b08bf1;
+  background-color: var(--secondary-color) !important;
   border-left: 3px solid white;
 }
 .aicon,

@@ -1,12 +1,19 @@
+:root {
+  --primary-color: #884dee;
+  --secondary-color: #b08bf1;
+  --white-color: #fff;
+  --black-color: #000;
+}
+
 .title h3 {
-  color: #884dee;
+  color: var(--primary-color);
 }
 hgfh .active {
-  background-color: #b08bf1 !important;
+  background-color: var(--secondary-color) !important;
   border-left: solid 3px white;
 }
 .active2 {
-  background-color: #884dee !important;
+  background-color: var(--primary-color) !important;
   border-bottom: solid 2px white;
 }
 .active2 a,
@@ -28,7 +35,7 @@ hgfh .active {
 .form-group > select {
   width: 100% !important;
   height: 40px;
-  border: 1px solid #b08bf1;
+  border: 1px solid var(--secondary-color);
   border-radius: 5px;
 
   padding: 5px;
@@ -36,17 +43,17 @@ hgfh .active {
 .form-group > input {
   width: 100% !important;
   height: 40px;
-  border: 1px solid #b08bf1;
+  border: 1px solid var(--secondary-color);
   border-radius: 5px;
 
   padding: 5px;
 }
 .btn {
-  background-color: #884dee !important;
+  background-color: var(--primary-color) !important;
   border: none !important;
   margin-top: 5rem !important;
   height: 40px !important;
 }
 .btn:hover {
-  background-color: #b08bf1 !important;
+  background-color: var(--secondary-color) !important;
 }
