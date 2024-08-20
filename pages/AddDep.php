@@ -24,7 +24,7 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="../Sidebar/Sider.css" />
+    <link rel="stylesheet" href="../Dashboard/Sider.css" />
     <link rel="stylesheet" href="../Style/AddIca.css" />
 
     <!-- get bootstrap -->

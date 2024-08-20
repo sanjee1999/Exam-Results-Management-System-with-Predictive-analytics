@@ -55,7 +55,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
     />
     <lord-icon trigger="hover" src="/my-icon.json"></lord-icon>
 
-    <link rel="stylesheet" href="../Sidebar/Sider.css" />
+    <link rel="stylesheet" href="../Dashboard/Sider.css" />
     <link rel="stylesheet" href="../Style/ViewDailyAttendance.css" />
 
     <!-- get bootstrap -->
@@ -177,8 +177,9 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                 </div> -->
 
                 <div class="form-group col-md-3">
-                  <button class="btn btn-primary w-100">View Graph</button>
+                  <button class="btn btn-primary w-100" name="graph">View Graph</button>
                 </div>
+                
               </form>
             </div>
           </div>
@@ -199,6 +200,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
           <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
  <?php 
     require '../pages/test.php';
+    //require 'export.php';
  ?>
        
 
@@ -209,8 +211,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
       crossorigin="anonymous"
     ></script>
     <script src="../script/filter.js"></script>
-    <script src="../Sidebar/Main.js"></script>
-
+    
 
    
   </body>

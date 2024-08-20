@@ -18,7 +18,7 @@
               $l1=$l2=$l3=$l4=NULL;
               //$row['ica_1_marks']=$row['ica_2_marks']=$row['ica_3_marks']=NULL;
 
-                if($_SERVER["REQUEST_METHOD"]=="POST"){ 
+                if($_SERVER["REQUEST_METHOD"]=="POST" ){ 
                   if($type=='attendance'){ 
                         $query=queryattend();
                         $result = $conn->query($query);

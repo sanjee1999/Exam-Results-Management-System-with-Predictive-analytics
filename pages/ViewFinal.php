@@ -54,7 +54,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="../Sidebar/Sider.css" />
+    <link rel="stylesheet" href="../Dashboard/Sider.css" />
     <link rel="stylesheet" href="../Style/ViewFinal.css" />
 
     <!-- get bootstrap -->

@@ -702,6 +702,7 @@ function calculateFinalResult($ica1, $ica2, $ica3, $att1, $att2, $att3, $attsp) 
     return $best_ica_sum + $best_exam_mark;
 }
 
+
 function arrayTable($data) {
     // Check if data is a valid mysqli_result object
     if ($data instanceof mysqli_result) {
@@ -982,9 +983,9 @@ function queryattend() {
       $q3 .= " AND de.dep_id = '$dep'";
   }
 
-  $orderBy = ' ORDER BY SUBSTRING_INDEX(at.reg_no, "/", 1) ASC,
-               SUBSTRING_INDEX(SUBSTRING_INDEX(at.reg_no, "/", 2), "/", -1) ASC,
-               CAST(SUBSTRING_INDEX(at.reg_no, "/", -1) AS UNSIGNED) ASC';
+  $orderBy = " ORDER BY SUBSTRING_INDEX(at.reg_no, '/', 1) ASC,
+               SUBSTRING_INDEX(SUBSTRING_INDEX(at.reg_no, '/', 2), '/', -1) ASC,
+               CAST(SUBSTRING_INDEX(at.reg_no, '/', -1) AS UNSIGNED) ASC";
 
   $query = $q1 . $q2 . $q3 . $orderBy;
   debug($query) ;
@@ -1052,10 +1053,10 @@ function queryica() {
       $q3 .= " AND su.semester = '$sem'";
   }
 
-  $orderBy = ' ORDER BY 
-               SUBSTRING_INDEX(st.reg_no, "/", 1) ASC,
-               SUBSTRING_INDEX(SUBSTRING_INDEX(st.reg_no, "/", 2), "/", -1) ASC,
-               CAST(SUBSTRING_INDEX(i1.reg_no, "/", -1) AS UNSIGNED) ASC';
+  $orderBy = " ORDER BY 
+               SUBSTRING_INDEX(st.reg_no, '/', 1) ASC,
+               SUBSTRING_INDEX(SUBSTRING_INDEX(st.reg_no, '/', 2), '/', -1) ASC,
+               CAST(SUBSTRING_INDEX(i1.reg_no, '/', -1) AS UNSIGNED) ASC";
 
   $query = $q1 . $q2 . $q3 . $orderBy;
   debug($query) ;
@@ -1117,10 +1118,10 @@ function queryfinal(){
         $q3 .= " AND su.semester = '$sem'";
     }
 
-    $orderBy = ' ORDER BY 
-                 SUBSTRING_INDEX(ind.reg_no, "/", 1) ASC,
-                 SUBSTRING_INDEX(SUBSTRING_INDEX(ind.reg_no, "/", 2), "/", -1) ASC,
-                 CAST(SUBSTRING_INDEX(ind.reg_no, "/", -1) AS UNSIGNED) ASC';
+    $orderBy = " ORDER BY 
+                 SUBSTRING_INDEX(ind.reg_no, '/', 1) ASC,
+                 SUBSTRING_INDEX(SUBSTRING_INDEX(ind.reg_no, '/', 2), '/', -1) ASC,
+                 CAST(SUBSTRING_INDEX(ind.reg_no, '/', -1) AS UNSIGNED) ASC";
 
     $query = $q1 . $q2 . $q3 . $orderBy;
     debug($query) ;
