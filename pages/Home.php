@@ -1,3 +1,31 @@
+<?php
+// Database connection
+require_once '../connection/conf.php';
+require_once '../function/fun.php';
+
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $action = $_POST['action'];
+
+    if ($action == 'add') {
+        $task_name = $conn->real_escape_string($_POST['task_name']);
+        $conn->query("INSERT INTO tasks (task_name) VALUES ('$task_name')");
+    } elseif ($action == 'delete') {
+        $id = intval($_POST['id']);
+        $conn->query("DELETE FROM tasks WHERE id = $id");
+    } elseif ($action == 'toggle') {
+        $id = intval($_POST['id']);
+        $is_completed = intval($_POST['is_completed']);
+        $conn->query("UPDATE tasks SET is_completed = $is_completed WHERE id = $id");
+    }
+
+    exit;
+}
+
+// Fetch tasks from the database
+$result = $conn->query("SELECT * FROM tasks");
+$tasks = $result->fetch_all(MYSQLI_ASSOC);
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -22,59 +50,68 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
-
+    <style>
+        .completed {
+            text-decoration: line-through;
+            color: red;
+        }
+    </style>
+    <link rel="stylesheet" href="../Style/TodoList.css" />
     <link rel="stylesheet" href="../Style/Home.css" />
   </head>
   <body>
-    
-          <!-- <div class="title text-center">
-            <h3>-Today Time Table-</h3>
-          </div> -->
-
-          <!-- timetable -->
-          <!-- <section class="p-5">
-            <div class="table-responsive" id="table1">
-              <table class="table bg-white">
-                <thead class="bg-dark text-light">
-                  <tr>
-                    <th>Time</th>
-                    <th>Year</th>
-                    <th>Subject</th>
-                    <th>Venue</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td data-title="Time">2019/ASP/01</td>
-                    <td data-title="Year">2nd Year</td>
-                    <td data-title="Subject">Subject 01</td>
-                    <td data-title="Venue">SL</td>
-                  </tr>
-                  <tr>
-                    <td data-title="Time">2019/ASP/01</td>
-                    <td data-title="Year">2nd Year</td>
-                    <td data-title="Subject">Subject 01</td>
-                    <td data-title="Venue">LH1</td>
-                  </tr>
-                  <tr>
-                    <td data-title="Time">2019/ASP/01</td>
-                    <td data-title="Year">2nd Year</td>
-                    <td data-title="Subject">Subject 01</td>
-                    <td data-title="Venue">LH2</td>
-                  </tr>
-                </tbody>
-              </table>
+    <div class="main p-3">
+        <div class="container2">
+            <!-- To-Do list start -->
+            <div class="todo-list">
+                <h2>To-Do List</h2>
+                <div class="row">
+                    <input type="text" class="add-task" id="task_name" placeholder="Enter a new task">
+                    <button id="add_button">Add</button>
+                </div>
+                <div>
+                    <ul id="task_list" class="">
+                        <?php foreach ($tasks as $task): ?>
+                            <li data-id="<?= $task['id'] ?>" class="<?= $task['is_completed'] ? 'completed' : '' ?>">
+                                <input type="checkbox" class="task_checkbox" <?= $task['is_completed'] ? 'checked' : '' ?>>
+                                <?= htmlspecialchars($task['task_name']) ?>
+                                <button class="delete_button">X</button>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
             </div>
-          </section> -->
-       
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $('#add_button').on('click', function() {
+            const task_name = $('#task_name').val().trim();
+            if (task_name) {
+                $.post('../pages/todolist.php', { action: 'add', task_name: task_name }, function() {
+                    location.reload();
+                });
+            }
+        });
 
-    <!-- Bootstrap JS -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
+        $('.delete_button').on('click', function() {
+            const id = $(this).closest('li').data('id');
+            $.post('../pages/todolist.php', { action: 'delete', id: id }, function() {
+                location.reload();
+            });
+        });
 
-    <script src="../Sidebar/Main.js"></script>
-  </body>
+        $('.task_checkbox').on('change', function() {
+            const li = $(this).closest('li');
+            const id = li.data('id');
+            const is_completed = this.checked ? 1 : 0;
+            $.post('../pages/todolist.php', { action: 'toggle', id: id, is_completed: is_completed }, function() {
+                li.toggleClass('completed');
+            });
+        });
+    </script>
+</body>
 </html>
+
+<?php
+$conn->close();
+?>
