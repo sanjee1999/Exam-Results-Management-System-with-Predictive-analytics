@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 08, 2024 at 05:24 PM
+-- Generation Time: Aug 20, 2024 at 12:56 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -57,7 +57,7 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`admin_id`, `admin_type`, `password`) VALUES
 ('A00456', 'hod', '$2y$10$qt417LvORmr4FuM7h1M/JePUhxpVLdinbvexzRX6WNUEiPC0LXfiS'),
-('A02', 'lec', '@Lect02'),
+('A009', 'lec', '$2y$10$TAQXJtP6oIuFehCo6WQpcOdP.ldFwoYr3tsnxJueGe8bmMhOWmQUW'),
 ('A03', 'lec', '$2y$10$mqHXyCLvykXnI4eZyxbhMuLB9SfLn0AUK//xBlrT281NOKh8O9i6S'),
 ('A04', 'superadmin', '$2y$10$qt417LvORmr4FuM7h1M/JePUhxpVLdinbvexzRX6WNUEiPC0LXfiS'),
 ('A05', 'lec', '$2y$10$4par/uANgamsn9n0nvLmrePkvotPCkxkOJbPOfY0G6VGPTqgXBMbW');
@@ -124,7 +124,7 @@ CREATE TABLE `attendance` (
   `date` date NOT NULL,
   `time` time NOT NULL,
   `hour` int(11) NOT NULL DEFAULT 0,
-  `sub_code` varchar(255) DEFAULT NULL,
+  `sub_code` varchar(255) NOT NULL,
   `attendance` int(11) DEFAULT 0,
   `sub_type` varchar(4) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -136,45 +136,63 @@ CREATE TABLE `attendance` (
 INSERT INTO `attendance` (`reg_no`, `date`, `time`, `hour`, `sub_code`, `attendance`, `sub_type`) VALUES
 ('2019/ASP/01', '2024-05-27', '10:00:00', 2, 'CSC3222', 1, 'T'),
 ('2019/ASP/01', '2024-07-27', '13:02:00', 3, 'CSC3123', 1, 'T'),
+('2019/ASP/01', '2024-08-10', '11:30:00', 2, 'CSC3222', 1, 'T'),
 ('2019/ASP/02', '2024-05-27', '10:00:00', 2, 'CSC3222', 0, 'T'),
 ('2019/ASP/02', '2024-07-27', '13:02:00', 3, 'CSC3123', 1, 'T'),
+('2019/ASP/02', '2024-08-10', '11:30:00', 2, 'CSC3222', 1, 'T'),
 ('2019/ASP/03', '2024-05-27', '10:00:00', 2, 'CSC3222', 1, 'T'),
 ('2019/ASP/03', '2024-07-27', '13:02:00', 3, 'CSC3123', 1, 'T'),
+('2019/ASP/03', '2024-08-10', '11:30:00', 2, 'CSC3222', 1, 'T'),
 ('2019/ASP/04', '2024-05-27', '10:00:00', 2, 'CSC3222', 0, 'T'),
 ('2019/ASP/04', '2024-07-27', '13:02:00', 3, 'CSC3123', 1, 'T'),
+('2019/ASP/04', '2024-08-10', '11:30:00', 2, 'CSC3222', 1, 'T'),
 ('2019/ASP/05', '2024-05-27', '10:00:00', 2, 'CSC3222', 1, 'T'),
 ('2019/ASP/05', '2024-07-27', '13:02:00', 3, 'CSC3123', 1, 'T'),
+('2019/ASP/05', '2024-08-10', '11:30:00', 2, 'CSC3222', 1, 'T'),
 ('2019/ASP/06', '2024-05-27', '10:00:00', 2, 'CSC3222', 1, 'P'),
 ('2019/ASP/07', '2024-05-27', '10:00:00', 2, 'CSC3222', 0, 'P'),
 ('2019/ASP/08', '2024-05-27', '10:00:00', 2, 'CSC3222', 1, 'P'),
 ('2019/ASP/08', '2024-07-27', '13:02:00', 3, 'CSC3123', 1, 'T'),
+('2019/ASP/08', '2024-08-10', '11:30:00', 2, 'CSC3222', 1, 'T'),
 ('2019/ASP/09', '2024-05-27', '10:00:00', 2, 'CSC3222', 0, 'P'),
 ('2019/ASP/10', '2024-05-27', '10:00:00', 2, 'CSC3222', 1, 'P'),
 ('2019/ASP/10', '2024-07-27', '13:02:00', 3, 'CSC3123', 1, 'T'),
+('2019/ASP/10', '2024-08-10', '11:30:00', 2, 'CSC3222', 1, 'T'),
 ('2019/ASP/11', '2024-05-27', '10:00:00', 2, 'CSC3222', 1, 'P'),
 ('2019/ASP/11', '2024-07-27', '13:02:00', 3, 'CSC3123', 1, 'T'),
+('2019/ASP/11', '2024-08-10', '11:30:00', 2, 'CSC3222', 1, 'T'),
 ('2019/ASP/12', '2024-05-27', '10:00:00', 2, 'CSC3222', 0, 'P'),
 ('2019/ASP/12', '2024-07-27', '13:02:00', 3, 'CSC3123', 1, 'T'),
+('2019/ASP/12', '2024-08-10', '11:30:00', 2, 'CSC3222', 1, 'T'),
 ('2019/ASP/13', '2024-05-27', '10:00:00', 2, 'CSC3222', 1, 'T'),
 ('2019/ASP/13', '2024-07-27', '13:02:00', 3, 'CSC3123', 1, 'T'),
+('2019/ASP/13', '2024-08-10', '11:30:00', 2, 'CSC3222', 1, 'T'),
 ('2019/ASP/14', '2024-05-27', '10:00:00', 2, 'CSC3222', 0, 'P'),
 ('2019/ASP/14', '2024-07-27', '13:02:00', 3, 'CSC3123', 1, 'T'),
+('2019/ASP/14', '2024-08-10', '11:30:00', 2, 'CSC3222', 1, 'T'),
 ('2019/ASP/15', '2024-05-27', '10:00:00', 2, 'CSC3222', 1, 'T'),
 ('2019/ASP/15', '2024-07-27', '13:02:00', 3, 'CSC3123', 1, 'T'),
+('2019/ASP/15', '2024-08-10', '11:30:00', 2, 'CSC3222', 1, 'T'),
 ('2019/ASP/16', '2024-05-27', '10:00:00', 2, 'CSC3222', 0, 'T'),
 ('2019/ASP/16', '2024-07-27', '13:02:00', 3, 'CSC3123', 1, 'T'),
+('2019/ASP/16', '2024-08-10', '11:30:00', 2, 'CSC3222', 1, 'T'),
 ('2019/ASP/17', '2024-05-27', '10:00:00', 2, 'CSC3222', 1, 'T'),
 ('2019/ASP/17', '2024-07-27', '13:02:00', 3, 'CSC3123', 1, 'T'),
+('2019/ASP/17', '2024-08-10', '11:30:00', 2, 'CSC3222', 1, 'T'),
 ('2019/ASP/18', '2024-05-27', '10:00:00', 2, 'CSC3222', 0, 'T'),
 ('2019/ASP/19', '2024-05-27', '10:00:00', 2, 'CSC3222', 1, 'P'),
 ('2019/ASP/20', '2024-05-27', '10:00:00', 2, 'CSC3222', 1, 'T'),
 ('2019/ASP/20', '2024-07-27', '13:02:00', 3, 'CSC3123', 1, 'T'),
+('2019/ASP/20', '2024-08-10', '11:30:00', 2, 'CSC3222', 1, 'T'),
 ('2019/ASP/21', '2024-05-27', '10:00:00', 2, 'CSC3222', 0, 'T'),
 ('2019/ASP/21', '2024-07-27', '13:02:00', 3, 'CSC3123', 1, 'T'),
+('2019/ASP/21', '2024-08-10', '11:30:00', 2, 'CSC3222', 1, 'T'),
 ('2019/ASP/22', '2024-05-27', '10:00:00', 2, 'CSC3222', 1, 'P'),
 ('2019/ASP/22', '2024-07-27', '13:02:00', 3, 'CSC3123', 1, 'T'),
+('2019/ASP/22', '2024-08-10', '11:30:00', 2, 'CSC3222', 1, 'T'),
 ('2019/ASP/23', '2024-05-27', '10:00:00', 2, 'CSC3222', 1, 'P'),
 ('2019/ASP/23', '2024-07-27', '13:02:00', 3, 'CSC3123', 1, 'T'),
+('2019/ASP/23', '2024-08-10', '11:30:00', 2, 'CSC3222', 1, 'T'),
 ('2019/ASP/24', '2024-05-27', '10:00:00', 2, 'CSC3222', 0, 'T'),
 ('2019/ASP/25', '2024-05-27', '10:00:00', 2, 'CSC3222', 0, 'T'),
 ('2019/ASP/26', '2024-05-27', '10:00:00', 2, 'CSC3222', 1, 'P'),
@@ -202,6 +220,7 @@ CREATE TABLE `course` (
 
 INSERT INTO `course` (`course_id`, `course_name`, `dep_id`, `f_id`) VALUES
 ('AMC', 'Applied Mathematics and Computing', 'DOPS', 'FAS'),
+('ENG', 'Enginering', 'DOEEE', 'FAS'),
 ('ESC', 'Environment Science', 'DOBS', 'FAS'),
 ('ICT', 'Information Communication Technology ', 'DOPS', 'FAS');
 
@@ -224,6 +243,7 @@ CREATE TABLE `department` (
 INSERT INTO `department` (`dep_id`, `dep_name`, `f_id`) VALUES
 ('BE', 'Department of Business Economics', 'FBS'),
 ('DOBS', 'Department of Bio-science', 'FAS'),
+('DOEEE', 'Department of Electronics', 'FAS'),
 ('DOPS', 'Department of Physical science', 'FAS'),
 ('DOT', 'Department of Technology', 'FTS');
 
@@ -297,6 +317,7 @@ CREATE TABLE `faculty` (
 INSERT INTO `faculty` (`f_id`, `f_name`) VALUES
 ('FAS', 'FACULTY OF APPLIED SCIENCE'),
 ('FBS', 'FACULTY OF BUSINESS STUDIES'),
+('FOM', 'Faculty of Medicine'),
 ('FTS', 'FACULTY OF TECHNOLOGICAL STUDIES');
 
 -- --------------------------------------------------------
@@ -363,7 +384,7 @@ INSERT INTO `hod` (`reg_no`, `lec_id`, `name`, `f_id`, `dep_id`, `admin_id`) VAL
 CREATE TABLE `ica_1` (
   `reg_no` varchar(255) NOT NULL,
   `marks` int(11) DEFAULT 0,
-  `sub_code` varchar(255) DEFAULT NULL,
+  `sub_code` varchar(255) NOT NULL,
   `sub_type` varchar(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -412,7 +433,7 @@ INSERT INTO `ica_1` (`reg_no`, `marks`, `sub_code`, `sub_type`) VALUES
 CREATE TABLE `ica_2` (
   `reg_no` varchar(255) NOT NULL,
   `marks` int(11) DEFAULT 0,
-  `sub_code` varchar(255) DEFAULT NULL,
+  `sub_code` varchar(255) NOT NULL,
   `sub_type` varchar(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -461,7 +482,7 @@ INSERT INTO `ica_2` (`reg_no`, `marks`, `sub_code`, `sub_type`) VALUES
 CREATE TABLE `ica_3` (
   `reg_no` varchar(255) NOT NULL,
   `marks` int(11) DEFAULT 0,
-  `sub_code` varchar(255) DEFAULT NULL,
+  `sub_code` varchar(255) NOT NULL,
   `sub_type` varchar(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -470,6 +491,7 @@ CREATE TABLE `ica_3` (
 --
 
 INSERT INTO `ica_3` (`reg_no`, `marks`, `sub_code`, `sub_type`) VALUES
+('2019/ASP/01', 80, 'CSC3123', 'T'),
 ('2019/ASP/01', 76, 'CSC3222', 'P'),
 ('2019/ASP/02', 85, 'CSC3222', 'T'),
 ('2019/ASP/03', 88, 'CSC3222', 'P'),
@@ -597,7 +619,9 @@ INSERT INTO `index_no` (`index_no`, `reg_no`) VALUES
 ('A22029', '2019/ASP/29'),
 ('A22030', '2019/ASP/30'),
 ('a20254', '2019/ASP/72'),
-('a20255', '2019/ASP/73');
+('a20255', '2019/ASP/73'),
+('A005487', '2021/ASP/03'),
+('A005488', '2021/ASP/04');
 
 -- --------------------------------------------------------
 
@@ -621,6 +645,7 @@ CREATE TABLE `lecture` (
 INSERT INTO `lecture` (`lec_id`, `lec_name`, `f_id`, `dep_id`, `type_of_lecture`, `admin_id`) VALUES
 ('le02', 'Dr.S.Kirushanth', 'FAS', 'DOPS', 'sl', 'A03'),
 ('le03', 'Mr.B.Yogarajah ', 'FAS', 'DOPS', 'sl', 'A05'),
+('le06', 'Mr Thilakanathan', 'FAS', 'DOPS', 'sl', 'A009'),
 ('lec100', 'Dr Kayanan', 'FAS', 'DOPS', 'sl', 'A00456');
 
 -- --------------------------------------------------------
@@ -734,7 +759,9 @@ INSERT INTO `student` (`reg_no`, `name`, `nic_no`, `dob`, `date_of_admission`, `
 ('2019/ASP/29', 'Deepak', '202823456781v', '2000-05-17', '2023-06-25', 'AMC', '2021'),
 ('2019/ASP/30', 'Asha', '202923456780v', '2001-06-21', '2023-06-25', 'AMC', '2021'),
 ('2019/ASP/72', 'R Sanjeevakanth', '991883460v', '0000-00-00', '0000-00-00', 'AMC', '2021'),
-('2019/ASP/73', 'S Kambu', '20000545151', '0000-00-00', '0000-00-00', 'AMC', '2021');
+('2019/ASP/73', 'S Kambu', '20000545151', '0000-00-00', '0000-00-00', 'AMC', '2021'),
+('2021/ASP/03', 'Raju', '991825486v', '1999-04-18', '2020-04-20', 'AMC', '2021'),
+('2021/ASP/04', 'Kumutha', '981651681v', '1998-04-18', '2020-04-20', 'AMC', '2021');
 
 -- --------------------------------------------------------
 
@@ -762,8 +789,29 @@ CREATE TABLE `subject` (
 --
 
 INSERT INTO `subject` (`sub_code`, `sub_name`, `total_credit`, `practical_credit`, `theory_credit`, `pra_ica_ratio`, `theo_ica_ratio`, `course_id`, `level`, `semester`, `lec_id`, `preference_column`) VALUES
-('CSC3123', 'Operating System', 3, 1, 2, 40, 30, 'AMC', 3, '1', 'le03', 'C'),
+('CSC3123', 'Operating System', 3, 1, 2, 40, 30, 'AMC', 3, '1', 'le06', 'C'),
 ('CSC3222', 'Graph Theory', 2, 0, 2, 0, 30, 'AMC', 3, '2', 'le02', 'A');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tasks`
+--
+
+CREATE TABLE `tasks` (
+  `id` int(11) NOT NULL,
+  `task_name` varchar(255) NOT NULL,
+  `is_completed` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tasks`
+--
+
+INSERT INTO `tasks` (`id`, `task_name`, `is_completed`) VALUES
+(2, 'ica 2 for 2nd year', 0),
+(7, 'htyjthjgh', 0),
+(8, 'jnknj', 0);
 
 -- --------------------------------------------------------
 
@@ -838,7 +886,7 @@ ALTER TABLE `assignment`
 -- Indexes for table `attendance`
 --
 ALTER TABLE `attendance`
-  ADD PRIMARY KEY (`reg_no`,`date`,`time`,`hour`,`sub_type`),
+  ADD PRIMARY KEY (`reg_no`,`date`,`time`,`hour`,`sub_code`,`sub_type`),
   ADD KEY `subjectattendance` (`sub_code`);
 
 --
@@ -893,21 +941,21 @@ ALTER TABLE `hod`
 -- Indexes for table `ica_1`
 --
 ALTER TABLE `ica_1`
-  ADD PRIMARY KEY (`reg_no`,`sub_type`),
+  ADD PRIMARY KEY (`reg_no`,`sub_code`,`sub_type`),
   ADD KEY `subjectica_1` (`sub_code`);
 
 --
 -- Indexes for table `ica_2`
 --
 ALTER TABLE `ica_2`
-  ADD PRIMARY KEY (`reg_no`,`sub_type`),
+  ADD PRIMARY KEY (`reg_no`,`sub_code`,`sub_type`),
   ADD KEY `subjectica_2` (`sub_code`);
 
 --
 -- Indexes for table `ica_3`
 --
 ALTER TABLE `ica_3`
-  ADD PRIMARY KEY (`reg_no`,`sub_type`),
+  ADD PRIMARY KEY (`reg_no`,`sub_code`,`sub_type`),
   ADD KEY `subjectica_3` (`sub_code`);
 
 --
@@ -966,11 +1014,27 @@ ALTER TABLE `subject`
   ADD KEY `lecturee` (`lec_id`);
 
 --
+-- Indexes for table `tasks`
+--
+ALTER TABLE `tasks`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tutorial`
 --
 ALTER TABLE `tutorial`
   ADD PRIMARY KEY (`reg_no`,`sub_type`),
   ADD KEY `subjecttutorial` (`sub_code`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `tasks`
+--
+ALTER TABLE `tasks`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
