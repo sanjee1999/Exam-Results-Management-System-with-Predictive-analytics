@@ -1,5 +1,58 @@
-
 <?php 
+
+function colourGen(){
+    ini_set('display_errors', 1);
+   ini_set('display_startup_errors', 1);
+   error_reporting(E_ALL);
+   
+   debug("User type: " . $_SESSION['user_type'] . "<br>") ;
+   
+   // Define primary and secondary colors for each user type
+   $userColors = [
+    'hod' => [
+        'primary' => '#4B0082',   // Indigo for HOD
+        'secondary' => '#9370DB'  // Medium Purple for HOD
+    ],
+    'lec' => [
+        'primary' => '#008080',   // Teal for Lecture
+        'secondary' => '#20B2AA'  // Light Sea Green for Lecture
+    ],
+    'superadmin' => [
+        'primary' => '#2E8B57',   // Sea Green for Super Admin
+        'secondary' => '#3CB371'  // Medium Sea Green for Super Admin
+    ]
+   ];
+   
+   $userType = $_SESSION['user_type'];
+   if (!isset($userColors[$userType])) {
+       echo "Invalid user type.";
+       exit;
+   }
+   
+   $primaryColor = $userColors[$userType]['primary'];
+   $secondaryColor = $userColors[$userType]['secondary'];
+   
+   debug("Primary Color: $primaryColor<br>");
+   debug("Secondary Color: $secondaryColor<br>");
+   
+   // Load the existing CSS file content
+   $cssFilePath = '../Dashboard/Sider.css';
+   if (!file_exists($cssFilePath)) {
+       echo "CSS file does not exist.";
+       exit;
+   }
+   
+   $cssContent = file_get_contents($cssFilePath);
+   
+   // Replace the primary and secondary color placeholders
+   $cssContent = preg_replace('/--primary-color: #[a-fA-F0-9]{6};/', "--primary-color: $primaryColor;", $cssContent);
+   $cssContent = preg_replace('/--secondary-color: #[a-fA-F0-9]{6};/', "--secondary-color: $secondaryColor;", $cssContent);
+   
+   // Write the updated content back to the CSS file
+   file_put_contents($cssFilePath, $cssContent);
+   
+   debug("CSS file updated.");
+}
  function exhead($firstRow,$name){
  
         echo '<div class="form-group" id="head">';
@@ -435,12 +488,12 @@ function upload($conn){
 
 function outputQueryInChart($conn,$query){
     $result = $conn->query($query);
-    // $label = [];
-    // $value = [];
-    // while($row = $result->fetch_assoc()) {
-    //     $label[] = $row['Reg_No'];
-    //     $value[] = $row['Attendance'];
-    //   }
+    $label = [];
+    $value = [];
+    while($row = $result->fetch_assoc()) {
+        $label[] = $row['Reg_No'];
+        $value[] = $row['Attendance'];
+      }
       echo "<canvas id='myChart'></canvas>
       <script>
       const ctx = document.getElementById('myChart').getContext('2d');

@@ -1,13 +1,14 @@
-/* :root {
-  --primary-color: #884dee;
-  --secondary-color: #b08bf1;
+:root {
+  --primary-color: #110053;
+  --secondary-color: #66626b;
   --white-color: #fff;
   --black-color: #000;
-} */
+}
 * {
   margin: 0;
   padding: 0;
 }
+
 .custom-card {
   height: 35rem !important;
   background-color: rgba(176, 139, 241, 0.1) !important;
