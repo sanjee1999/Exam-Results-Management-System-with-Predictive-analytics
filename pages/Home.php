@@ -87,7 +87,7 @@ $tasks = $result->fetch_all(MYSQLI_ASSOC);
         $('#add_button').on('click', function() {
             const task_name = $('#task_name').val().trim();
             if (task_name) {
-                $.post('../pages/todolist.php', { action: 'add', task_name: task_name }, function() {
+                $.post('../pages/Home.php', { action: 'add', task_name: task_name }, function() {
                     location.reload();
                 });
             }
@@ -95,7 +95,7 @@ $tasks = $result->fetch_all(MYSQLI_ASSOC);
 
         $('.delete_button').on('click', function() {
             const id = $(this).closest('li').data('id');
-            $.post('../pages/todolist.php', { action: 'delete', id: id }, function() {
+            $.post('../pages/Home.php', { action: 'delete', id: id }, function() {
                 location.reload();
             });
         });
@@ -104,7 +104,7 @@ $tasks = $result->fetch_all(MYSQLI_ASSOC);
             const li = $(this).closest('li');
             const id = li.data('id');
             const is_completed = this.checked ? 1 : 0;
-            $.post('../pages/todolist.php', { action: 'toggle', id: id, is_completed: is_completed }, function() {
+            $.post('../pages/Home.php', { action: 'toggle', id: id, is_completed: is_completed }, function() {
                 li.toggleClass('completed');
             });
         });
