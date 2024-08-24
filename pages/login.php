@@ -9,28 +9,46 @@ if (isAuthenticated()) {
     exit();
   }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['user'];
     $password = $_POST['password'];
 
-    //$conn = dbConnect();
-    $stmt = $conn->prepare("SELECT password,admin_type FROM admin WHERE admin_id = ?");
-    $stmt->bind_param("s", $username);
+    // Ensure the database connection is properly initialized
+    //$conn = dbConnect(); // Ensure this function is correctly implemented
+
+    // Prepare the SQL statement
+    $stmt = $conn->prepare("SELECT admin.password, admin.admin_type ,lecture.lec_name
+                            FROM lecture 
+                            RIGHT JOIN admin ON admin.admin_id = lecture.admin_id 
+                            WHERE admin.admin_id = ? OR lecture.lec_id = ?");
+    
+    // Bind both parameters
+    $stmt->bind_param("ss", $username, $username);
+
+    // Execute the statement
     $stmt->execute();
-    $stmt->bind_result($password_hash,$user_type);
+    
+    // Bind the results
+    $stmt->bind_result($password_hash, $user_type,$lec_name);
     $stmt->fetch();
+
+    // Close the statement and connection
     $stmt->close();
     $conn->close();
 
-    if (password_verify($password, $password_hash)) {
+    // Verify the password and handle the result
+    if ($password_hash !== null && password_verify($password, $password_hash)) {
+        session_start(); // Ensure the session is started
         $_SESSION['user'] = $username;
-        $_SESSION['user_type']=$user_type;
+        $_SESSION['user_type'] = $user_type;
+        $_SESSION['lec_name'] = $lec_name;
         header('Location: ../Dashboard/Sider.php?content=../pages/Home.php');
         exit();
     } else {
         $error = "Invalid username or password.";
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -93,8 +111,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 class="form-control"
                 id="user"
                 name="user"
-                aria-describedby="emailHelp"
-                placeholder="Enter email or Reg.No"
+                
+                placeholder="Enter the Admin ID"
                 required
               />
             </div>

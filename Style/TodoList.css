@@ -1,16 +1,4 @@
-<<<<<<< Updated upstream
-:root {
-=======
-/* Root variables for color scheme */
-/* :root {
->>>>>>> Stashed changes
-  --primary-color: #884dee;
-  --secondary-color: #b08bf1;
-  --white-color: #fff;
-  --black-color: #000;
-}
 
-/* General styling */
 h3 {
   color: var(--primary-color);
 }

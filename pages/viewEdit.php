@@ -11,7 +11,7 @@
       $id=$_POST['id'];
       $idcol=$_POST['idcol'];
       $file=filehub($table);
-      echo "Button value received: " . $button.$id;
+      debug("Button value received: " . $button.$id) ;
 
         if(!empty($table) && empty($table1)){
           if($button=='delete' && isset($id)){
@@ -58,7 +58,7 @@
     </style>
 
 
-    <link rel="stylesheet" href="../Sidebar/Sider.css" />
+    <link rel="stylesheet" href="../Dashboard/Sider.css" />
     <link rel="stylesheet" href="../Style/AddIca.css" />
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- get bootstrap -->

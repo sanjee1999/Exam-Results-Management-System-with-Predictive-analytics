@@ -61,7 +61,7 @@ $sub_code=$date=$month=$year=$regno=$level=$type=null;
     />
     <lord-icon trigger="hover" src="/my-icon.json"></lord-icon>
 
-    <link rel="stylesheet" href="../Sidebar/Sider.css" />
+    <link rel="stylesheet" href="../Dashboard/Sider.css" />
     <link rel="stylesheet" href="../Style/ViewDailyAttendance.css" />
     
     <!-- get bootstrap -->
@@ -77,7 +77,12 @@ $sub_code=$date=$month=$year=$regno=$level=$type=null;
    
   </head>
   <body>
-
+  <div class="container mt-5">
+        <!-- Export Button -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exportModal">
+            Export Data
+        </button>
+    </div>
           <section class="p-5">
           
             <!-- <div class="table-responsive" id="table1"> -->
@@ -123,6 +128,7 @@ $sub_code=$date=$month=$year=$regno=$level=$type=null;
                         
                   }
               }
+              require '../pages/exportoption.php';
               ?>
             </div>
           </section>
@@ -159,7 +165,7 @@ $sub_code=$date=$month=$year=$regno=$level=$type=null;
     <script src="../Sidebar/Main.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+              
 
     
   </body>

@@ -7,12 +7,13 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 
 
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-  echo "post working<br>"; 
+  debug("post working<br>") ; 
 }
 if (isset($_FILES['file'])){
-  echo "file working<br>";
-  print_r($_FILES['file']);
+  debug("file working<br>") ;
+  //print_r($_FILES['file']);
 }
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
@@ -26,8 +27,8 @@ if (isset($_FILES['file'])){
             $worksheet = $spreadsheet->getActiveSheet();
             $firstRow = $worksheet->rangeToArray('A1:' . $worksheet->getHighestColumn() . '1')[0];
           
-          print_r($firstRow);
-          echo "<br>line clear<br>";
+          //print_r($firstRow);
+          debug("<br>line clear<br>") ;
 
             $_SESSION['firstRow']=$firstRow;
           
@@ -40,7 +41,7 @@ if (isset($_FILES['file'])){
           
           if(isset($_GET['type'])){
             $type=$_GET['type'];
-            echo $type."<br>";
+            debug($type."<br>") ;
           }
           if($_SERVER["REQUEST_METHOD"]=="POST"){
             
@@ -49,14 +50,14 @@ if (isset($_FILES['file'])){
             $batch=(isset($_POST['batch']))?($_POST['batch']):null;
             $type = isset($_POST['type']) ? $_POST['type'] : null;
            
-           echo "$course $batch $type";
+           debug("$course $batch $type") ;
 
             if (isset($_FILES['file'])) {
               $_SESSION['file']=isset($file)?$file:null;
               $_SESSION['batch']=isset($batch)?$batch:null;
               $_SESSION['course']=isset($course)?$course:null;
               $_SESSION['type'] = isset($type) ? $type : NULL;
-              echo "<br> ok session";
+              debug( "<br> ok session");
             }
           
           }
@@ -67,7 +68,7 @@ if (isset($_FILES['file'])){
             }elseif($heading=='final'){
               $heading=strtoupper($heading).' Marks';
             }
-            echo $heading."<br>";
+            debug($heading."<br>") ;
           }
       
           // if($_SERVER["REQUEST_METHOD"]=="POST"){
@@ -95,7 +96,7 @@ if (isset($_FILES['file'])){
     />
     <lord-icon trigger="hover" src="/my-icon.json"></lord-icon>
 
-    <link rel="stylesheet" href="../Sidebar/Sider.css" />
+    <link rel="stylesheet" href="../Dashboard/Sider.css" />
     <link rel="stylesheet" href="../Style/AddDailyAttendance.css" />
 
     <!-- get bootstrap -->
@@ -262,8 +263,9 @@ $worksheet = $spreadsheet->getActiveSheet();
           $col2[] = $worksheet->getCell($c2 . $row)->getValue();
           $col3[] = $worksheet->getCell($c3 . $row)->getValue();
           $col4[] = $worksheet->getCell($c4 . $row)->getValue();
-          $col5[] = $worksheet->getCell($c5 . $row)->getValue();
-          $col6[] = $worksheet->getCell($c6 . $row)->getValue();
+          $col5[] = convertDate($worksheet->getCell($c5 . $row)->getValue());
+          $col6[] = convertDate($worksheet->getCell($c6 . $row)->getValue());
+
           debug("ok outtt") ;
       }
       debug(print_r($col1));

@@ -1,11 +1,11 @@
-:root {
+/* :root {
   --primary-color: #884dee;
   --secondary-color: #b08bf1;
   --white-color: #fff;
   --black-color: #000;
-}
+} */
 .active {
-  background-color: #b08bf1 !important;
+  background-color: var(--primary-color) !important;
   border-left: solid 3px white;
 }
 .active2 {

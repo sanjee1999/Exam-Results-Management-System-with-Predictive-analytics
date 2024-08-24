@@ -51,7 +51,7 @@
     />
     <lord-icon trigger="hover" src="/my-icon.json"></lord-icon>
 
-    <link rel="stylesheet" href="../Sidebar/Sider.css" />
+    <link rel="stylesheet" href="../Dashboard/Sider.css" />
     <link rel="stylesheet" href="../Style/AddDailyAttendance.css" />
 
     <!-- get bootstrap -->

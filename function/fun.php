@@ -1,5 +1,58 @@
-
 <?php 
+
+function colourGen(){
+    ini_set('display_errors', 1);
+   ini_set('display_startup_errors', 1);
+   error_reporting(E_ALL);
+   
+   debug("User type: " . $_SESSION['user_type'] . "<br>") ;
+   
+   // Define primary and secondary colors for each user type
+   $userColors = [
+    'hod' => [
+        'primary' => '#4B0082',   // Indigo for HOD
+        'secondary' => '#9370DB'  // Medium Purple for HOD
+    ],
+    'lec' => [
+        'primary' => '#008080',   // Teal for Lecture
+        'secondary' => '#20B2AA'  // Light Sea Green for Lecture
+    ],
+    'superadmin' => [
+        'primary' => '#2E8B57',   // Sea Green for Super Admin
+        'secondary' => '#3CB371'  // Medium Sea Green for Super Admin
+    ]
+   ];
+   
+   $userType = $_SESSION['user_type'];
+   if (!isset($userColors[$userType])) {
+       echo "Invalid user type.";
+       exit;
+   }
+   
+   $primaryColor = $userColors[$userType]['primary'];
+   $secondaryColor = $userColors[$userType]['secondary'];
+   
+   debug("Primary Color: $primaryColor<br>");
+   debug("Secondary Color: $secondaryColor<br>");
+   
+   // Load the existing CSS file content
+   $cssFilePath = '../Dashboard/Sider.css';
+   if (!file_exists($cssFilePath)) {
+       echo "CSS file does not exist.";
+       exit;
+   }
+   
+   $cssContent = file_get_contents($cssFilePath);
+   
+   // Replace the primary and secondary color placeholders
+   $cssContent = preg_replace('/--primary-color: #[a-fA-F0-9]{6};/', "--primary-color: $primaryColor;", $cssContent);
+   $cssContent = preg_replace('/--secondary-color: #[a-fA-F0-9]{6};/', "--secondary-color: $secondaryColor;", $cssContent);
+   
+   // Write the updated content back to the CSS file
+   file_put_contents($cssFilePath, $cssContent);
+   
+   debug("CSS file updated.");
+}
  function exhead($firstRow,$name){
  
         echo '<div class="form-group" id="head">';
@@ -435,12 +488,12 @@ function upload($conn){
 
 function outputQueryInChart($conn,$query){
     $result = $conn->query($query);
-    // $label = [];
-    // $value = [];
-    // while($row = $result->fetch_assoc()) {
-    //     $label[] = $row['Reg_No'];
-    //     $value[] = $row['Attendance'];
-    //   }
+    $label = [];
+    $value = [];
+    while($row = $result->fetch_assoc()) {
+        $label[] = $row['Reg_No'];
+        $value[] = $row['Attendance'];
+      }
       echo "<canvas id='myChart'></canvas>
       <script>
       const ctx = document.getElementById('myChart').getContext('2d');
@@ -702,6 +755,7 @@ function calculateFinalResult($ica1, $ica2, $ica3, $att1, $att2, $att3, $attsp) 
     return $best_ica_sum + $best_exam_mark;
 }
 
+
 function arrayTable($data) {
     // Check if data is a valid mysqli_result object
     if ($data instanceof mysqli_result) {
@@ -843,6 +897,23 @@ function tableView1Edit($conn,$query,$idcol,$i) {
   
 }
 
+function convertDate($dateValue) {
+     // Check if the value is a DateTime object
+if ($dateValue instanceof \PhpOffice\PhpSpreadsheet\Shared\Date) {
+    // Convert to PHP DateTime object
+    $dateValue = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($dateValue);
+  } elseif (is_numeric($dateValue)) {
+    // If it's a numeric value (timestamp), convert to DateTime
+    $dateValue = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($dateValue);
+  } else {
+    // Handle other types or invalid data
+    $dateValue = null;
+  }
+  
+  // Format the date to 'Y-m-d'
+  $formattedDate = $dateValue ? $dateValue->format('Y-m-d') : null;
+  return $formattedDate;
+}
 function filehub($table) {
   switch($table) {
       case 'course':
@@ -869,7 +940,7 @@ function uptablerow($conn,$file,$table,$idcol,$id){
 function deltablerow($conn,$table,$idcol,$id){
 
   $query="DELETE FROM $table WHERE $idcol='$id'";
-  echo "$query  ";
+  debug("$query  ") ;
   $result = $conn->query($query);
 
   // Check if query was successful
@@ -932,7 +1003,7 @@ function queryattend() {
   if (!empty($sub_type)) { 
       $q3 .= " AND at.sub_type = '$sub_type'";
   }  
-  if (!is_null($attend)) { 
+  if ($attend === "0" || $attend === "1") { 
       $q3 .= " AND at.attendance = '$attend'";
   }  
   if (!empty($month)) { 
@@ -965,9 +1036,9 @@ function queryattend() {
       $q3 .= " AND de.dep_id = '$dep'";
   }
 
-  $orderBy = ' ORDER BY SUBSTRING_INDEX(at.reg_no, "/", 1) ASC,
-               SUBSTRING_INDEX(SUBSTRING_INDEX(at.reg_no, "/", 2), "/", -1) ASC,
-               CAST(SUBSTRING_INDEX(at.reg_no, "/", -1) AS UNSIGNED) ASC';
+  $orderBy = " ORDER BY SUBSTRING_INDEX(at.reg_no, '/', 1) ASC,
+               SUBSTRING_INDEX(SUBSTRING_INDEX(at.reg_no, '/', 2), '/', -1) ASC,
+               CAST(SUBSTRING_INDEX(at.reg_no, '/', -1) AS UNSIGNED) ASC";
 
   $query = $q1 . $q2 . $q3 . $orderBy;
   debug($query) ;
@@ -975,7 +1046,7 @@ function queryattend() {
 }
 
 function queryica() {
-  $q1 = "SELECT st.reg_no AS reg_no";
+  $q1 = "SELECT st.reg_no AS reg_no , su.sub_code AS Subject";
   $q2 = " FROM ica_1 i1
            LEFT JOIN ica_2 i2 ON i1.reg_no = i2.reg_no AND i1.sub_code = i2.sub_code
            LEFT JOIN ica_3 i3 ON i1.reg_no = i3.reg_no AND i1.sub_code = i3.sub_code
@@ -988,6 +1059,9 @@ function queryica() {
   $sessionVariables = loadsession();
   extract($sessionVariables);
 
+  if (!empty($sub_code)) { 
+    $q3 .= " AND (i1.sub_code = '$sub_code' OR i2.sub_code = '$sub_code' OR i3.sub_code = '$sub_code')";
+    }
   // ICA handling
   if (!empty($ica)) {
       foreach ($ica as $icaType) {
@@ -1004,9 +1078,7 @@ function queryica() {
   }
 
   // Additional conditions
-  if (!empty($sub_code)) { 
-      $q3 .= " AND (i1.sub_code = '$sub_code' OR i2.sub_code = '$sub_code' OR i3.sub_code = '$sub_code')";
-  }
+ 
   if (!empty($sub_type)) { 
       $q3 .= " AND (i1.sub_type = '$sub_type' OR i2.sub_type = '$sub_type' OR i3.sub_type = '$sub_type')";
   } 
@@ -1021,23 +1093,23 @@ function queryica() {
       $q1 .= ", st.batch AS batch";
       $q3 .= " AND st.batch = '$batch'";
   }
-  if (!empty($sem)) { 
-     $q1 .= ", su.semester AS Semester";
-      $q3 .= " AND su.semester = '$sem'";
+  if (!empty($dep)) { 
+     $q1 .= ", de.dep_name AS Department";
+      $q3 .= " AND de.dep_id = '$dep'";
   }
   if (!empty($course)) { 
-      $q1 .= ", co.name AS Course";
-      $q3 .= " AND co.course_name = '$course'";
+      $q1 .= ", co.course_name AS Course";
+      $q3 .= " AND co.course_id = '$course'";
   }
   if (!empty($sem)) {
       $q1 .= ", su.semester AS semester";
       $q3 .= " AND su.semester = '$sem'";
   }
 
-  $orderBy = ' ORDER BY 
-               SUBSTRING_INDEX(st.reg_no, "/", 1) ASC,
-               SUBSTRING_INDEX(SUBSTRING_INDEX(st.reg_no, "/", 2), "/", -1) ASC,
-               CAST(SUBSTRING_INDEX(i1.reg_no, "/", -1) AS UNSIGNED) ASC';
+  $orderBy = " ORDER BY 
+               SUBSTRING_INDEX(st.reg_no, '/', 1) ASC,
+               SUBSTRING_INDEX(SUBSTRING_INDEX(st.reg_no, '/', 2), '/', -1) ASC,
+               CAST(SUBSTRING_INDEX(i1.reg_no, '/', -1) AS UNSIGNED) ASC";
 
   $query = $q1 . $q2 . $q3 . $orderBy;
   debug($query) ;
@@ -1079,30 +1151,30 @@ function queryfinal(){
         $q3 .= " AND ex.index_no = '$index_no'";  
     }
     if (!empty($level)) {
-        $q1 .= ", st.level AS level";
-        $q3 .= " AND st.level = '$level'";
+        $q1 .= ", su.level AS level";
+        $q3 .= " AND su.level = '$level'";
     }
     if (!empty($batch)) {
         $q1 .= ", st.batch AS batch";
         $q3 .= " AND st.batch = '$batch'";
     }
-    if (!empty($sem)) { 
-        $q1 .= ", su.semester AS Semester";
-        $q3 .= " AND su.semester = '$sem'";
+    if (!empty($dep)) { 
+        $q1 .= ", de.dep_name AS Department";
+        $q3 .= " AND de.dep_id = '$dep'";
     }
     if (!empty($course)) { 
-        $q1 .= ", co.name AS Course";
-        $q3 .= " AND co.course_name = '$course'";
+        $q1 .= ", co.course_name AS Course";
+        $q3 .= " AND co.course_id = '$course'";
     }
     if (!empty($sem)) {
         $q1 .= ", su.semester AS semester";
         $q3 .= " AND su.semester = '$sem'";
     }
 
-    $orderBy = ' ORDER BY 
-                 SUBSTRING_INDEX(ind.reg_no, "/", 1) ASC,
-                 SUBSTRING_INDEX(SUBSTRING_INDEX(ind.reg_no, "/", 2), "/", -1) ASC,
-                 CAST(SUBSTRING_INDEX(ind.reg_no, "/", -1) AS UNSIGNED) ASC';
+    $orderBy = " ORDER BY 
+                 SUBSTRING_INDEX(ind.reg_no, '/', 1) ASC,
+                 SUBSTRING_INDEX(SUBSTRING_INDEX(ind.reg_no, '/', 2), '/', -1) ASC,
+                 CAST(SUBSTRING_INDEX(ind.reg_no, '/', -1) AS UNSIGNED) ASC";
 
     $query = $q1 . $q2 . $q3 . $orderBy;
     debug($query) ;

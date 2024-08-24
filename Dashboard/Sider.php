@@ -11,6 +11,13 @@ if (!isAuthenticated()) {
   exit();
 }
 $user_type=$_SESSION['user_type'];
+$user_name=isset($_SESSION['lec_name'])?$_SESSION['lec_name']:"";
+?>
+
+<?php
+  colourGen()
+    //header('location: ../Dashboard/colourGen.php');
+    //exit;
 ?>
 
 <!DOCTYPE html>
@@ -18,7 +25,7 @@ $user_type=$_SESSION['user_type'];
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Slider</title>
+    <title>Welcome, <?php echo ucfirst($_SESSION['user_type']); ?></title>
     <!-- get icons -->
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
 
@@ -47,6 +54,14 @@ $user_type=$_SESSION['user_type'];
         </div>
 
         <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="?content=../pages/profile.php" 
+              class="sidebar-link">
+              <i class="bx bx-user me-2"></i>
+              <span><?php echo $user_name." ".strtoupper($user_type) ?></span>
+            </a>
+          </li>
+          <br>
           <li class="sidebar-item">
             <a href="?content=../pages/Home.php" 
               class="sidebar-link">
@@ -349,6 +364,45 @@ $user_type=$_SESSION['user_type'];
          <?php endif; ?>
           <!-- faculty end -->
 
+                    <!-- department start -->
+        <?php if ($user_type == 'superadmin'): ?>
+          <li class="sidebar-item">
+            <a
+              href="#"
+              class="sidebar-link has-dropdown collapsed"
+              data-bs-toggle="collapse"
+              data-bs-target="#department"
+              aria-expanded="false"
+              aria-controls="department"
+            >
+            <i class='bx bxs-ruler'></i>
+              <span>Deparment</span>
+            </a>
+            <ul
+              id="department"
+              class="sidebar-dropdown list-unstyled collapse"
+              data-bs-parent="#sidebar"
+            >
+              <li class="sidebar-item">
+                <a
+                  href="?content=../pages/AddDep.php&type=Add"
+                  class="sidebar-link"
+                  >Add Department</a
+                >
+              </li>
+
+              <li class="sidebar-item">
+                <a
+                  href="?content=../pages/viewEdit.php&table=department"
+                  class="sidebar-link"
+                  >View / Edit Department</a
+                >
+              </li>
+            </ul>
+          </li>
+         <?php endif; ?>
+          <!-- department end -->
+
           <!-- course start -->
         <?php if ($user_type == 'superadmin'): ?>
           <li class="sidebar-item">
@@ -387,45 +441,6 @@ $user_type=$_SESSION['user_type'];
           </li>
          <?php endif; ?>
           <!-- course end -->
-
-          <!-- department start -->
-        <?php if ($user_type == 'superadmin'): ?>
-          <li class="sidebar-item">
-            <a
-              href="#"
-              class="sidebar-link has-dropdown collapsed"
-              data-bs-toggle="collapse"
-              data-bs-target="#department"
-              aria-expanded="false"
-              aria-controls="department"
-            >
-            <i class='bx bxs-ruler'></i>
-              <span>Deparment</span>
-            </a>
-            <ul
-              id="department"
-              class="sidebar-dropdown list-unstyled collapse"
-              data-bs-parent="#sidebar"
-            >
-              <li class="sidebar-item">
-                <a
-                  href="?content=../pages/AddDep.php&type=Add"
-                  class="sidebar-link"
-                  >Add Department</a
-                >
-              </li>
-
-              <li class="sidebar-item">
-                <a
-                  href="?content=../pages/viewEdit.php&table=department"
-                  class="sidebar-link"
-                  >View / Edit Department</a
-                >
-              </li>
-            </ul>
-          </li>
-         <?php endif; ?>
-          <!-- department end -->
 
           <!-- Lecture start -->
         <?php if ($user_type == 'superadmin'): ?>
@@ -506,13 +521,13 @@ $user_type=$_SESSION['user_type'];
         <!-- Student end -->
 
 
-          <li class="sidebar-item">
+          <!-- <li class="sidebar-item">
             <a href="?content=../pages/Profile.php" 
               class="sidebar-link">
               <i class="bx bx-user me-2"></i>
               <span>Profile</span>
             </a>
-          </li>
+          </li> -->
           <li class="sidebar-item">
             <a href="?content=../pages/login.php" 
               class="sidebar-link">
