@@ -113,59 +113,6 @@ $tasks = $result->fetch_all(MYSQLI_ASSOC);
 </body>
 </html>
 
-    <div class="main p-3">
-        <div class="container2">
-            <!-- To-Do list start -->
-            <div class="todo-list">
-                <h2>To-Do List</h2>
-                <div class="row">
-                    <input type="text" class="add-task" id="task_name" placeholder="Enter a new task">
-                    <button id="add_button">Add</button>
-                </div>
-                    <ul id="task_list" class="task_list">
-                        <?php foreach ($tasks as $task): ?>
-                            <li data-id="<?= $task['id'] ?>" class="<?= $task['is_completed'] ? 'completed' : '' ?>">
-                                <div class="task-content">
-                                <input type="checkbox" class="task_checkbox" <?= $task['is_completed'] ? 'checked' : '' ?>>
-                                <?= htmlspecialchars($task['task_name']) ?>
-                                </div>
-                                <button class="delete_button">X</button>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
-            </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $('#add_button').on('click', function() {
-            const task_name = $('#task_name').val().trim();
-            if (task_name) {
-                $.post('../pages/Home.php', { action: 'add', task_name: task_name }, function() {
-                    location.reload();
-                });
-            }
-        });
-
-        $('.delete_button').on('click', function() {
-            const id = $(this).closest('li').data('id');
-            $.post('../pages/Home.php', { action: 'delete', id: id }, function() {
-                location.reload();
-            });
-        });
-
-        $('.task_checkbox').on('change', function() {
-            const li = $(this).closest('li');
-            const id = li.data('id');
-            const is_completed = this.checked ? 1 : 0;
-            $.post('../pages/Home.php', { action: 'toggle', id: id, is_completed: is_completed }, function() {
-                li.toggleClass('completed');
-            });
-        });
-    </script>
-</body>
-</html>
-
-
 <?php
 $conn->close();
 ?>
