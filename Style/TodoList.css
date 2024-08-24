@@ -1,33 +1,43 @@
+<<<<<<< Updated upstream
 :root {
+=======
+/* Root variables for color scheme */
+/* :root {
+>>>>>>> Stashed changes
   --primary-color: #884dee;
   --secondary-color: #b08bf1;
   --white-color: #fff;
   --black-color: #000;
 }
 
+/* General styling */
 h3 {
   color: var(--primary-color);
 }
+
 .table thead th {
   background-color: var(--secondary-color) !important;
   color: white;
 }
+
 .active {
   background-color: var(--secondary-color) !important;
   border-left: 3px solid white;
 }
+
 .aicon,
 .active span {
   color: rgb(255, 204, 0) !important;
 }
 
-/* ********************************************************* */
+/* Container styling */
 .container2 {
   width: 100%;
   min-height: 100vh;
   padding: 5px;
 }
 
+/* To-Do list styling */
 .todo-list {
   width: 100%;
   max-width: 540px;
@@ -48,6 +58,7 @@ h3 {
   margin: auto;
   text-align: center;
 }
+
 .row {
   display: flex;
   align-items: center;
@@ -55,10 +66,10 @@ h3 {
   background: #d3d4d5;
   width: 80%;
   border-radius: 10px;
-  /* padding-left: 50px; */
   margin-bottom: 25px;
   margin: auto;
 }
+
 input {
   flex: 1;
   border: none;
@@ -67,19 +78,23 @@ input {
   padding: 10px;
   height: 40px;
 }
+
 .add-task {
   width: 50%;
 }
 
-#add-button {
+#add_button {
   width: 30%;
 }
+#add_button:hover {
+  background-color: var(--secondary-color);
+}
+
 button {
   border: none;
   outline: none;
   height: 40px;
   width: 100px;
-  /* padding: 16px, 50px; */
   background: var(--primary-color);
   color: white;
   font-size: 16px;
@@ -87,39 +102,47 @@ button {
   border-radius: 10px;
 }
 
-.task-list li {
-  list-style: none;
-  font-size: 17px;
-  padding: 12px 8px 12px 50px;
-  user-select: none;
-  cursor: pointer;
+/* Specific styling for task list items */
+.task-content {
+  display: flex;
+  align-items: center;
+}
+
+.task_checkbox {
+  margin-right: 10px; /* Add space between checkbox and task name */
+}
+
+.task_list li {
   position: relative;
+  padding-left: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
 }
 
-.task-list li::before {
-  content: "";
-  position: absolute;
-  height: 28px;
-  width: 28px;
-  border-radius: 50%;
-  background-image: url(../aaaaatest/images/unchecked.png); /* Ensure correct path */
-  background-size: cover;
-  background-position: center;
-  left: 8px;
-  top: 50%; /* Adjusted to center vertically */
-  transform: translateY(-50%); /* Center vertically */
+.task_list li span {
+  flex: 1;
 }
 
-.task-list li.checked {
-  color: var(--secondary-color);
+.delete_button {
+  margin-left: 15px;
+  cursor: pointer;
+  margin-right: 50px;
+  width: 30px;
+}
+.delete_button:hover {
+  background-color: red;
+}
+
+/* Styles for completed tasks */
+.completed {
   text-decoration: line-through;
-}
-.task-list li.checked::before {
-  background-image: url(../aaaaatest/images/checked.png);
+  color: red;
 }
 
-/* styles for cross icon */
-.task-list li span {
+/* Styles for the cross icon */
+.task_list li span {
   position: absolute;
   right: 10px;
   top: 5px;
@@ -132,7 +155,6 @@ button {
   border-radius: 50%;
 }
 
-.task-list li span:hover {
+.task_list li span:hover {
   background: var(--secondary-color);
 }
-/* ********************************************************* */
