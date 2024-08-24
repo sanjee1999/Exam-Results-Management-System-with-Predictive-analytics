@@ -69,7 +69,6 @@ $tasks = $result->fetch_all(MYSQLI_ASSOC);
                     <input type="text" class="add-task" id="task_name" placeholder="Enter a new task">
                     <button id="add_button">Add</button>
                 </div>
-                <div>
                     <ul id="task_list" class="">
                         <?php foreach ($tasks as $task): ?>
                             <li data-id="<?= $task['id'] ?>" class="<?= $task['is_completed'] ? 'completed' : '' ?>">
@@ -79,7 +78,6 @@ $tasks = $result->fetch_all(MYSQLI_ASSOC);
                             </li>
                         <?php endforeach; ?>
                     </ul>
-                </div>
             </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
