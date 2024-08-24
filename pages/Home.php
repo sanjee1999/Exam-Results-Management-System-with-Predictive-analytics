@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $conn->query("UPDATE tasks SET is_completed = $is_completed WHERE id = $id");
     }
 
-    exit;kjdksjdksjk
+    exit;
 }
 
 // Fetch tasks from the database
