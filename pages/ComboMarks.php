@@ -75,7 +75,9 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
           <div class="input-section py-5 mb-5">
             <div class="form d-flex justify-content-center align-items-center">
               <form action="#" method="post" class="row" oninput="submitForm()" id="searchForm">
-              <div class="form-group col-md-3" id="sub_code">
+
+
+              <div class="form-group col-md-4" id="sub_code">
                   <select name="sub_code" id="sub_code" class="form-control">
                     <option value="" selected disabled>Select Sub_Code</option>
                     <?php optiongen($conn, 'subject', 'sub_code','sub_name') ?>
@@ -83,17 +85,22 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                 </div>
                
 
-                <div class="form-group col-md-3" id="batch">
+                <div class="form-group col-md-4" id="batch">
                   <input type="text" name="batch" id="batch" class="form-control" placeholder="Batch"/>
                   <input type="hidden" name="type" id="type" class="form-control" value="combo"/>
                 </div>
-                <div class="form-check form-switch form-group" id="detail">
+
+                
+
+                <div class="form-group col-md-">
+                  <button class="btn btn-primary w-100">View</button>
+                </div>
+
+                <div class="form-check form-switch form-group py-3" id="detail">
                   <input class="form-check-input" type="checkbox" role="switch" name="detail" id="detail" value="full">
                   <label class="form-check-label" for="detail">Full Detailed View</label>
                 </div>
-                <div class="form-group col-md-3">
-                  <button class="btn btn-primary w-100">View</button>
-                </div>
+
               </form>
             </div>
           </div>
