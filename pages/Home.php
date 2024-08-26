@@ -60,34 +60,37 @@ $tasks = $result->fetch_all(MYSQLI_ASSOC);
     <link rel="stylesheet" href="../Style/Home.css" />
   </head>
   <body>
-
-
     <div class="main p-3">
         <div class="container2">
             <!-- To-Do list start -->
-            <div class="todo-list">
-                <h2>To-Do List</h2>
-                <div class="row ">
-                    <input type="text" class="add-task" id="task_name" placeholder="Enter a new task">
-                    <button id="add_button">Add</button>
+            <div class="todo-list col-12 col-md-8 col-lg-6 mx-auto">
+                <h2 class="text-center mb-4">To-Do List</h2>
+                <div class="row mb-3">
+                    <div class="col-12 col-sm-8 mb-2 mb-sm-0">
+                        <input type="text" class="add-task form-control" id="task_name" placeholder="Enter a new task">
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <button id="add_button" class="btn btn-primary w-100">Add</button>
+                    </div>
                 </div>
-                <ul id="task_list" class="task_list">
+                <ul id="task_list" class="task_list list-group align-items-center ">
                     <?php foreach ($tasks as $task): ?>
-                        <li data-id="<?= $task['id'] ?>" class="<?= $task['is_completed'] ? 'completed' : '' ?>">
-                            <input type="checkbox" class="task_checkbox" <?= $task['is_completed'] ? 'checked' : '' ?>>
-                            <div class="task_text"><?= htmlspecialchars($task['task_name']) ?></div>
-                            <button class="delete_button">X</button>
+                        <li data-id="<?= $task['id'] ?>" class="list-group-item d-flex align-items-center <?= $task['is_completed'] ? 'completed' : '' ?>">
+                            <input type="checkbox" class="task_checkbox form-check-input me-2" <?= $task['is_completed'] ? 'checked' : '' ?>>
+                            <div class="task_text flex-grow-1"><?= htmlspecialchars($task['task_name']) ?></div>
+                            <button class="delete_button btn btn-danger btn-sm">X</button>
                         </li>
                     <?php endforeach; ?>
                 </ul>
             </div>
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $('#add_button').on('click', function() {
             const task_name = $('#task_name').val().trim();
             if (task_name) {
-                $.post('../pages/Home.php', { action: 'add', task_name: task_name }, function() {
+                $.post('', { action: 'add', task_name: task_name }, function() {
                     location.reload();
                 });
             }
@@ -95,7 +98,7 @@ $tasks = $result->fetch_all(MYSQLI_ASSOC);
 
         $('.delete_button').on('click', function() {
             const id = $(this).closest('li').data('id');
-            $.post('../pages/Home.php', { action: 'delete', id: id }, function() {
+            $.post('', { action: 'delete', id: id }, function() {
                 location.reload();
             });
         });
@@ -104,11 +107,12 @@ $tasks = $result->fetch_all(MYSQLI_ASSOC);
             const li = $(this).closest('li');
             const id = li.data('id');
             const is_completed = this.checked ? 1 : 0;
-            $.post('../pages/Home.php', { action: 'toggle', id: id, is_completed: is_completed }, function() {
+            $.post('', { action: 'toggle', id: id, is_completed: is_completed }, function() {
                 li.toggleClass('completed');
             });
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
 <?php
