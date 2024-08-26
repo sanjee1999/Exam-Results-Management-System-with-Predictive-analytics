@@ -46,7 +46,7 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #d3d4d5;
+  background: #ffffff;
   width: 90%;
   border-radius: 10px;
   margin-bottom: 25px;
@@ -63,11 +63,12 @@ input {
 }
 
 .add-task {
-  width: 50%;
+  width: 100%;
 }
 
 #add_button {
   width: 30%;
+  background-color: var(--primary-color);
 }
 #add_button:hover {
   background-color: var(--secondary-color);
@@ -90,19 +91,49 @@ button {
   list-style: none;
   padding: 0;
   margin: 0;
-  width: 90%;
+  width: auto;
 }
 
 .task_list li {
   display: flex;
   align-items: center;
   padding: 10px;
-  border-bottom: 1px solid #ddd; /* Optional: add separation between items */
+  border-bottom: 1px solid #ddd;
+
+  width: 80%;
 }
 
+/* Updated Task Checkbox Styling */
 .task_checkbox {
+  width: px; /* Set the desired width */
+  height: 50px; /* Set the desired height */
   margin-right: 20px; /* Adjust this value to increase or decrease the gap */
-  transform: scale(0.8);
+  transform: scale(0.7); /* Reset any previous scaling */
+  -webkit-appearance: none; /* Remove default checkbox styling for WebKit browsers */
+  -moz-appearance: none; /* Remove default checkbox styling for Mozilla browsers */
+  appearance: none; /* Remove default checkbox styling */
+  background-color: #fff; /* Background color */
+  border: 1px solid #ddd; /* Border styling */
+  border-radius: 3px; /* Optional: set border-radius to make it look a bit nicer */
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.task_checkbox:checked {
+  background-color: var(--primary-color); /* Background color when checked */
+  border-color: var(--primary-color); /* Border color when checked */
+  position: relative;
+}
+
+.task_checkbox:checked::after {
+  content: "\2713"; /* Unicode character for the checkmark */
+  color: white;
+  font-size: 16px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .task_text {
@@ -121,6 +152,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  border: none;
 }
 
 .delete_button:hover {
@@ -131,4 +163,19 @@ button {
 .completed {
   text-decoration: line-through;
   color: red;
+}
+
+@media (max-width: 576px) {
+  .todo-list {
+    padding: 15px;
+  }
+  .row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .add-task,
+  #add_button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
 }
