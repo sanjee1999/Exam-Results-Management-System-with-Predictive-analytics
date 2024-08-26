@@ -67,20 +67,19 @@ $tasks = $result->fetch_all(MYSQLI_ASSOC);
             <!-- To-Do list start -->
             <div class="todo-list">
                 <h2>To-Do List</h2>
-                <div class="row">
+                <div class="row ">
                     <input type="text" class="add-task" id="task_name" placeholder="Enter a new task">
                     <button id="add_button">Add</button>
                 </div>
-                    <ul id="task_list" class="">
-                        <?php foreach ($tasks as $task): ?>
-                            <li data-id="<?= $task['id'] ?>" class="<?= $task['is_completed'] ? 'completed' : '' ?>">
-                                <input type="checkbox" class="task_checkbox" <?= $task['is_completed'] ? 'checked' : '' ?>>
-                                <?= htmlspecialchars($task['task_name']) ?>
-                                <button class="delete_button">X</button>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
-
+                <ul id="task_list" class="task_list">
+                    <?php foreach ($tasks as $task): ?>
+                        <li data-id="<?= $task['id'] ?>" class="<?= $task['is_completed'] ? 'completed' : '' ?>">
+                            <input type="checkbox" class="task_checkbox" <?= $task['is_completed'] ? 'checked' : '' ?>>
+                            <div class="task_text"><?= htmlspecialchars($task['task_name']) ?></div>
+                            <button class="delete_button">X</button>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
             </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
