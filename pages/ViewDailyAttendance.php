@@ -176,9 +176,9 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                   <label class="form-check-label" for="graph">Graph View</label>
                 </div> -->
 
-                <div class="form-group col-md-3">
+                <!-- <div class="form-group col-md-3">
                   <button class="btn btn-primary w-100" name="graph">View Graph</button>
-                </div>
+                </div> -->
                 
               </form>
             </div>
