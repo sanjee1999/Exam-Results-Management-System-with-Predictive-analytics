@@ -141,16 +141,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
             -</h3>
           </div>
     <div class="container" id="viewout">
-          <section class="p-5">
-            <!-- <div class="table-responsive" id="table1">
-            <?php 
-                // if($_SERVER["REQUEST_METHOD"]=="POST"){  
-                //   $query=queryica();
-                //   outputQueryInTable($conn,$query);
-                // }
-              ?>
-            </div>
-          </section>       -->
+          
     </div>
      
         <?php 

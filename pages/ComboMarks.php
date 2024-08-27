@@ -101,6 +101,11 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                   <label class="form-check-label" for="detail">Full Detailed View</label>
                 </div>
 
+                <div class="form-group col-md-3">
+                  <button class="btn btn-primary w-100">View Graph</button>
+                </div>
+
+
               </form>
             </div>
           </div>

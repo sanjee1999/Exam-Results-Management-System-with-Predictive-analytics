@@ -74,6 +74,32 @@ $sub_code=$date=$month=$year=$regno=$level=$type=null;
 
     <link rel="stylesheet" href="Slider.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        #updateModal {
+            display: none; 
+            position: fixed; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            background-color: white; 
+            padding: 20px; 
+            border-radius: 5px; 
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        #overlay {
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0, 0, 0, 0.5); 
+            z-index: 999;
+        }
+
+    </style>
    
   </head>
   <body>
@@ -83,9 +109,6 @@ $sub_code=$date=$month=$year=$regno=$level=$type=null;
             Export Data
         </button>
     </div>
-          <section class="p-5">
-          
-            <!-- <div class="table-responsive" id="table1"> -->
               <?php 
               $label = [];
               $value = [];
@@ -95,7 +118,7 @@ $sub_code=$date=$month=$year=$regno=$level=$type=null;
                       if($graph=='graph'){
                         outputQueryInChart($conn,$query);
                         }else{
-                        outputQueryInTable($conn,$query);
+                        outputQueryInTable($conn,$query,'attendance','record_key');
                         }
                       }
                   
@@ -105,7 +128,7 @@ $sub_code=$date=$month=$year=$regno=$level=$type=null;
                     if($graph=='graph'){
                       outputQueryInChart($conn,$query);
                     }else{
-                      outputQueryInTable($conn,$query);
+                      outputQueryInTable($conn,$query,'','record_key');
                     }
                   }
                   if($type=='final'){ 
@@ -113,7 +136,7 @@ $sub_code=$date=$month=$year=$regno=$level=$type=null;
                     if($graph=='graph'){
                       outputQueryInChart($conn,$query);
                     }else{
-                      outputQueryInTable($conn,$query);
+                      outputQueryInTable($conn,$query,'','record_key');
                     }
                   }
                   
@@ -131,7 +154,6 @@ $sub_code=$date=$month=$year=$regno=$level=$type=null;
               require '../pages/exportoption.php';
               ?>
             </div>
-          </section>
           <?php
                //$label=isset($label)?$label:NULL;
                //$value=isset($value)?$value:NULL;
@@ -149,11 +171,20 @@ $sub_code=$date=$month=$year=$regno=$level=$type=null;
                 // ]);
               
           ?>
-         
-
-<div class="chart">
-            <canvas id="myChart"></canvas>
+<!-- Update Modal -->
+<div id="updateModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background-color:white; padding:20px; border-radius:5px; z-index:1000;">
+    <div>
+        <h3>Update Row</h3>
+        <input type="text" id="updateInput" placeholder="Enter updated data here">
+        <button onclick="submitUpdate()">Update</button>
+        <button onclick="closeModal()">Cancel</button>
+    </div>
 </div>
+<div id="overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.5); z-index:999;"></div>
+
+<!-- <div class="chart">
+            <canvas id="myChart"></canvas>
+</div> -->
 
     <!-- Bootstrap JS -->
     <script
@@ -163,12 +194,74 @@ $sub_code=$date=$month=$year=$regno=$level=$type=null;
     ></script>
     <!-- <script src="../script/filter.js"></script> -->
     <script src="../Sidebar/Main.js"></script>
+    <script src="../script/fetch.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-              
-
     
   </body>
   </html>
+  <?php
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  if (isset($_POST['action'])) {
+      $action = $_POST['action'];
+      $id = $_POST['id'];
+      $table = $_POST['table'];
+      $idcol = $_POST['column'];
+   
+      if ($action === 'delete') {
+          $result=deltablerow($conn,$table,$idcol,$id);
+          //$result = deleteRow($id, $conn, $table);
+          $result=true;
+          echo $result ? 'success' : 'error';
+      } elseif ($action === 'update') {
+          //$data = $_POST['data'];
+          //$result = updateRow($id, $data, $conn, $table, $column);
+          //echo $result ? 'success' : 'error';
+          $id = $_POST['id'];
+          $table = $_POST['table'];
+          $column = $_POST['column'];
+          $data = json_decode($_POST['data'], true); // Decode the JSON data into an associative array
+
+          // Build the SQL UPDATE statement dynamically
+          $updateParts = [];
+          foreach ($data as $columns => $value) {
+              $updateParts[] = "$columns = '$value'";
+          }
+          $updateString = implode(', ', $updateParts);
+
+          $sql = "UPDATE $table SET $updateString WHERE $column = '$id'";
+          if ($conn->query($sql) === TRUE) {
+              echo 'success';
+          } else {
+              echo 'error';
+          }
+          exit;
+      }
+      exit;
+  }
+}
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id']) && isset($_GET['table']) && isset($_GET['column']) && isset($_GET['columns'])) {
+  $id = $_GET['id'];
+  $table = $_GET['table'];
+  $column = $_GET['column'];
+  $columns = explode(',', $_GET['columns']);
+
+  $columnsString = implode(',', $columns);
+  $sql = "SELECT $columnsString FROM $table WHERE $column = '$id'";
+  $result = $conn->query($sql);
+
+  if ($result->num_rows > 0) {
+      echo json_encode($result->fetch_assoc());
+  } else {
+      echo json_encode([]);
+  }
+  exit;
+}
+
+// Handle Update
+// if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'update') {
   
+// }
+?>
   

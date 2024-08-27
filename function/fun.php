@@ -528,8 +528,48 @@ $conn->close();
 
 return $result;
 }
-
-function outputQueryInTable($conn,$query) {
+function outputQueryInTable($conn, $query, $table, $column) {
+    $result = $conn->query($query);
+    $table_col=[];
+    if ($result === FALSE) {
+        echo "Error: " . $conn->error;
+    } else {
+        echo '<table class="table bg-white">';
+        echo '<thead class="bg-dark text-light">';
+        echo '<tr>';
+        while ($field = $result->fetch_field()) {
+            if ($field->name == $column) {
+                continue; // Skip the column specified in $excludeCol
+            }
+            $table_col[] = $field->name;
+            echo '<th>' . htmlspecialchars($field->name) . '</th>';
+        }
+        echo '<th>Action</th>';
+        echo '</tr>';
+        echo '</thead>';
+        $columnsString = "['" . implode("', '", $table_col) . "']";
+        echo '<tbody>';
+        while ($row = $result->fetch_assoc()) {
+            $id = $row['record_key']; // Assuming 'id' is the unique identifier
+            echo '<tr data-id="' . $id . '">';
+            foreach ($row as $columns => $cell) {
+                if ($columns == $column) {
+                    continue; // Skip the column specified in $excludeCol
+                }
+                echo '<td>' . htmlspecialchars($cell) . '</td>';
+            }
+            echo '<td>
+                    <button class="btn btn-danger btn-sm" onclick="openUpdateModal(' . $id . ', \'' . $table . '\', \'' . $column . '\', \'' . $columnsString . '\')">Update</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteRow(' . $id . ', \'' . $table . '\', \'' . $column . '\')">Delete</button>
+                  </td>';
+            echo '</tr>';
+        }
+        echo '</tbody>';
+        echo '</table>';
+    }
+    $conn->close();
+}
+function outputQueryInTablekkk($conn,$query) {
    
   // Execute query
   $result = $conn->query($query);
@@ -567,6 +607,65 @@ function outputQueryInTable($conn,$query) {
   // Close connection
   $conn->close();
 }
+
+function tableViewEditlot($conn, $query, $idcol, $i, $excludeCol) {
+    // Execute query
+    $result = $conn->query($query);
+
+    // Check if query was successful
+    if ($result === FALSE) {
+        echo "Error: " . $conn->error;
+    } else {
+        // Start table
+        echo '<table class="table bg-white">';
+
+        // Output table headers
+        echo '<thead class="bg-dark text-light">';
+        echo '<tr>';
+        while ($field = $result->fetch_field()) {
+            if ($field->name == $excludeCol) {
+                continue; // Skip the column specified in $excludeCol
+            }
+            echo '<th>' . htmlspecialchars($field->name) . '</th>';
+        }
+        echo '<th>Actions</th>'; // Add header for actions column
+        echo '</tr>';
+        echo '</thead>';
+
+        // Output table rows
+        echo '<tbody>';
+        $formCounter = 0; // Counter to create unique form IDs
+        while ($row = $result->fetch_assoc()) {
+            $formId = 'form' . $formCounter; // Generate a unique form ID
+            echo '<tr>';
+            foreach ($row as $column => $cell) {
+                if ($column == $excludeCol) {
+                    continue; // Skip the column specified in $excludeCol
+                }
+                echo '<td>' . htmlspecialchars($cell) . '</td>';
+            }
+
+            // Create the form with a unique ID
+            echo '<td><form id="' . $formId . '" action="" method="post">
+                    <input type="hidden" name="id" value="' . htmlspecialchars($row[$idcol]) . '">
+                    <input type="hidden" name="idcol" value="' . htmlspecialchars($idcol) . '">
+                    <input type="hidden" name="action" id="action_' . $formId . '" value="">';
+            echo '<button class="btn btn-danger btn-sm" type="button" onclick="updateRecord(\'' . $formId . '\')">Update</button>';
+            echo '<button class="btn btn-danger btn-sm" type="button" onclick="confirmDelete(event, \'' . $formId . '\')">Delete</button>';
+            echo '</form></td>';
+            echo '</tr>';
+
+            $formCounter++;
+        }
+        echo '</tbody>';
+        // End table
+        echo '</table>';
+    }
+
+    // Close connection
+    $conn->close();
+}
+
 
 function tableViewEdit($conn, $query, $idcol, $i) {
   // Execute query
@@ -947,6 +1046,7 @@ function deltablerow($conn,$table,$idcol,$id){
   if ($result === FALSE) {
       echo "Error: " . $conn->error;
   } 
+  return $result;
 }
 
 function up2tablerow($conn,$file,$table,$table1,$tcol,$t1col,$idcol,$id){
@@ -981,7 +1081,8 @@ function queryattend() {
   $q1 = "SELECT at.reg_no AS Reg_No, 
           at.date AS Date, at.time AS Time, 
           at.hour AS Hours, at.sub_code AS Sub_Code,
-          at.sub_type AS Subject_type, at.attendance AS Attendance";
+          at.sub_type AS Subject_type, 
+          at.attendance AS Attendance, record_key";
           
   $q2 = " FROM attendance at 
           LEFT JOIN subject su ON at.sub_code = su.sub_code 
@@ -1046,7 +1147,8 @@ function queryattend() {
 }
 
 function queryica() {
-  $q1 = "SELECT st.reg_no AS reg_no , su.sub_code AS Subject";
+  $q1 = "SELECT st.reg_no AS reg_no , su.sub_code AS Subject,
+        i1.record_key AS record_key,i2.record_key AS record_key,i3.record_key AS record_key";
   $q2 = " FROM ica_1 i1
            LEFT JOIN ica_2 i2 ON i1.reg_no = i2.reg_no AND i1.sub_code = i2.sub_code
            LEFT JOIN ica_3 i3 ON i1.reg_no = i3.reg_no AND i1.sub_code = i3.sub_code
@@ -1124,7 +1226,7 @@ function queryfinal(){
             ex.marks_att3 AS marks_att3, 
             ex.marks_attsp AS marks_attsp, 
             ex.sub_code AS sub_code,
-            ex.sub_type AS sub_type";
+            ex.sub_type AS sub_type,record_key";
 
     $q2 = " FROM exam ex
              LEFT JOIN index_no ind ON ex.index_no = ind.index_no

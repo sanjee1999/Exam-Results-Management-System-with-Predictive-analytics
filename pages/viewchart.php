@@ -75,3 +75,101 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
     
 </body>
 </html>
+
+<?php
+            // Assuming $value1 contains your data
+            $data = $value1; // Example: $value1 is your ICA marks array
+
+            // Sort the data
+            sort($data);
+
+            // Calculate the quantiles and the normal distribution quantiles
+            $n = count($data);
+            $quantiles = [];
+            $normal_quantiles = [];
+
+            for ($i = 0; $i < $n; $i++) {
+                $p = ($i + 0.5) / $n;  // Calculate the quantile
+                $quantiles[] = $data[$i];
+                $normal_quantiles[] = norminv($p);  // Calculate the quantile of the normal distribution
+            }
+            print_r($normal_quantiles);
+            // norminv function to calculate the inverse normal (quantile function)
+            function norminv($p, $mu = 0, $sigma = 1) {
+                return $mu + $sigma * sqrt(2) * erfinv(2 * $p - 1);
+            }
+
+            function erfinv($x) {
+                $a = 0.147;
+                $the_sign_of_x = $x < 0 ? -1 : 1;
+                $ln1minusxsqrd = log(1 - $x * $x);
+                $pi = 3.14159;
+                $part1 = 2 / ($pi * $a) + $ln1minusxsqrd / 2;
+                $part2 = $ln1minusxsqrd / $a;
+                return $the_sign_of_x * sqrt(-$part1 + sqrt($part1 * $part1 - $part2));
+            }
+?>
+         
+         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+         <?php
+            if($_SERVER["REQUEST_METHOD"]=="POST"){
+              if(!empty($_POST)){
+                echo"
+                    <div class='chart'>
+                                <canvas id='myChart'></canvas>
+                                <canvas id='normalityChart'></canvas>
+                    </div>
+                    ";
+              }
+            }
+         ?>
+
+         
+<script>
+const ctx = document.getElementById('normalityChart').getContext('2d');
+const data = {
+    labels: <?php echo json_encode($normal_quantiles); ?>,
+    datasets: [{
+        label: 'Normal Q-Q Plot',
+        data: <?php echo json_encode($quantiles); ?>,
+        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1,
+        pointRadius: 4,
+        pointBackgroundColor: 'rgba(255, 99, 132, 1)',
+        showLine: false,
+        type: 'scatter'
+    }, {
+        label: 'Reference Line',
+        data: <?php echo json_encode($normal_quantiles); ?>,
+        backgroundColor: 'rgba(255, 206, 86, 0.2)',
+        borderColor: 'rgba(255, 206, 86, 1)',
+        borderWidth: 2,
+        type: 'line',
+        fill: false,
+    }]
+};
+
+const config = {
+    type: 'scatter',
+    data: data,
+    options: {
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Theoretical Quantiles'
+                }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Sample Quantiles'
+                }
+            }
+        }
+    }
+};
+
+new Chart(ctx, config);
+</script>
