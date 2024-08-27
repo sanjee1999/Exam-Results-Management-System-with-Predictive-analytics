@@ -1,4 +1,3 @@
-
 h3 {
   color: var(--primary-color);
 }
@@ -32,27 +31,23 @@ h3 {
   height: auto;
   background-color: rgb(255, 255, 255);
   margin: 10px auto 20px;
-  padding: 50px, 30px, 70px;
+  padding: 30px;
   border-radius: 10px;
   border: 1px solid var(--secondary-color);
 }
 
 .todo-list h2 {
   color: var(--primary-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px !important;
-  margin: auto;
   text-align: center;
+  margin-bottom: 20px !important;
 }
 
 .row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #d3d4d5;
-  width: 80%;
+  background: #ffffff;
+  width: 90%;
   border-radius: 10px;
   margin-bottom: 25px;
   margin: auto;
@@ -68,11 +63,12 @@ input {
 }
 
 .add-task {
-  width: 50%;
+  width: 100%;
 }
 
 #add_button {
   width: 30%;
+  background-color: var(--primary-color);
 }
 #add_button:hover {
   background-color: var(--secondary-color);
@@ -90,35 +86,75 @@ button {
   border-radius: 10px;
 }
 
-/* Specific styling for task list items */
-.task-content {
-  display: flex;
-  align-items: center;
-}
-
-.task_checkbox {
-  margin-right: 10px; /* Add space between checkbox and task name */
+/* Task list styling */
+.task_list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: auto;
 }
 
 .task_list li {
-  position: relative;
-  padding-left: 0;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 10px;
+  border-bottom: 1px solid #ddd;
+
+  width: 80%;
 }
 
-.task_list li span {
-  flex: 1;
+/* Updated Task Checkbox Styling */
+.task_checkbox {
+  width: px; /* Set the desired width */
+  height: 50px; /* Set the desired height */
+  margin-right: 20px; /* Adjust this value to increase or decrease the gap */
+  transform: scale(0.7); /* Reset any previous scaling */
+  -webkit-appearance: none; /* Remove default checkbox styling for WebKit browsers */
+  -moz-appearance: none; /* Remove default checkbox styling for Mozilla browsers */
+  appearance: none; /* Remove default checkbox styling */
+  background-color: #fff; /* Background color */
+  border: 1px solid #ddd; /* Border styling */
+  border-radius: 3px; /* Optional: set border-radius to make it look a bit nicer */
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.task_checkbox:checked {
+  background-color: var(--primary-color); /* Background color when checked */
+  border-color: var(--primary-color); /* Border color when checked */
+  position: relative;
+}
+
+.task_checkbox:checked::after {
+  content: "\2713"; /* Unicode character for the checkmark */
+  color: white;
+  font-size: 16px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.task_text {
+  flex: 1; /* Allow it to grow and fill the available space */
+  margin-right: 15px; /* Space between task name and delete button */
 }
 
 .delete_button {
-  margin-left: 15px;
   cursor: pointer;
-  margin-right: 50px;
   width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  color: white;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
 }
+
 .delete_button:hover {
   background-color: red;
 }
@@ -129,20 +165,19 @@ button {
   color: red;
 }
 
-/* Styles for the cross icon */
-.task_list li span {
-  position: absolute;
-  right: 10px;
-  top: 5px;
-  width: 40px;
-  height: 40px;
-  font-size: 22px;
-  color: #555;
-  line-height: 40px;
-  text-align: center;
-  border-radius: 50%;
+@media (max-width: 576px) {
+  .todo-list {
+    padding: 15px;
+  }
+  .row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .add-task,
+  #add_button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
 }
 
-.task_list li span:hover {
-  background: var(--secondary-color);
-}
+/* finished*/
