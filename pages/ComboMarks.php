@@ -90,16 +90,16 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                   <input type="hidden" name="type" id="type" class="form-control" value="combo"/>
                 </div>
 
-                
-
-                <div class="form-group col-md-">
-                  <button class="btn btn-primary w-100">View</button>
-                </div>
-
                 <div class="form-check form-switch form-group py-3" id="detail">
                   <input class="form-check-input" type="checkbox" role="switch" name="detail" id="detail" value="full">
                   <label class="form-check-label" for="detail">Full Detailed View</label>
                 </div>
+
+                <div class="form-group col-md-3">
+                  <button class="btn btn-primary w-100">View</button>
+                </div>
+
+                
 
                 <div class="form-group col-md-3">
                   <button class="btn btn-primary w-100">View Graph</button>
