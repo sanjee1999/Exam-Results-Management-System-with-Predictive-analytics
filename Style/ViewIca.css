@@ -84,7 +84,6 @@
 .btn:hover {
   background-color: var(--secondary-color) !important;
 }
-/* .form-check-input {
-  background-color: aqua !important;
-  width: 2000px !important;
-} */
+.form-check-input:checked {
+  background-color: var(--primary-color) !important;
+}
