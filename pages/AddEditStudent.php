@@ -76,10 +76,10 @@
                   <input type="text" name="nic_no" id="nic_no" class="form-control" placeholder="Enter the Student NIC No" value="<?php infill($nic_no); ?>" required/>
                 </div>
                 <div class="form-group col-md-3" id="dob">
-                  <input type="date" name="dob" id="dob" class="form-control" placeholder="Enter the DOB" value="<?php infill($dob); ?>" required/>
+                  <input type="date" name="dob" id="dob" class="form-control" placeholder="Enter the DOB" value="<?php infill($dob); ?>" />
                 </div>
                 <div class="form-group col-md-3" id="doa">
-                  <input type="date" name="doa" id="doa" class="form-control" placeholder="Enter the Date of admission" value="<?php infill($doa); ?>" required/>
+                  <input type="date" name="doa" id="doa" class="form-control" placeholder="Enter the Date of admission" value="<?php infill($doa); ?>" />
                 </div>
                 
                 <div class="form-group col-md-3" id="course">

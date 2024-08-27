@@ -20,7 +20,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
   $detail = isset($_POST['detail']) ? $_POST['detail'] : null;
   $graph = isset($_POST['graph']) ? $_POST['graph'] : null;
  
-  echo "$sub_code $date $month $year $regno $level $attend<br>";
+  debug( "$sub_code $date $month $year $regno $level $attend<br>");
 
   $_SESSION['sub_code']=isset($sub_code)?$sub_code:null;
   $_SESSION['sub_type']=isset($sub_type)?$sub_type:null;
@@ -210,7 +210,8 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
-    <script src="../script/filter.js"></script>
+    <!-- <script src="../script/filter.js"></script> -->
+    <script src="../script/fetch.js"></script>
     
 
    

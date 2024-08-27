@@ -8,7 +8,7 @@ require_once '../function/fun.php';
 	define('host', 'localhost');
 	define('user', 'root');
 	define('pwd', '');
-	//define('db', 'exam_result_management');
+	//define('db', '086exam_result_management');
 	define('db', 'exam');
 
 	$_SESSION['debug']=false;
