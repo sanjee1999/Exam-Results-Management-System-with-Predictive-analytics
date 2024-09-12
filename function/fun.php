@@ -550,19 +550,20 @@ function outputQueryInTable($conn, $query, $table, $column) {
         $columnsString = "['" . implode("', '", $table_col) . "']";
         echo '<tbody>';
         while ($row = $result->fetch_assoc()) {
-            $id = $row['record_key']; // Assuming 'id' is the unique identifier
-            echo '<tr data-id="' . $id . '">';
+            // $id = $row['record_key']; // Assuming 'id' is the unique identifier
+            //echo '<tr data-id="' . $id . '">';
+            echo '<tr data-id=>';
             foreach ($row as $columns => $cell) {
                 if ($columns == $column) {
                     continue; // Skip the column specified in $excludeCol
                 }
                 echo '<td>' . htmlspecialchars($cell) . '</td>';
             }
-            echo '<td>
-                    <button class="btn btn-danger btn-sm" onclick="openUpdateModal(' . $id . ', \'' . $table . '\', \'' . $column . '\', \'' . $columnsString . '\')">Update</button>
-                    <button class="btn btn-danger btn-sm" onclick="deleteRow(' . $id . ', \'' . $table . '\', \'' . $column . '\')">Delete</button>
-                  </td>';
-            echo '</tr>';
+            // echo '<td>
+            //         <button class="btn btn-danger btn-sm" onclick="openUpdateModal(' . $id . ', \'' . $table . '\', \'' . $column . '\', \'' . $columnsString . '\')">Update</button>
+            //         <button class="btn btn-danger btn-sm" onclick="deleteRow(' . $id . ', \'' . $table . '\', \'' . $column . '\')">Delete</button>
+            //       </td>';
+            // echo '</tr>';
         }
         echo '</tbody>';
         echo '</table>';
@@ -1082,7 +1083,7 @@ function queryattend() {
           at.date AS Date, at.time AS Time, 
           at.hour AS Hours, at.sub_code AS Sub_Code,
           at.sub_type AS Subject_type, 
-          at.attendance AS Attendance, record_key";
+          at.attendance AS Attendance";
           
   $q2 = " FROM attendance at 
           LEFT JOIN subject su ON at.sub_code = su.sub_code 
@@ -1147,8 +1148,7 @@ function queryattend() {
 }
 
 function queryica() {
-  $q1 = "SELECT st.reg_no AS reg_no , su.sub_code AS Subject,
-        i1.record_key AS record_key,i2.record_key AS record_key,i3.record_key AS record_key";
+  $q1 = "SELECT st.reg_no AS reg_no , su.sub_code AS Subject ";
   $q2 = " FROM ica_1 i1
            LEFT JOIN ica_2 i2 ON i1.reg_no = i2.reg_no AND i1.sub_code = i2.sub_code
            LEFT JOIN ica_3 i3 ON i1.reg_no = i3.reg_no AND i1.sub_code = i3.sub_code
@@ -1226,7 +1226,7 @@ function queryfinal(){
             ex.marks_att3 AS marks_att3, 
             ex.marks_attsp AS marks_attsp, 
             ex.sub_code AS sub_code,
-            ex.sub_type AS sub_type,record_key";
+            ex.sub_type AS sub_type";
 
     $q2 = " FROM exam ex
              LEFT JOIN index_no ind ON ex.index_no = ind.index_no
