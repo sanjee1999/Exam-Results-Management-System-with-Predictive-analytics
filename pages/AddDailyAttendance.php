@@ -76,56 +76,92 @@
 
           <div class="container">
             <div class="form d-flex justify-content-center align-items-center">
-              <form action="../Dashboard/Sider.php?content=../pages/upload.php&heading=Daily%20Attendance&type=attendance" 
-              method="post" id="mainform" enctype="multipart/form-data">
+            <form id="mainform" action="" method="post" enctype="multipart/form-data">
                 
                 <div class="form-group" id="sub_code">
-                  <select name="sub_code" id="sub_code" class="form-control" required>
-                    
-                    <?php 
-                        #$subject = isset($_POST['subject']) ? $_POST['subject'] : "Select Subject";
-                        #echo "<option value='" . $subject . "'selected disabled>" ; echo $subject . "</option>"; 
-                    ?>
-                    <option value="" selected disabled>Select Sub_Code</option>
-                    <?php optiongen($conn, 'subject', 'sub_code','sub_name') ?>
-                  </select>
+                    <select name="sub_code" id="sub_code" class="form-control" required>
+                        <option value="" selected disabled>Select Sub_Code</option>
+                        <?php optiongen($conn, 'subject', 'sub_code', 'sub_name'); ?>
+                    </select>
                 </div>
-
+            
                 <div class="form-group" id="sub_type">
-                  <select name="sub_type" id="sub_type" class="form-control" required>
-                    <option value="" selected disabled>Select Subject Type</option>
-                    <option value="T" <?php #if ($year == '1') echo 'selected'; ?>>Theory</option>
-                    <option value="P" <?php #if ($year == '1') echo 'selected'; ?>>Practical</option> 
-                  </select>
+                    <select name="sub_type" id="sub_type" class="form-control" required>
+                        <option value="" selected disabled>Select Subject Type</option>
+                        <option value="T">Theory</option>
+                        <option value="P">Practical</option>
+                    </select>
                 </div>
-
+            
                 <div class="form-group" id="hour">
-                 <input type="text" name="hour" id="hour" class="form-control" placeholder="Taken hours" required>
+                    <input type="text" name="hour" id="hour" class="form-control" placeholder="Taken hours" required>
                 </div>
-             
+            
                 <div class="form-group" id="time">
-                 <input type="time" name="time" id="time" class="form-control" required>
+                    <input type="time" name="time" id="time" class="form-control" required>
                 </div>
-
+            
                 <div class="form-group" id="date">
-                  <input
-                    type="date"
-                    name="date"
-                    id="date"
-                    class="form-control"
-                    value="<?php echo isset($_POST['date']) ? htmlspecialchars($_POST['date']) : ''; ?>" 
-                    required/>
+                    <input
+                        type="date"
+                        name="date"
+                        id="date"
+                        class="form-control"
+                        value="<?php echo isset($_POST['date']) ? htmlspecialchars($_POST['date']) : ''; ?>" 
+                        required/>
                 </div>
-
+            
                 <div class="form-group">
-                  <input type="file" name="file" id="fileUpload" class="form-control" accept=".xlsx, .xls"
-                    required/>
+                    <input type="file" name="file" id="fileUpload" class="form-control" accept=".xlsx, .xls"/>
+                </div>
+                
+                <div class="form-group" id="batch_div">
+                    <select name="batch" id="batch" class="form-control" required>
+                        <option value="" selected disabled>Select Batch</option>
+                        <?php optiongen($conn, 'student', 'batch', 'batch'); ?>
+                    </select>
                 </div>
                 
                 <div class="form-group">
-                  <button class="btn btn-primary">Submit</button>
+                    <button class="btn btn-primary" type="submit">Submit</button>
                 </div>
-              </form>
+            </form>
+            
+            <script>
+                document.getElementById("mainform").addEventListener("submit", function(event) {
+                    var fileInput = document.getElementById("fileUpload").value;
+                    
+                    if (fileInput) {
+                        // If a file is uploaded, submit to upload.php
+                        this.action = "../Dashboard/Sider.php?content=../pages/upload.php&heading=Daily%20Attendance&type=attendance";
+                    } else {
+                        // If no file is uploaded, submit to insert.php
+                        this.action = "../Dashboard/Sider.php?content=../pages/insert.php&heading=Daily%20Attendance&type=attendance";
+                    }
+                });
+            </script>
+            <script>
+                document.getElementById("fileUpload").addEventListener("change", function() {
+                    var fileInput = document.getElementById("fileUpload").value;
+                    var batchDiv = document.getElementById("batch_div");               
+                    var batchField = document.getElementById("batch");
+
+                    if (fileInput) {
+                        // If a file is uploaded, hide the course and batch divs
+                        batchDiv.style.display = "none";
+                        
+                        // Remove the 'required' attribute
+                        batchField.removeAttribute("required");
+                    } else {
+                        // If no file is uploaded, show the course and batch divs
+                        batchDiv.style.display = "block";
+                        
+                        // Add the 'required' attribute back
+                        batchField.setAttribute("required", "required");
+                    }
+                });
+            </script>
+            
 
               <!-- <div id="output"></div> -->
                 
@@ -145,36 +181,7 @@
                 
             </div>
           </div>
-          <?php
-            $regno="regno";
-            $attend="attend"; 
-          ?>
-          <div class="container" id="form1">
-                <form action="<?php $_SERVER["PHP_SELF"]; ?>" method="post">
-                  Reg.no:<?php if(!empty($firstRow)){ 
-                    exhead($firstRow,$regno); 
-                    }
-                    ?><br>
-                  Attendance:<?php if(!empty($firstRow)){
-                    exhead($firstRow,$attend); 
-                    }
-                    ?><br>
-                  
-                  <button class="btn btn-primary">Submit</button>
-                </form>
-          </div>
-          <?php
-          if($_SERVER["REQUEST_METHOD"]=="POST"){
-            $reg=(isset($_POST['regno']))?($_POST['regno']):null;
-            $att=(isset($_POST['attend']))?($_POST['attend']):null;
-            
-            
-           if(!empty($reg) && !empty($att)){
-            echo "$reg $att";
-           }
-          }
           
-?> 
           
     <!-- Bootstrap JS -->
     <script

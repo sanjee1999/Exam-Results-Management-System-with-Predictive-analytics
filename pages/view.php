@@ -41,6 +41,7 @@ $sub_code=$date=$month=$year=$regno=$level=$type=null;
     $_SESSION['course'] = isset($course) ? $course : null;
     $_SESSION['ica'] = isset($ica) ? $ica : null;
     $_SESSION['index_no'] = isset($index_no) ? $index_no : null;
+    $_SESSION['detail'] = isset($detail) ? $detail : null;
     $_SESSION['graph'] = isset($graph) ? $graph : null;
   }
 
@@ -109,7 +110,8 @@ $sub_code=$date=$month=$year=$regno=$level=$type=null;
             Export Data
         </button>
     </div>
-              <?php 
+    <br><br>
+          <?php 
               $label = [];
               $value = [];
                 if($_SERVER["REQUEST_METHOD"]=="POST"){ 
@@ -171,17 +173,8 @@ $sub_code=$date=$month=$year=$regno=$level=$type=null;
                 // ]);
               
           ?>
-<!-- Update Modal -->
-<div id="updateModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background-color:white; padding:20px; border-radius:5px; z-index:1000;">
-    <div>
-        <h3>Update Row</h3>
-        <input type="text" id="updateInput" placeholder="Enter updated data here">
-        <button onclick="submitUpdate()">Update</button>
-        <button onclick="closeModal()">Cancel</button>
-    </div>
-</div>
-<div id="overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.5); z-index:999;"></div>
-
+          
+          
 <!-- <div class="chart">
             <canvas id="myChart"></canvas>
 </div> -->
@@ -224,15 +217,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           $data = json_decode($_POST['data'], true); // Decode the JSON data into an associative array
 
           // Build the SQL UPDATE statement dynamically
-          $updateParts = [];
-          foreach ($data as $columns => $value) {
-              $updateParts[] = "$columns = '$value'";
-          }
-          $updateString = implode(', ', $updateParts);
+          // $updateParts = [];
+          // foreach ($data as $columns => $value) {
+          //     $updateParts[] = "$columns = '$value'";
+          // }
+          // $updateString = implode(', ', $updateParts);
 
-          $sql = "UPDATE $table SET $updateString WHERE $column = '$id'";
+          $sql = "UPDATE $table SET attendance='$data' WHERE $column = '$id'";
           if ($conn->query($sql) === TRUE) {
               echo 'success';
+              $result=true;
+              echo $result ? 'success' : 'error';
           } else {
               echo 'error';
           }

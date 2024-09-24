@@ -5,7 +5,7 @@ require_once '../connection/conf.php';
 require_once '../function/fun.php';
 
 
-
+checkAuth();
 if (!isAuthenticated()) {
   header('Location: ../pages/login.php');
   exit();

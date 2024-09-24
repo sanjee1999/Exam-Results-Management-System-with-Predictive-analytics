@@ -169,7 +169,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
     </div>
     <div class="form-group">
                   <button class="btn btn-primary">Submit</button>
-                </div>    
+    </div>    
+
 </form>
 
 
@@ -205,19 +206,19 @@ $worksheet = $spreadsheet->getActiveSheet();
   $j=isset($_POST[$type])?$_POST[$type]:null;
 
   if(!empty($i) && !empty($j)){
-  $c1 = PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($i);
-  $c2 = PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($j);
+      $c1 = PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($i);
+      $c2 = PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($j);
 
-    $h1=$worksheet->getCell($c1.'1')->getValue();
-    $h2=$worksheet->getCell($c2.'1')->getValue();
-    echo "<tr><th>$h1</th><th>$h2</th></tr>";
-    for($row=2; $row<=$highestRow ;$row++){
-      $d1=$worksheet->getCell($c1.$row)->getValue();
-      $d2=$worksheet->getCell($c2.$row)->getValue();
-      echo "<tr><td>$d1</td>
-            <td>$d2</td></tr>";
-  
-    }
+        $h1=$worksheet->getCell($c1.'1')->getValue();
+        $h2=$worksheet->getCell($c2.'1')->getValue();
+        echo "<tr><th>$h1</th><th>$h2</th></tr>";
+        for($row=2; $row<=$highestRow ;$row++){
+          $d1=$worksheet->getCell($c1.$row)->getValue();
+          $d2=$worksheet->getCell($c2.$row)->getValue();
+          echo "<tr><td>$d1</td>
+                <td>$d2</td></tr>";
+      
+        }
   
 
   ?>

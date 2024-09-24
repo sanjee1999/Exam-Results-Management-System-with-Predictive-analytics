@@ -44,81 +44,34 @@ function deleteRow(id, table, column) {
     }
 }
 
-// Function to handle update action
-function openUpdateModal(rowId, table, column, columns) {
-    const formData = new URLSearchParams();
-    formData.append('id', rowId);
-    formData.append('table', table);
-    formData.append('column', column);
-    formData.append('columns', columns.join(',')); // Pass the columns as a comma-separated string
 
-    fetch(`../pages/view.php?${formData.toString()}`)
-        .then(response => response.json())
-        .then(data => {
-            // Create the formatted string dynamically
-            const formattedData = columns.map(col => data[col]).join(' / ');
-
-            // Set the formatted data as the value in the input box
-            document.getElementById('updateInput').value = formattedData;
-
-            // Store rowId, table, and columns for use in submitUpdate()
-            const updateModal = document.getElementById('updateModal');
-            updateModal.dataset.rowId = rowId;
-            updateModal.dataset.table = table;
-            updateModal.dataset.column = column;
-            updateModal.dataset.columns = columns.join(',');
-
-            // Open the modal
-            updateModal.style.display = 'block';
-        })
-        .catch(error => console.error('Error fetching data:', error));
-}
-
-function submitUpdate() {
-    const updateModal = document.getElementById('updateModal');
-    const rowId = updateModal.dataset.rowId;
-    const table = updateModal.dataset.table;
-    const column = updateModal.dataset.column;
-    const columns = updateModal.dataset.columns.split(',');
-
-    const input = document.getElementById('updateInput').value;
-
-    // Remove the extra "/" symbols to revert to the original format
-    const dataParts = input.split(' / ');
-
-    // Create an object to map column names to their corresponding values
-    const dataObject = {};
-    columns.forEach((col, index) => {
-        dataObject[col] = dataParts[index];
-    });
+function openUpdateModal(id, table, column) {
+    let data = prompt("Enter new "+table+ " for " + id);
+    if (data === null) return; // User cancelled
 
     const formData = new URLSearchParams();
     formData.append('action', 'update');
-    formData.append('id', rowId);
+    formData.append('id', id);
+    formData.append('data', data);
     formData.append('table', table);
     formData.append('column', column);
-    formData.append('data', JSON.stringify(dataObject)); // Send the data as a JSON string
 
     fetch('../pages/view.php', {
         method: 'POST',
         body: formData
     })
+    
     .then(response => response.text())
     .then(result => {
+        const tdElement = document.querySelector(`td[data-id='${id}']`);
+            //if (tdElement) {
+                tdElement.textContent = data; // Update the <td> content with the new data
+            
         if (result === 'success') {
-            // Dynamically update the row in the table
-            const rowElement = document.querySelector(`tr[data-id='${rowId}']`);
-            rowElement.innerHTML = columns.map(col => `<td>${dataObject[col]}</td>`).join('');
-
-            // Close the modal
-            closeModal();
+            alert('Row updated successfully.');
         } else {
             alert('Failed to update the row.');
         }
     })
     .catch(error => console.error('Error:', error));
-}
-
-function closeModal() {
-    document.getElementById('updateModal').style.display = 'none';
 }

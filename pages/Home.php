@@ -3,6 +3,7 @@
 require_once '../connection/conf.php';
 require_once '../function/fun.php';
 
+checkAuth();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $action = $_POST['action'];

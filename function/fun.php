@@ -89,7 +89,11 @@ function passwordhash($password){
 
 function isAuthenticated() {
     return isset($_SESSION['user']);
-    
+}
+function checkAuth() {
+    if(!isAuthenticated()){
+        logout();
+    }
 }
 
 function unsetsession(){
@@ -125,21 +129,27 @@ function unsetsession(){
 }
 
 function verify($conn,$result,$uploadFile){
+    echo "///";
   echo "<script type='text/javascript'>";
+
 if ($result) {
+    $ok=40;
    if (file_exists($uploadFile)) {
-      unlink($uploadFile);
+    unlink($uploadFile);
+   }
     unsetsession();
     echo "alert('Input successfully');";
    
     echo "window.location.href = '../Dashboard/Sider.php?content=../pages/Home.php';";
 } else {
+    $ok=10;
     echo "alert('There was an error');";
     #echo "window.location.href = '../Dashboard/Sider.php?content=../pages/Home.php';";
 }
 echo "</script>";
+echo $ok;
 }
-}
+//}
   // if($result){
   //   header('location:../Dashboard/Sider.php?content=../pages/Home.php');
   //   echo "<script type='text/javascript'>alert('Input successfully');</script>";
@@ -343,13 +353,18 @@ function upload($conn){
     
     case 'attendance':
       for($row=0; $row<$highestRow-1; $row++){
-        if(empty($col1[$row]) || $col1[$row] == '0' || empty($col2[$row]) || $col2[$row] == '0'){
-          continue;
+        if (empty($col1[$row]) || $col1[$row] == '0' || ($col2[$row] === '' || $col2[$row] === null)) {
+            continue;
         }
-        $query="INSERT INTO attendance VALUES ('$col1[$row]','$date','$time','$hour','$sub_code','$col2[$row]','$sub_type')";
+        $query="INSERT INTO attendance (reg_no,date,time,hour,sub_code,attendance,sub_type) 
+                VALUES ('$col1[$row]','$date','$time','$hour','$sub_code','$col2[$row]','$sub_type') 
+                ON DUPLICATE KEY UPDATE time = VALUES(time), hour = VALUES(hour), 
+                sub_code = VALUES(sub_code), attendance = VALUES(attendance), sub_type = VALUES(sub_type)";
+
+
         $result=mysqli_query($conn,$query);
       }
-       verify($conn,$result,$uploadFile) ;
+       verify($conn,$result,$uploadFile) ; 
       break;
 
     case 'ica':
@@ -360,7 +375,7 @@ function upload($conn){
               if(empty($col2[$row]) && $col2[$row] !== '0' && $col2[$row] !== 0){
                 continue;
               }
-              $query="INSERT INTO ica_1 VALUES ('$col1[$row]','$col2[$row]','$sub_code','$sub_type')";
+              $query="INSERT INTO ica_1 (reg_no,marks,sub_code,sub_type) VALUES ('$col1[$row]','$col2[$row]','$sub_code','$sub_type')";
               $result=mysqli_query($conn,$query);
             }
             verify($conn,$result,$uploadFile) ;
@@ -371,7 +386,7 @@ function upload($conn){
             if(empty($col2[$row]) && $col2[$row] !== '0' && $col2[$row] !== 0){
               continue;
             }
-            $query="INSERT INTO ica_2 VALUES ('$col1[$row]','$col2[$row]','$sub_code','$sub_type')";
+            $query="INSERT INTO ica_2 (reg_no,marks,sub_code,sub_type) VALUES ('$col1[$row]','$col2[$row]','$sub_code','$sub_type')";
             $result=mysqli_query($conn,$query);
             }
             verify($conn,$result,$uploadFile) ;
@@ -383,7 +398,7 @@ function upload($conn){
             if(empty($col2[$row]) && $col2[$row] !== '0' && $col2[$row] !== 0){
               continue;
             }
-            $query="INSERT INTO ica_3 VALUES ('$col1[$row]','$col2[$row]','$sub_code','$sub_type')";
+            $query="INSERT INTO ica_3 (reg_no,marks,sub_code,sub_type) VALUES ('$col1[$row]','$col2[$row]','$sub_code','$sub_type')";
             $result=mysqli_query($conn,$query);
           }
           verify($conn,$result,$uploadFile) ;
@@ -394,7 +409,7 @@ function upload($conn){
             if(empty($col2[$row])){
               continue;
             }
-            $query="INSERT INTO ica_4 VALUES ('$col1[$row]','$col2[$row]','$sub_code','$sub_type')";
+            $query="INSERT INTO ica_4 (reg_no,marks,sub_code,sub_type) VALUES ('$col1[$row]','$col2[$row]','$sub_code','$sub_type')";
             $result=mysqli_query($conn,$query);
           }
           verify($conn,$result,$uploadFile) ;
@@ -422,7 +437,7 @@ function upload($conn){
                 
         if(mysqli_num_rows($rtest) == 0 ) {
             // Insert a new row if no matching row is found
-            $query = "INSERT INTO exam VALUES ('$col1[$row]', '$col2[$row]', NULL, NULL, NULL, '$sub_code','$sub_type')";
+            $query = "INSERT INTO exam (index_no,marks_att1,marks_att2,marks_att3,mark_attsp,sub_code,sub_type) VALUES ('$col1[$row]', '$col2[$row]', NULL, NULL, NULL, '$sub_code','$sub_type')";
             $result = mysqli_query($conn, $query);
         } else {
             $row_data = mysqli_fetch_assoc($rtest);
@@ -547,28 +562,77 @@ function outputQueryInTable($conn, $query, $table, $column) {
         echo '<th>Action</th>';
         echo '</tr>';
         echo '</thead>';
-        $columnsString = "['" . implode("', '", $table_col) . "']";
+        //$columnsString = "['" . implode("', '", $table_col) . "']";
         echo '<tbody>';
         while ($row = $result->fetch_assoc()) {
-            // $id = $row['record_key']; // Assuming 'id' is the unique identifier
-            //echo '<tr data-id="' . $id . '">';
-            echo '<tr data-id=>';
+            $id = $row['record_key']; // Assuming 'id' is the unique identifier
+            echo '<tr data-id="' . $id . '">';
+            // echo '<tr data-id=>';
+            $keys = array_keys($row); // Get all the keys of the array
+            $lastKey = array_key_last($row);
+            $secondLastKey = $keys[count($keys) - 2]; // Get the second-to-last key
+
             foreach ($row as $columns => $cell) {
                 if ($columns == $column) {
                     continue; // Skip the column specified in $excludeCol
                 }
-                echo '<td>' . htmlspecialchars($cell) . '</td>';
+                // Check if this is the last column
+                if ($columns === $secondLastKey) {
+                    echo '<td data-id="' . $id . '">' . htmlspecialchars($cell) . '</td>';
+                } else {
+                    echo '<td>' . htmlspecialchars($cell) . '</td>';
+                }
             }
-            // echo '<td>
-            //         <button class="btn btn-danger btn-sm" onclick="openUpdateModal(' . $id . ', \'' . $table . '\', \'' . $column . '\', \'' . $columnsString . '\')">Update</button>
-            //         <button class="btn btn-danger btn-sm" onclick="deleteRow(' . $id . ', \'' . $table . '\', \'' . $column . '\')">Delete</button>
-            //       </td>';
-            // echo '</tr>';
+            echo '<td>
+                    <button class="btn btn-danger btn-sm" onclick="openUpdateModal(' . $id . ', \'' . $table . '\', \'' . $column . '\')">Update</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteRow(' . $id . ', \'' . $table . '\', \'' . $column . '\')">Delete</button>
+                  </td>';
+            echo '</tr>';
         }
         echo '</tbody>';
         echo '</table>';
     }
     $conn->close();
+}
+
+
+function InputQueryInTable($conn,$query) {
+   
+  // Execute query
+  $result = $conn->query($query);
+
+  // Check if query was successful
+  if ($result === FALSE) {
+      echo "Error: " . $conn->error;
+  } else {
+      // Start table
+      echo '<table class="table bg-white">';
+      
+      // Output table headers
+      echo '<thead class="bg-dark text-light">';
+      echo '<tr>';
+      while ($field = $result->fetch_field()) {
+          echo '<th>' . htmlspecialchars($field->name) . '</th>';
+      }
+      echo '</tr>';
+      echo '</thead>';
+
+      // Output table rows
+      echo '<tbody>';
+      while ($row = $result->fetch_assoc()) {
+          echo '<tr>';
+          foreach ($row as $cell) {
+              echo '<td>' . htmlspecialchars($cell) . '</td>';
+          }
+          echo '</tr>';
+      }
+      echo '</tbody>';
+      // End table
+      echo '</table>';
+  }
+  unsetsession();
+  // Close connection
+  $conn->close();
 }
 function outputQueryInTablekkk($conn,$query) {
    
@@ -1083,7 +1147,8 @@ function queryattend() {
           at.date AS Date, at.time AS Time, 
           at.hour AS Hours, at.sub_code AS Sub_Code,
           at.sub_type AS Subject_type, 
-          at.attendance AS Attendance";
+          at.attendance AS Attendance,
+          at.record_key AS record_key";
           
   $q2 = " FROM attendance at 
           LEFT JOIN subject su ON at.sub_code = su.sub_code 
@@ -1148,7 +1213,10 @@ function queryattend() {
 }
 
 function queryica() {
-  $q1 = "SELECT st.reg_no AS reg_no , su.sub_code AS Subject ";
+  $q1 = "SELECT st.reg_no AS reg_no , su.sub_code AS Subject, 
+            i1.record_key AS record_key, 
+            i2.record_key AS record_key, 
+            i3.record_key AS record_key";
   $q2 = " FROM ica_1 i1
            LEFT JOIN ica_2 i2 ON i1.reg_no = i2.reg_no AND i1.sub_code = i2.sub_code
            LEFT JOIN ica_3 i3 ON i1.reg_no = i3.reg_no AND i1.sub_code = i3.sub_code
@@ -1226,7 +1294,8 @@ function queryfinal(){
             ex.marks_att3 AS marks_att3, 
             ex.marks_attsp AS marks_attsp, 
             ex.sub_code AS sub_code,
-            ex.sub_type AS sub_type";
+            ex.sub_type AS sub_type,
+            ex.record_key AS record_key";
 
     $q2 = " FROM exam ex
              LEFT JOIN index_no ind ON ex.index_no = ind.index_no
@@ -1297,7 +1366,7 @@ function opfill($val){
 
 function optiongen($conn, $table, $val,$name) {
   // Properly construct the SQL query
-  $query = "SELECT `$val`,`$name` FROM `$table`";
+  $query = "SELECT DISTINCT `$val`,`$name` FROM `$table`";
   $result = $conn->query($query);
   
   $val_o = isset($_SESSION['value']) ? $_SESSION['value'] : null;
